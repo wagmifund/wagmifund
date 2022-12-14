@@ -19,7 +19,8 @@
       "@components/*": ["src/components/*"],
       "@utils/*": ["src/utils/*"],
       "@store/*": ["src/store/*"],
-      "@abis/*": ["src/abis/*"]
+      "@abis/*": ["src/abis/*"],
+      "@icons/*": ["src/icons/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
