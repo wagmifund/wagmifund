@@ -9,7 +9,7 @@ const ProfilePage = () => {
       {/* <div></div>
       <div className="gradient z-0"></div> */}
       <div
-        className="w-screen z-1 bg-[#0d1933] text-white flex flex-grow px-4 sm:px-8 flex-col"
+        className="w-full z-1 bg-[#0d1933] text-white flex flex-grow px-4 sm:px-8 flex-col"
         data-theme="user"
       >
         <div className="relative sm:min-h-[300px]">
@@ -30,7 +30,7 @@ const ProfilePage = () => {
             eslint.org
           </div>
         </div>
-        <div className="flex lg:flex-nowrap flex-wrap-reverse w-[80%] mt-5 mx-auto">
+        <div className="flex lg:flex-nowrap flex-wrap-reverse w-full md:w-[80%] mt-5 mx-auto">
           <Card className="w-full lg:w-3/5 h-96">
             <AboutSection />
           </Card>
