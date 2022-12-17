@@ -18,19 +18,26 @@ import { useEffect, useState } from "react";
 import { useAppStore } from "src/store/app";
 
 import Sidebar from "@modules/Settings/Sidebar";
-import Allowance from "@modules/Settings/Allowance";
 import Modules from "@modules/Settings/Modules";
 
 const getAllowancePayload = (currency: string) => {
+  const {
+    LimitedFeeCollectModule,
+    FeeCollectModule,
+    LimitedTimedFeeCollectModule,
+    TimedFeeCollectModule,
+    FreeCollectModule,
+    RevertCollectModule,
+  } = CollectModules;
   return {
     currencies: [currency],
     collectModules: [
-      CollectModules.LimitedFeeCollectModule,
-      CollectModules.FeeCollectModule,
-      CollectModules.LimitedTimedFeeCollectModule,
-      CollectModules.TimedFeeCollectModule,
-      CollectModules.FreeCollectModule,
-      CollectModules.RevertCollectModule,
+      LimitedFeeCollectModule,
+      FeeCollectModule,
+      LimitedTimedFeeCollectModule,
+      TimedFeeCollectModule,
+      FreeCollectModule,
+      RevertCollectModule,
     ],
     followModules: [FollowModules.FeeFollowModule],
     referenceModules: [ReferenceModules.FollowerOnlyReferenceModule],

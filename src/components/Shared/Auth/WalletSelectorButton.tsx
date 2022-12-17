@@ -28,7 +28,7 @@ const WalletSelectorButton = ({ handleSign, signing }: Props) => {
   return connector?.id && isConnected ? (
     chain?.id === POLYGON_CHAIN_ID ? (
       profileId ? (
-        <p>akshnfkasdfkjasd</p>
+        <p>logged in</p>
       ) : (
         <Button onClick={handleSign} disabled={signing}>
           Sign In

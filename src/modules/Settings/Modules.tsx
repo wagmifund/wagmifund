@@ -31,6 +31,14 @@ const ModulePermissions = () => {
       setLoadingModule("");
     },
   });
+  const {
+    LimitedFeeCollectModule,
+    FeeCollectModule,
+    LimitedTimedFeeCollectModule,
+    TimedFeeCollectModule,
+    FreeCollectModule,
+    RevertCollectModule,
+  } = CollectModules;
 
   const {
     data,
@@ -42,12 +50,12 @@ const ModulePermissions = () => {
         currencies: [currency],
         followModules: [FollowModules.FeeFollowModule],
         collectModules: [
-          CollectModules.FreeCollectModule,
-          CollectModules.FeeCollectModule,
-          CollectModules.LimitedFeeCollectModule,
-          CollectModules.LimitedTimedFeeCollectModule,
-          CollectModules.TimedFeeCollectModule,
-          CollectModules.RevertCollectModule,
+          FreeCollectModule,
+          FeeCollectModule,
+          LimitedFeeCollectModule,
+          LimitedTimedFeeCollectModule,
+          TimedFeeCollectModule,
+          RevertCollectModule,
         ],
         referenceModules: [ReferenceModules.FollowerOnlyReferenceModule],
       },

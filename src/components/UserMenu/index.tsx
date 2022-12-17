@@ -38,7 +38,7 @@ const UserMenu: FC = () => {
             src={"https://files.readme.io/a0959e6-lens-logo1.svg"}
             alt={currentProfile?.handle}
             className="inline-flex justify-center w-8 h-8 rounded-full border cursor-pointer"
-          ></Menu.Button>
+          />
         </div>
         <Transition
           as={Fragment}
@@ -54,9 +54,10 @@ const UserMenu: FC = () => {
               <Menu.Item as={NextLink} href={`/u/${currentProfile?.handle}`}>
                 {({ active }) => (
                   <button
-                    className={`${
-                      active ? "bg-violet-500 text-white" : "text-gray-900"
-                    } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                    className={clsx(
+                      active ? "bg-violet-500 text-white" : "text-gray-900",
+                      "group flex w-full items-center rounded-md px-2 py-2 text-sm"
+                    )}
                   >
                     {currentProfile?.handle}
                   </button>
@@ -65,9 +66,10 @@ const UserMenu: FC = () => {
               <Menu.Item as={NextLink} href="/settings">
                 {({ active }) => (
                   <button
-                    className={`${
-                      active ? "bg-violet-500 text-white" : "text-gray-900"
-                    } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                    className={clsx(
+                      active ? "bg-violet-500 text-white" : "text-gray-900",
+                      "group flex w-full items-center rounded-md px-2 py-2 text-sm"
+                    )}
                   >
                     <CogIcon className="w-4 h-4 mr-2" />
                     <div>Settings</div>
@@ -80,10 +82,11 @@ const UserMenu: FC = () => {
               <Menu.Item>
                 {({ active }) => (
                   <button
-                    onClick={() => logout()}
-                    className={`${
-                      active ? "bg-violet-500 text-white" : "text-gray-900"
-                    } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                    onClick={logout}
+                    className={clsx(
+                      active ? "bg-violet-500 text-white" : "text-gray-900",
+                      "group flex w-full items-center rounded-md px-2 py-2 text-sm"
+                    )}
                   >
                     Disconnect
                   </button>

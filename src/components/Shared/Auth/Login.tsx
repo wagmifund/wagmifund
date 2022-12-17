@@ -73,7 +73,6 @@ const Login = () => {
         setProfiles(profiles);
         setCurrentProfile(currentProfile);
         setProfileId(currentProfile?.id);
-        console.log("loggged innnnn");
       }
     } catch (error) {
       console.error(error);

@@ -59,8 +59,6 @@ const Layout: FC<Props> = ({ children }) => {
     },
   });
 
-  console.log("loading", loading, data);
-
   const validateAuthentication = () => {
     const currentProfileAddress = currentProfile?.ownedBy;
     const isWrongNetworkChain = chain?.id !== POLYGON_CHAIN_ID;
