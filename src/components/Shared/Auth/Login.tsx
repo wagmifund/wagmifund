@@ -52,7 +52,7 @@ const Login = () => {
       localStorage.setItem("accessToken", auth.data?.authenticate.accessToken);
       localStorage.setItem(
         "refreshToken",
-        auth.data?.authenticate.refreshToken
+        auth?.data?.authenticate.refreshToken
       );
 
       // Get authed profiles
@@ -72,12 +72,12 @@ const Login = () => {
         const currentProfile = profiles[0];
         setProfiles(profiles);
         setCurrentProfile(currentProfile);
-        setProfileId(currentProfile.id);
+        setProfileId(currentProfile?.id);
+        console.log("loggged innnnn");
       }
     } catch (error) {
       console.error(error);
     } finally {
-      console.log("loggged innnnn");
       setLoading(false);
     }
   };

@@ -4,6 +4,7 @@ import { FC, useEffect } from "react";
 import { useAppStore } from "@store/app";
 
 import Login from "@components/Shared/Auth/Login";
+import UserMenu from "@components/UserMenu";
 
 export const NextLink = ({ href, children, ...rest }: Record<string, any>) => (
   <Link href={href} {...rest}>
@@ -20,10 +21,11 @@ const MenuItems: FC = () => {
     // if (currentProfile?.handle) router.push("/onboard");
   }, [currentProfile?.handle]);
 
-  //   if (!currentProfile) {
-  //     return <Login />;
-  //   }
-  return <Login />;
+  if (!currentProfile) {
+    return <Login />;
+  }
+
+  return <UserMenu />;
 };
 
 export default MenuItems;

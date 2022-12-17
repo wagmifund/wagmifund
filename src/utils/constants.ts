@@ -15,13 +15,20 @@ export const API_URL = getEnvConfig().apiEndpoint;
 export const LENSHUB_PROXY = getEnvConfig().lensHubProxyAddress;
 export const LENS_PERIPHERY = getEnvConfig().lensPeripheryAddress;
 export const DEFAULT_COLLECT_TOKEN = getEnvConfig().defaultCollectToken;
+export const FREE_COLLECT_MODULE = getEnvConfig().freeCollectModuleAddress;
 
 export const IS_MAINNET = API_URL === MAINNET_API_URL;
 export const POLYGON_CHAIN_ID = IS_MAINNET ? 137 : 80001;
 
+export const RELAY_ON = "true";
+
 // Application
 export const APP_NAME = "wagmifund";
 export const APP_VERSION = packageJson.version;
+
+// Bundlr
+export const BUNDLR_CURRENCY = "matic";
+export const BUNDLR_NODE_URL = "https://node2.bundlr.network";
 
 // Messages
 export const ERROR_MESSAGE = "Something went wrong!";
@@ -31,6 +38,8 @@ export const WRONG_NETWORK = IS_MAINNET
   : "Please change network to Polygon Mumbai testnet.";
 export const SIGN_ERROR = "Failed to sign data";
 
+export const SERVERLESS_URL = "http://localhost:3002/api";
+
 // URLs
 export const STATIC_ASSETS_URL = "https://assets.lenster.xyz";
 export const STATIC_IMAGES_URL = `${STATIC_ASSETS_URL}/images`;
@@ -39,7 +48,11 @@ export const POLYGONSCAN_URL = IS_MAINNET
   : "https://mumbai.polygonscan.com";
 export const ARWEAVE_GATEWAY = "https://arweave.net";
 export const IPFS_GATEWAY = "https://lens.infura-ipfs.io/ipfs/";
-
+export const IMGPROXY_URL = "https://media.lenster.xyz";
+export const EVER_API = "https://endpoint.4everland.co";
+export const WMATIC_TOKEN_ADDRESS = IS_MAINNET
+  ? "0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270"
+  : "0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889";
 // Errors
 export const ERRORS = {
   notMined:
