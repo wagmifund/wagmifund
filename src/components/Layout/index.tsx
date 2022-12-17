@@ -32,7 +32,7 @@ const Layout: FC<Props> = ({ children }) => {
   };
 
   // Fetch current profiles and sig nonce owned by the wallet address
-  const { loading } = useUserProfilesQuery({
+  const { data, loading } = useUserProfilesQuery({
     variables: { ownedBy: address },
     skip: !profileId,
     onCompleted: (data) => {
@@ -48,11 +48,14 @@ const Layout: FC<Props> = ({ children }) => {
       }
 
       const selectedUser = profiles.find((profile) => profile.id === profileId);
+
       setProfiles(profiles as Profile[]);
       setCurrentProfile(selectedUser as Profile);
       setProfileId(selectedUser?.id);
-
       setUserSigNonce(data?.userSigNonces?.lensHubOnChainSigNonce);
+    },
+    onError: () => {
+      setProfileId(null);
     },
   });
 
@@ -79,11 +82,9 @@ const Layout: FC<Props> = ({ children }) => {
 
   useEffect(() => {
     validateAuthentication();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isDisconnected, address, chain, disconnect, profileId]);
+  }, [address, chain, disconnect, profileId]);
 
   if (loading || !mounted) return <p>page loader</p>;
-
   return (
     <>
       <Head>

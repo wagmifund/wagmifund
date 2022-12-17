@@ -30,6 +30,7 @@ const Login = () => {
 
   const handleSign = async () => {
     try {
+      debugger;
       setLoading(true);
       // Get challenge
       const challenge = await loadChallenge({
@@ -52,7 +53,7 @@ const Login = () => {
       localStorage.setItem("accessToken", auth.data?.authenticate.accessToken);
       localStorage.setItem(
         "refreshToken",
-        auth.data?.authenticate.refreshToken
+        auth?.data?.authenticate.refreshToken
       );
 
       // Get authed profiles
@@ -69,15 +70,16 @@ const Login = () => {
           ?.sort((a: any, b: any) =>
             a.isDefault === b.isDefault ? 0 : a.isDefault ? -1 : 1
           );
-        const currentProfile = profiles[0];
-        setProfiles(profiles);
-        setCurrentProfile(currentProfile);
-        setProfileId(currentProfile.id);
+        if (profiles?.[0]) {
+          const currentProfile = profiles[0];
+          setProfiles(profiles);
+          setCurrentProfile(currentProfile);
+          setProfileId(currentProfile?.id);
+        }
       }
     } catch (error) {
       console.error(error);
     } finally {
-      console.log("loggged innnnn");
       setLoading(false);
     }
   };

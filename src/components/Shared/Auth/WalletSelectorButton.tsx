@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import { POLYGON_CHAIN_ID } from "@utils/constants";
 import { useAccount, useNetwork, useSwitchNetwork } from "wagmi";
 import { useAppPersistStore } from "@store/app";
+import UserMenu from "@components/UserMenu";
 
 type Props = {
   handleSign?: () => void;
@@ -27,9 +28,9 @@ const WalletSelectorButton = ({ handleSign, signing }: Props) => {
   return connector?.id && isConnected ? (
     chain?.id === POLYGON_CHAIN_ID ? (
       profileId ? (
-        <p>loggged in</p>
+        <p>logged in</p>
       ) : (
-        <Button loading={signing} onClick={handleSign} disabled={signing}>
+        <Button onClick={handleSign} disabled={signing}>
           Sign In
           <span className="hidden ml-1 md:inline-block">with Lens</span>
         </Button>
@@ -37,7 +38,7 @@ const WalletSelectorButton = ({ handleSign, signing }: Props) => {
     ) : (
       <Button
         onClick={() => switchNetwork && switchNetwork(POLYGON_CHAIN_ID)}
-        variant="danger"
+        variant="secondary"
       >
         <span className="text-white">Switch network</span>
       </Button>

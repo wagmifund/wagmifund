@@ -6,6 +6,7 @@ const Providers = lazy(() => import("@utils/Providers"));
 const Layout = lazy(() => import("@components/Layout"));
 export default function App({ Component, pageProps }: AppProps) {
   return (
+    // add fallback here
     <Suspense>
       <Providers>
         <Layout>

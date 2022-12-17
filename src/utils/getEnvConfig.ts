@@ -12,6 +12,8 @@ import {
   TESTNET_DEFAULT_TOKEN,
   TESTNET_LENS_PERIPHERY,
   TESTNET_LENSHUB_PROXY,
+  MAINNET_FREE_COLLECT_MODULE,
+  TESTNET_FREE_COLLECT_MODULE,
   TESTNET_UPDATE_OWNABLE_FEE_COLLECT_MODULE_ADDRESS,
 } from "./contracts";
 
@@ -22,6 +24,7 @@ const getEnvConfig = () => {
         apiEndpoint: MAINNET_API_URL,
         lensHubProxyAddress: MAINNET_LENSHUB_PROXY,
         lensPeripheryAddress: MAINNET_LENS_PERIPHERY,
+        freeCollectModuleAddress: MAINNET_FREE_COLLECT_MODULE,
         defaultCollectToken: MAINNET_DEFAULT_TOKEN,
         UpdateOwnableFeeCollectModuleAddress:
           MAINNET_UPDATE_OWNABLE_FEE_COLLECT_MODULE_ADDRESS,
@@ -31,6 +34,7 @@ const getEnvConfig = () => {
         apiEndpoint: TESTNET_API_URL,
         lensHubProxyAddress: TESTNET_LENSHUB_PROXY,
         lensPeripheryAddress: TESTNET_LENS_PERIPHERY,
+        freeCollectModuleAddress: TESTNET_FREE_COLLECT_MODULE,
         defaultCollectToken: TESTNET_DEFAULT_TOKEN,
         UpdateOwnableFeeCollectModuleAddress:
           TESTNET_UPDATE_OWNABLE_FEE_COLLECT_MODULE_ADDRESS,
@@ -40,6 +44,7 @@ const getEnvConfig = () => {
         apiEndpoint: STAGING_API_URL,
         lensHubProxyAddress: TESTNET_LENSHUB_PROXY,
         lensPeripheryAddress: TESTNET_LENS_PERIPHERY,
+        freeCollectModuleAddress: TESTNET_FREE_COLLECT_MODULE,
         defaultCollectToken: TESTNET_DEFAULT_TOKEN,
         UpdateOwnableFeeCollectModuleAddress:
           TESTNET_UPDATE_OWNABLE_FEE_COLLECT_MODULE_ADDRESS,
