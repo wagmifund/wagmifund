@@ -1,11 +1,6 @@
 import Editor from "./Editor";
 const AboutSection = () => {
-  return (
-    <div>
-      <Editor  isEditable={true}/>
-      {/* editor */}
-    </div>
-  );
+  return <Editor isEditable={true} />;
 };
 
 export default AboutSection;

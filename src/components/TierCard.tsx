@@ -1,7 +1,13 @@
 import clsx from "clsx";
 import { useState } from "react";
 import { Card } from "./Card";
-import { XIcon } from "@heroicons/react/outline";
+import {
+  GiftIcon,
+  StarIcon,
+  SparklesIcon,
+  TrashIcon,
+  XIcon,
+} from "@heroicons/react/outline";
 import Button from "@components/Button";
 
 interface TierProps {
@@ -21,10 +27,11 @@ export type tier = {
   comment: string;
   currency: string;
   emoji: string;
+  isRecommended: string;
   setClickedOnContinue?: any;
 };
 
-const TierCard = ({
+export const StackedTierCard = ({
   handle,
   activeTier = 0,
   tiers,
@@ -38,13 +45,10 @@ const TierCard = ({
 
   return (
     <Card
-      className={clsx(
-        `flex flex-col items-center lg:w-2/5 mx-3 p-2 sm:p-8`,
-        {
-          " text-white bg-gray-900/50 ring-1": viewOnly,
-          "border border-theme": !viewOnly,
-        }
-      )}
+      className={clsx(`flex flex-col items-center lg:w-2/5 mx-3 p-2 sm:p-8`, {
+        " text-white bg-gray-900/50 ring-1": viewOnly,
+        "border border-theme": !viewOnly,
+      })}
     >
       <h2 className="h-auto font-bold text-xl flex-grow-0 sm:text-2xl text-center">
         Collect tier to support {profile?.handle} in{" "}
@@ -53,14 +57,14 @@ const TierCard = ({
       <p className="h-auto min-h-12 py-2 flex-grow-0">
         {tiers[currentTier]?.comment || "sample comment"}
       </p>
-      <Card className="rounded-md border border-theme w-full flex items-center bg-theme">
+      <Card className="border border-theme w-full flex items-center bg-theme p-4">
         <div className="flex justify-center items-center">
           <div className="text-[50px]">{tiers[currentTier]?.emoji}</div>
           <div className="ml-3 text-theme">
             <XIcon className="w-7 h-7 outline-1 dark:text-white text-theme" />
           </div>
           <div className="flex flex-wrap">
-            {tiers.map(({ amount, steps }, _index) => (
+            {tiers.map(({ amount }, _index) => (
               <button
                 onClick={() => {
                   !viewOnly && setCurrentTier(_index);
@@ -79,16 +83,62 @@ const TierCard = ({
           </div>
         </div>
       </Card>
-        <Button
-          className="capitalize w-full button-primary border-theme"
-          onClick={() => {
-            console.log(currentTier);
-          }}
-        >
-          Gift {tiers[currentTier]?.amount}
-        </Button>
+      <Button
+        className="capitalize w-full button-primary border-theme"
+        onClick={() => {
+          console.log(currentTier);
+        }}
+      >
+        Gift {tiers[currentTier]?.amount}
+      </Button>
     </Card>
   );
 };
 
-export default TierCard;
+export const TierCards = ({
+  tiers,
+  isEditMode,
+  onMetaClick,
+}: {
+  tiers: Array<tier> | [];
+}) => {
+  return (
+    <>
+      {tiers.map(
+        ({ amount, comment, currency, emoji, isRecommended = true }) => (
+          <Card
+            className="border p-4 border-primary w-[30%] flex flex-col items-center relative"
+            key={amount}
+          >
+            <div className="absolute -right-4 -top-4 bg-slate-900 h-10 w-10 border border-theme rounded-3xl flex justify-center items-center">
+              {isEditMode && (
+                <TrashIcon
+                  className="h-8 w-8 text-red-600"
+                  onClick={onMetaClick}
+                />
+              )}
+              {isRecommended && (
+                <StarIcon className="h-6 w-6 text-theme" onClick={onMetaClick} />
+              )}
+            </div>
+            <div className="bg-theme border border-theme rounded-3xl text-4xl h-12 w-12 flex justify-center items-center">
+              {emoji}
+            </div>
+            <div className="my-4">{comment}</div>
+            <div className="my-4 text-lg font-semibold">
+              {amount} {currency}
+            </div>
+            <Button
+              className="capitalize w-full button-primary border-theme p-1 min-h-[2] !h-2"
+              onClick={() => {
+                console.log(amount);
+              }}
+            >
+              Gift
+            </Button>
+          </Card>
+        )
+      )}
+    </>
+  );
+};

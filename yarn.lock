@@ -5757,7 +5757,7 @@ randombytes@^2.0.1, randombytes@^2.1.0:
 
 react-color@^2.19.3:
   version "2.19.3"
-  resolved "https://registry.npmjs.org/react-color/-/react-color-2.19.3.tgz"
+  resolved "https://registry.yarnpkg.com/react-color/-/react-color-2.19.3.tgz#ec6c6b4568312a3c6a18420ab0472e146aa5683d"
   dependencies:
     "@icons/material" "^0.2.4"
     lodash "^4.17.15"
