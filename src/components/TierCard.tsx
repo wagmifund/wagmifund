@@ -32,7 +32,7 @@ const TierCard = ({
   setParty,
   profile,
   party = false,
-  viewOnly = true,
+  viewOnly = false,
 }: TierProps) => {
   const [currentTier, setCurrentTier] = useState(activeTier);
 
@@ -67,7 +67,7 @@ const TierCard = ({
                 }}
                 className={clsx(
                   _index === currentTier
-                    ? "bg-theme-darker text-primary-content"
+                    ? "bg-theme-darker text-white"
                     : "border border-theme bg-white text-gray-800",
                   "m-1 sm:m-2 h-10 w-10 rounded-full flex justify-center items-center"
                 )}

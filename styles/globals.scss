@@ -102,13 +102,105 @@ div[data-lexical-editor="true"] {
   }
 }
 
-
-
-
 .onboard-icon {
   color: white;
 }
 
 [data-theme="user"] .toolbar-icons button:hover .onboard-icon {
   @apply text-white;
+}
+
+.bg-gradient-sides {
+  opacity: 1;
+
+  &.left {
+    &:before {
+      left: -12.5%;
+      width: 25%;
+      height: 900px;
+      top: calc(34% - 450px + 151px);
+      opacity: 0.2;
+      background: linear-gradient(
+        180deg,
+        hsl(var(--p) / 0.9),
+        hsl(var(--p) / 0.4)
+      );
+      transform: rotate(-15deg);
+      border-bottom-left-radius: 25% 25%;
+      border-bottom-right-radius: 25% 25%;
+      border-top-left-radius: 100% 100%;
+      border-top-right-radius: 100% 100%;
+      z-index: 200;
+    }
+    &:after {
+      width: 40%;
+      height: 422px;
+      left: 0;
+      top: calc(38% - 211px + 298px);
+      opacity: 0.5;
+      background: linear-gradient(
+        180deg,
+        hsl(var(--p) / 0.2),
+        hsl(var(--p) / 0.4)
+      );
+      content: "";
+      position: absolute;
+      pointer-events: none;
+      filter: blur(125px);
+      will-change: filter;
+      mix-blend-mode: normal;
+    }
+  }
+  &.right {
+    &:before {
+      z-index: 200;
+      width: 25%;
+      height: 900px;
+      right: -12.5%;
+      top: calc(34% - 450px + 151px);
+      background: linear-gradient(
+        180deg,
+        hsl(var(--p) / 0.9),
+        hsl(var(--p) / 0.4)
+      );
+      transform: rotate(15deg);
+      border-bottom-left-radius: 25% 25%;
+      border-bottom-right-radius: 25% 25%;
+      border-top-left-radius: 100% 100%;
+      border-top-right-radius: 100% 100%;
+      opacity: 0.2;
+      overflow: hidden;
+    }
+
+    &:after {
+      width: 40%;
+      height: 422px;
+      right: 0;
+      top: calc(38% - 211px + 298px);
+      opacity: 0.5;
+      background: linear-gradient(
+        180deg,
+        hsl(var(--p) / 0.2),
+        hsl(var(--p) / 0.4)
+      );
+      transform: matrix(-1, 0, 0, 1, 0, 0);
+    }
+  }
+
+  &:after {
+    content: "";
+    position: absolute;
+    pointer-events: none;
+    filter: blur(125px);
+    will-change: filter;
+    mix-blend-mode: normal;
+  }
+  &:before {
+    content: "";
+    position: absolute;
+    pointer-events: none;
+    filter: blur(125px);
+    will-change: filter;
+    mix-blend-mode: normal;
+  }
 }
