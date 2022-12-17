@@ -8,8 +8,6 @@ import toast from "react-hot-toast";
  * @returns arweave transaction id
  */
 const uploadToArweave = async (data: any): Promise<string> => {
-  debugger;
-
   try {
     const upload = await axios(`/api/metadata/upload`, {
       method: "POST",

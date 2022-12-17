@@ -9,6 +9,8 @@ import {
   XIcon,
 } from "@heroicons/react/outline";
 import Button from "@components/Button";
+import { useHidePublicationMutation } from "generated";
+import { useRouter } from "next/router";
 
 interface TierProps {
   tiers: Array<tier>;
@@ -28,6 +30,7 @@ export type tier = {
   currency: string;
   emoji: string;
   isRecommended: string;
+  id: string;
   setClickedOnContinue?: any;
 };
 
@@ -101,11 +104,19 @@ export const TierCards = ({
   onMetaClick,
 }: {
   tiers: Array<tier> | [];
+  isEditMode: boolean;
 }) => {
+  const { pathname, push } = useRouter();
+  const [hidePost] = useHidePublicationMutation({
+    onCompleted: () => {
+      pathname === "/posts/[id]" ? push("/") : location.reload();
+    },
+  });
+
   return (
     <>
       {tiers.map(
-        ({ amount, comment, currency, emoji, isRecommended = true }) => (
+        ({ amount, comment, currency, emoji, id, isRecommended = false }) => (
           <Card
             className="border p-4 border-primary w-[30%] flex flex-col items-center relative"
             key={amount}
@@ -113,12 +124,23 @@ export const TierCards = ({
             <div className="absolute -right-4 -top-4 bg-slate-900 h-10 w-10 border border-theme rounded-3xl flex justify-center items-center">
               {isEditMode && (
                 <TrashIcon
-                  className="h-8 w-8 text-red-600"
-                  onClick={onMetaClick}
+                  className="h-8 w-8 text-red-600 cursor-pointer"
+                  onClick={() => {
+                    if (confirm("are you sure you want to delete this tier?")) {
+                      hidePost({
+                        variables: {
+                          request: { publicationId: id },
+                        },
+                      });
+                    }
+                  }}
                 />
               )}
               {isRecommended && (
-                <StarIcon className="h-6 w-6 text-theme" onClick={onMetaClick} />
+                <StarIcon
+                  className="h-6 w-6 text-theme"
+                  onClick={onMetaClick}
+                />
               )}
             </div>
             <div className="bg-theme border border-theme rounded-3xl text-4xl h-12 w-12 flex justify-center items-center">
@@ -133,6 +155,7 @@ export const TierCards = ({
               onClick={() => {
                 console.log(amount);
               }}
+              disabled={isEditMode}
             >
               Gift
             </Button>

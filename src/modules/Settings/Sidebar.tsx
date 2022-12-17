@@ -7,6 +7,7 @@ import {
   SparklesIcon,
   UserIcon,
 } from "@heroicons/react/outline";
+import { PencilIcon } from "@heroicons/react/solid";
 import clsx from "clsx";
 import type { Profile } from "generated";
 import Link from "next/link";
@@ -58,6 +59,13 @@ const Sidebar: FC = () => {
       >
         <ShareIcon className="w-4 h-4" />
         <div>Allowance</div>
+      </Menu>
+      <Menu
+        current={pathname == "/settings/edit-tiers"}
+        url="/settings/edit-tiers"
+      >
+        <PencilIcon className="w-4 h-4" />
+        <div>Edit Tiers</div>
       </Menu>
       <Menu current={pathname == "/settings/danger"} url="/settings/danger">
         <ExclamationIcon className="w-4 h-4 text-red-500" />
