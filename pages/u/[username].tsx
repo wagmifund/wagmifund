@@ -5,13 +5,27 @@ import ProfilePicture from "@components/ProfilePicture";
 import { StackedTierCard, TierCards } from "@components/TierCard";
 import ColorPicker from "@components/ColorPicker";
 import { clsx } from "clsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ProfileEditor from "@components/ProfileEditor";
 import { useProfileQuery } from "generated";
 import { useRouter } from "next/router";
 import { useAppStore } from "@store/app";
 import TierCardData from "@components/TierCardData";
+import { useProfileUIStore } from "@store/profile";
 const ProfilePage = ({ isEditable = true }) => {
+  const { cardView, theme, corners } = useProfileUIStore(
+    (state) => state.profileUIData
+  );
+
+  useEffect(() => {
+    document
+      .querySelector('[data-theme="user"]')
+      ?.style.setProperty("--rounded-box", corners);
+    document
+      .querySelector('[data-theme="user"]')
+      ?.style.setProperty("--p", theme);
+  }, []);
+
   const currentProfile = useAppStore((state) => state.currentProfile);
 
   const {
@@ -45,14 +59,12 @@ const ProfilePage = ({ isEditable = true }) => {
 
   return (
     <>
-      {isEditable && <ProfileEditor />}
-      {/* <div></div>
-      <div className="gradient z-0"></div> */}
-
       <div
         className="w-full z-1 bg-[#0d1933] text-white flex flex-grow px-4 sm:px-8 flex-col"
         data-theme="user"
       >
+        {isEditable && <ProfileEditor />}
+
         <span className="bg-gradient-sides left"></span>
         <span className="bg-gradient-sides right"></span>
 
@@ -74,84 +86,22 @@ const ProfilePage = ({ isEditable = true }) => {
           </div>
         </div>
         <div className="mt-10 w-full md:w-[80%] flex justify-between mx-auto flex-wrap">
-          <TierCardData profile={profile} />
-
-          {/* <TierCards
-            tiers={[
-              {
-                amount: 1,
-                comment: "",
-                currency: "matic",
-                emoji: "💰",
-              },
-              {
-                amount: 2,
-                comment: "",
-                currency: "usdc",
-                emoji: "💰",
-              },
-              {
-                amount: 5,
-                comment: "",
-                currency: "inr",
-                emoji: "💰",
-              },
-              {
-                amount: 2,
-                comment: "",
-                currency: "usdc",
-                emoji: "💰",
-              },
-              {
-                amount: 5,
-                comment: "",
-                currency: "inr",
-                emoji: "💰",
-              },
-            ]}
-          /> */}
+          {cardView === "card" && (
+            <TierCardData isStacked={false} profile={profile} />
+          )}
         </div>
-        <div className="flex lg:flex-nowrap flex-wrap-reverse w-full md:w-[80%] mt-5 mx-auto">
-          <Card className="w-full lg:w-3/5">
+        <div
+          className={clsx(
+            "flex lg:flex-nowrap flex-wrap-reverse w-full md:w-[80%] mt-5 mx-auto",
+            cardView === "card"
+          )}
+        >
+          <Card className={clsx("w-full", cardView === "stack" && " lg:w-3/5")}>
             <AboutSection />
           </Card>
           {/* <TierCardData profile={profile} /> */}
 
-          <StackedTierCard
-            tiers={[
-              {
-                amount: 1,
-                comment: "",
-                currency: "matic",
-                emoji: "💰",
-              },
-              {
-                amount: 2,
-                comment: "",
-                currency: "usdc",
-                emoji: "💰",
-              },
-              {
-                amount: 5,
-                comment: "",
-                currency: "inr",
-                emoji: "💰",
-              },
-              {
-                amount: 2,
-                comment: "",
-                currency: "usdc",
-                emoji: "💰",
-              },
-              {
-                amount: 5,
-                comment: "",
-                currency: "inr",
-                emoji: "💰",
-              },
-            ]}
-            handle={"@strek"}
-          />
+          {cardView === "stack" && <TierCardData profile={profile} isStacked />}
         </div>
       </div>
     </>

@@ -1,5 +1,5 @@
 import { useAppStore } from "@store/app";
-import { tier, TierCards } from "./TierCard";
+import { StackedTierCard, tier, TierCards } from "./TierCard";
 import {
   Profile,
   PublicationMainFocus,
@@ -9,10 +9,12 @@ import {
 import { useProfileTierStore } from "@store/profile-tiers";
 const TierCardData = ({
   type = "NEW_POST",
+  isStacked = true,
   profile,
   isEditMode = false,
 }: {
   type: string;
+  isStacked: boolean;
   profile: Profile;
   isEditMode: boolean;
 }) => {
@@ -80,6 +82,9 @@ const TierCardData = ({
       {}
     ),
   })) as Array<tier>;
+  if (isStacked) {
+    return <StackedTierCard tiers={tiers || []} handle={profile.handle} />;
+  }
 
   return <TierCards tiers={tiers || []} isEditMode={isEditMode} />;
 };
