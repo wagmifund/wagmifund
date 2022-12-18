@@ -35,7 +35,7 @@ const ColorPicker = (props: {
             </button>
           );
         })}
-        <div className="relative m-1 h-9 w-9 flex justify-center items-center border border-primary rounded-3xl">
+        <div className="relative m-1 h-9 w-9 flex justify-center items-center border border-theme rounded-3xl">
           <Menu>
             <Menu.Button
               className={clsx("h-6 rounded-3xl w-6")}

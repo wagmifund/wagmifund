@@ -5,7 +5,7 @@ import {
   GridItemFour,
   GridLayout,
 } from "@components/GridLayout";
-import { Modal } from "@components/Modal";
+import Modal from "@components/Modal";
 import { Spinner } from "@components/Spinner";
 import { WarningMessage } from "@modules/Settings/WarningMessage";
 import { ExclamationIcon, TrashIcon } from "@heroicons/react/outline";

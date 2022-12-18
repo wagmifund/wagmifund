@@ -1,7 +1,7 @@
 import { useAppStore } from "@store/app";
-import { tier, TierCards } from "./TierCard";
+import { StackedTierCard, tier, TierCards } from "./TierCard";
 import {
-    Profile,
+  Profile,
   PublicationMainFocus,
   PublicationTypes,
   useProfileFeedQuery,
@@ -9,10 +9,14 @@ import {
 import { useProfileTierStore } from "@store/profile-tiers";
 const TierCardData = ({
   type = "NEW_POST",
+  isStacked = true,
   profile,
+  isEditMode = false,
 }: {
   type: string;
+  isStacked: boolean;
   profile: Profile;
+  isEditMode: boolean;
 }) => {
   const currentProfile = useAppStore((state) => state.currentProfile);
 
@@ -65,17 +69,24 @@ const TierCardData = ({
 
   const Tierattributes = data?.publications.items;
 
-  const tiers = Tierattributes?.map((tier) => ({
+  const filterTierItems = Tierattributes?.filter(
+    (tier) => tier.appId === "cryptster"
+  );
+  const tiers = filterTierItems?.map((tier) => ({
     ...tier.metadata.attributes.reduce(
       (acc, { traitType, value }) => ({
         ...acc,
         [traitType as string]: value,
+        id: tier.id,
       }),
       {}
     ),
   })) as Array<tier>;
+  if (isStacked) {
+    return <StackedTierCard tiers={tiers || []} handle={profile.handle} />;
+  }
 
-  return <TierCards tiers={tiers || []} />;
+  return <TierCards tiers={tiers || []} isEditMode={isEditMode} />;
 };
 
 export default TierCardData;

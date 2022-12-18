@@ -4,9 +4,7 @@ import {
   GridItemFour,
   GridLayout,
 } from "@components/GridLayout";
-import { Spinner } from "@components/Spinner";
-import { APP_NAME, DEFAULT_COLLECT_TOKEN } from "@utils/constants";
-import type { Erc20 } from "generated";
+import { DEFAULT_COLLECT_TOKEN } from "@utils/constants";
 import {
   CollectModules,
   FollowModules,
@@ -14,7 +12,6 @@ import {
   useApprovedModuleAllowanceAmountQuery,
 } from "generated";
 import type { NextPage } from "next";
-import { useEffect, useState } from "react";
 import { useAppStore } from "src/store/app";
 
 import Sidebar from "@modules/Settings/Sidebar";
@@ -46,7 +43,6 @@ const getAllowancePayload = (currency: string) => {
 
 const AllowanceSettings: NextPage = () => {
   const currentProfile = useAppStore((state) => state.currentProfile);
-  const [currencyLoading, setCurrencyLoading] = useState(false);
   const { data, loading, error, refetch } =
     useApprovedModuleAllowanceAmountQuery({
       variables: {
