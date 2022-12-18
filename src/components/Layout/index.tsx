@@ -4,6 +4,8 @@ import type { Profile } from "generated";
 import { useUserProfilesQuery } from "generated";
 import Head from "next/head";
 import type { FC, ReactNode } from "react";
+import { Toaster } from "react-hot-toast";
+import getToastOptions from "@utils/getToastOptions";
 import { useEffect } from "react";
 import { useAppPersistStore, useAppStore } from "@store/app";
 import { useAccount, useDisconnect, useNetwork } from "wagmi";
@@ -90,6 +92,7 @@ const Layout: FC<Props> = ({ children }) => {
       <Head>
         <meta name="theme-color" />
       </Head>
+      <Toaster position="bottom-right" toastOptions={getToastOptions()} />
       <div className="flex flex-col min-h-screen">
         <Navbar />
         {children}
