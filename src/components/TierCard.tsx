@@ -11,7 +11,7 @@ import {
 import Button from "@components/Button";
 import { useHidePublicationMutation } from "generated";
 import { useRouter } from "next/router";
-
+import Modal from "@components/Modal";
 interface TierProps {
   tiers: Array<tier>;
   handle: string;
@@ -113,6 +113,7 @@ export const TierCards = ({
     },
   });
 
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   return (
     <>
       {tiers.map(
@@ -125,17 +126,31 @@ export const TierCards = ({
               {isEditMode && (
                 <TrashIcon
                   className="h-8 w-8 text-red-600 cursor-pointer"
-                  onClick={() => {
-                    if (confirm("are you sure you want to delete this tier?")) {
+                  onClick={() => setShowDeleteModal(true)}
+                />
+              )}
+              <Modal
+                title="Delete tier"
+                onClose={() => setShowDeleteModal(false)}
+                show={isEditMode && showDeleteModal}
+              >
+                <div className="flex flex-col m-4">
+                  <div className="mb-1">
+                    are you sure you want to delete this tier?
+                  </div>
+                  <Button
+                    onClick={() =>
                       hidePost({
                         variables: {
                           request: { publicationId: id },
                         },
-                      });
+                      })
                     }
-                  }}
-                />
-              )}
+                  >
+                    confirm
+                  </Button>
+                </div>
+              </Modal>
               {isRecommended && (
                 <StarIcon
                   className="h-6 w-6 text-theme"
