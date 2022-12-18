@@ -39,7 +39,7 @@ const EditTiers: FC = () => {
             here you can add or delete any of your tier
           </div>
           <div className="flex flex-wrap gap-1">
-            <TierCardData profile={profile} isEditMode />
+            <TierCardData profile={profile} isEditMode isStacked={false} />
           </div>
         </Card>
       </GridItemEight>

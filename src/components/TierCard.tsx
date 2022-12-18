@@ -1,13 +1,7 @@
 import clsx from "clsx";
 import { useState } from "react";
 import { Card } from "./Card";
-import {
-  GiftIcon,
-  StarIcon,
-  SparklesIcon,
-  TrashIcon,
-  XIcon,
-} from "@heroicons/react/outline";
+import { StarIcon, TrashIcon, XIcon } from "@heroicons/react/outline";
 import Button from "@components/Button";
 import { useHidePublicationMutation } from "generated";
 import { useRouter } from "next/router";
@@ -17,10 +11,8 @@ interface TierProps {
   handle: string;
   activeTier?: number;
   viewOnly?: boolean;
-  publications?: any;
   profile?: any;
-  party?: boolean;
-  setParty?: any;
+  createCollect?: any;
 }
 
 export type tier = {
@@ -35,14 +27,11 @@ export type tier = {
 };
 
 export const StackedTierCard = ({
-  handle,
   activeTier = 0,
   tiers,
-  publications,
-  setParty,
   profile,
-  party = false,
   viewOnly = false,
+  createCollect,
 }: TierProps) => {
   const [currentTier, setCurrentTier] = useState(activeTier);
 
@@ -88,9 +77,7 @@ export const StackedTierCard = ({
       </Card>
       <Button
         className="capitalize w-full button-primary border-theme"
-        onClick={() => {
-          console.log(currentTier);
-        }}
+        onClick={() => createCollect(tiers[currentTier]?.id)}
       >
         Gift {tiers[currentTier]?.amount}
       </Button>
@@ -102,9 +89,11 @@ export const TierCards = ({
   tiers,
   isEditMode,
   onMetaClick,
+  createCollect,
 }: {
   tiers: Array<tier> | [];
   isEditMode: boolean;
+  createCollect: any;
 }) => {
   const { pathname, push } = useRouter();
   const [hidePost] = useHidePublicationMutation({
@@ -168,7 +157,7 @@ export const TierCards = ({
             <Button
               className="capitalize w-full button-primary border-theme p-1 min-h-[2] !h-2"
               onClick={() => {
-                console.log(amount);
+                createCollect(id);
               }}
               disabled={isEditMode}
             >
