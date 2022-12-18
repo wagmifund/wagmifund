@@ -108,7 +108,7 @@ export const TierCards = ({
       {tiers.map(
         ({ amount, comment, currency, emoji, id, isRecommended = false }) => (
           <Card
-            className="border p-4 border-primary w-[30%] flex flex-col items-center relative"
+            className="border p-4 border-primary w-full sm:w-[45%] lg:w-[30%] flex flex-col items-center relative"
             key={amount}
           >
             <div className="absolute -right-4 -top-4 bg-slate-900 h-10 w-10 border border-theme rounded-3xl flex justify-center items-center">

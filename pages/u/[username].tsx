@@ -85,7 +85,7 @@ const ProfilePage = ({ isEditable = true }) => {
             {profile.bio}
           </div>
         </div>
-        <div className="mt-10 w-full md:w-[80%] flex justify-between mx-auto flex-wrap">
+        <div className="mt-10 w-full md:w-[80%] flex sm:justify-between mx-auto flex-wrap">
           {cardView === "card" && (
             <TierCardData isStacked={false} profile={profile} />
           )}
