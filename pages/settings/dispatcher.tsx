@@ -31,6 +31,7 @@ const DispatcherSettings: FC = () => {
             </div>
           </div>
           <div className="pb-2">
+            {/* eslint-disable-next-line react/no-unescaped-entities */}
             We suggest you to enable dispatcher so you don't need to sign all
             your transactions in {APP_NAME}.
           </div>
