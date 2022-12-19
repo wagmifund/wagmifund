@@ -159,14 +159,13 @@ div[data-lexical-editor="true"] {
       z-index: 200;
       width: 25%;
       height: 900px;
-      right: -12.5%;
+      right: 0;
       top: calc(34% - 450px + 151px);
       background: linear-gradient(
         180deg,
         hsl(var(--p) / 0.9),
         hsl(var(--p) / 0.4)
       );
-      transform: rotate(15deg);
       border-bottom-left-radius: 25% 25%;
       border-bottom-right-radius: 25% 25%;
       border-top-left-radius: 100% 100%;
