@@ -2,9 +2,18 @@ import { useState } from "react";
 import Button from "@components/Button";
 import clsx from "clsx";
 import { XIcon } from "@heroicons/react/outline";
-import { tier } from "./onboarding-form/TierForm";
 import { SUPPORTED_CURRENCIES } from "@utils/constants";
 import { Card } from "./Card";
+
+export type tier = {
+  isLoading?: boolean;
+  amount: number;
+  comment: string;
+  currency: string;
+  emoji: string;
+  setClickedOnContinue?: any;
+};
+
 
 interface TierProps {
   tiers: Array<tier>;
@@ -68,7 +77,6 @@ const MockTierCard = ({
                       : "border border-theme bg-white text-gray-800",
                     "m-1 sm:m-2 h-10 w-10 rounded-full flex justify-center items-center"
                   )}
-                  key={amount}
                 >
                   <span>{amount}</span>
                 </button>

@@ -31,7 +31,7 @@ const DispatcherSettings: FC = () => {
             </div>
           </div>
           <div className="pb-2">
-            We suggest you to enable dispatcher so you don't need to sign all
+            We suggest you to enable dispatcher so you dont need to sign all
             your transactions in {APP_NAME}.
           </div>
           <ToggleDispatcher />
