@@ -80,7 +80,7 @@ const TierCardData = ({
   const Tierattributes = data?.publications.items;
 
   const filterTierItems = Tierattributes?.filter(
-    (tier) => tier.appId === "cryptster"
+    (tier) => tier.appId === "wagmifund"
   );
   const { address } = useAccount();
   const userSigNonce = useAppStore((state) => state.userSigNonce);
