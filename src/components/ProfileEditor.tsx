@@ -26,21 +26,21 @@ const ProfileEditor = () => {
     (state) => state.profileUIData.corners
   );
 
-  const [showSettings, setShowSettings] = useState(false);
-
+  const showUISettings = useProfileUIStore((state) => state.showUISettings);
+  const setUISettings = useProfileUIStore((state) => state.setUISettings);
   // const [currentRadius, setRadius] = useState("0.9");
   // const [customColor, setCustomColor] = useState({
   //   h: "198",
   //   s: "0.94",
   //   l: "0.43",
   // });
-  return showSettings ? (
+  return showUISettings ? (
     <div>
       <AppearAnimation className="fixed right-0 top-1/4 w-[168px] p-2 z-10 bg-slate-900 ring-1 rounded-2xl text-white transition-150 mr-1">
         <Button
           className="text-primary flex justify-evenly bg-transparent border-transparent lowercase hover:bg-transparent mx-auto"
           onClick={() => {
-            setShowSettings(false);
+            setUISettings(false);
           }}
         >
           <p className="text-white">minimize</p>
@@ -143,7 +143,7 @@ const ProfileEditor = () => {
   ) : (
     <Button
       className="fixed right-0 top-1/2 bg-slate-900 ring-1 h-12 w-12 p-2 rounded-l-2xl"
-      onClick={() => setShowSettings(true)}
+      onClick={() => setUISettings(true)}
     >
       <CogIcon />
     </Button>

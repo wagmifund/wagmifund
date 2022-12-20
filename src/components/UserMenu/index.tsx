@@ -11,6 +11,9 @@ import { useAppPersistStore, useAppStore } from "src/store/app";
 import { useDisconnect } from "wagmi";
 
 import { NextLink } from "@components/Navbar/Menuitems";
+import { PublicationTypes, useProfileFeedQuery } from "generated";
+import { usePublicationStore } from "@store/publication";
+import React from "react";
 
 const UserMenu: FC = () => {
   const router = useRouter();

@@ -17,6 +17,8 @@ import splitSignature from "@utils/splitSignature";
 import { TESTNET_LENSHUB_PROXY } from "@utils/contracts";
 import { LensHubProxy } from "@abis/LensHubProxy";
 import useBroadcast from "@utils/useBroadcast";
+import { usePublicationStore } from "@store/publication";
+import { useRouter } from "next/router";
 const TierCardData = ({
   type = "NEW_POST",
   isStacked = true,
@@ -61,6 +63,8 @@ const TierCardData = ({
         }
       : null;
 
+  const setPublications = usePublicationStore((state) => state.setPublications);
+
   const request = {
     publicationTypes,
     metadata,
@@ -72,15 +76,28 @@ const TierCardData = ({
     : null;
   const profileId = currentProfile?.id ?? null;
 
-  const { data } = useProfileFeedQuery({
+  const {
+    query: { username },
+  } = useRouter();
+  const { data, refetch } = useProfileFeedQuery({
     variables: { request, reactionRequest, profileId },
     skip: false,
+    onCompleted: (data) => {
+      if (currentProfile?.handle !== username) {
+        const Tierattributes = data?.publications.items;
+
+        const filterTierItems = Tierattributes?.filter(
+          (tier) => tier.appId === "wagmifund"
+        );
+        setPublications(filterTierItems);
+      }
+    },
   });
 
   const Tierattributes = data?.publications.items;
 
   const filterTierItems = Tierattributes?.filter(
-    (tier) => tier.appId === "cryptster"
+    (tier) => tier.appId === "wagmifund"
   );
   const { address } = useAccount();
   const userSigNonce = useAppStore((state) => state.userSigNonce);
@@ -179,6 +196,7 @@ const TierCardData = ({
 
   return (
     <TierCards
+      onMetaClick={refetch}
       tiers={tiers || []}
       isEditMode={isEditMode}
       createCollect={createCollect}
