@@ -20,7 +20,6 @@ import { LensHubProxy } from "@abis/LensHubProxy";
 import onError from "@utils/onError";
 import useBroadcast from "@utils/useBroadcast";
 import { usePublicationStore } from "@store/publication";
-import { useCollectModuleStore } from "@store/collect-module";
 import router from "next/router";
 import { useTransactionPersistStore } from "@store/transaction";
 import {
@@ -235,10 +234,6 @@ const TierForm = () => {
     (state) => state.setPublicationContent
   );
 
-  // Collect module store
-  const resetCollectSettings = useCollectModuleStore((state) => state.reset);
-  const setPayload = useCollectModuleStore((state) => state.setPayload);
-
   // Transaction persist store
   const txnQueue = useTransactionPersistStore((state) => state.txnQueue);
   const setTxnQueue = useTransactionPersistStore((state) => state.setTxnQueue);
@@ -251,7 +246,6 @@ const TierForm = () => {
     }
     setActiveTier((currentTier) => currentTier + 1);
     setPublicationContent("");
-    resetCollectSettings();
     if (clickedOnContinue && activeTier >= 2) {
       router.push(`/u/${currentProfile?.handle}`);
     }
@@ -396,9 +390,7 @@ const TierForm = () => {
       referralFee: parseFloat("0"),
       followerOnly: false,
     };
-    setPayload({
-      feeCollectModule: { ...baseFeeData },
-    });
+
     if (!currentProfile) {
       return toast.error(SIGN_WALLET);
     }
