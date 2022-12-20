@@ -40,6 +40,7 @@ export type tier = {
   emoji: string;
   setClickedOnContinue?: any;
 };
+import { StackedTierCard } from "./TierCard";
 
 const Tier = ({
   onClick,
@@ -184,11 +185,10 @@ const Tier = ({
           </AppearAnimation>
         </Form>
       </div>
-      <MockTierCard
-        currency={currency}
-        activeTier={activeTier}
+      <StackedTierCard
         tiers={fields}
         handle={currentProfile?.handle}
+        activeTier={activeTier}
       />
     </div>
   );

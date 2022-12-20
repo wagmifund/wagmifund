@@ -107,54 +107,56 @@ export const TierCards = ({
             className="border p-4 border-primary w-full sm:w-[45%] lg:w-[30%] flex flex-col items-center relative"
             key={amount}
           >
-            <div className="absolute -right-4 -top-4 bg-slate-900 h-10 w-10 border border-theme rounded-3xl flex justify-center items-center">
-              {isEditMode && (
+            {isEditMode && (
+              <div className="absolute -right-4 -top-4 bg-slate-900 h-10 w-10 border border-theme rounded-3xl flex justify-center items-center">
                 <TrashIcon
                   className="h-8 w-8 text-red-600 cursor-pointer"
                   onClick={() => setShowDeleteModal(true)}
                 />
-              )}
-              <Modal
-                title="Delete tier"
-                onClose={() => setShowDeleteModal(false)}
-                show={isEditMode && showDeleteModal}
-              >
-                <div className="flex flex-col m-4">
-                  <div className="mb-1">
-                    Are you sure you want to delete this tier?
-                  </div>
-                  <div className="flex justify-center mt-2">
-                    <Button
-                      onClick={() => {
-                        hidePost({
-                          variables: {
-                            request: { publicationId: id },
-                          },
-                        });
-                        setShowDeleteModal(false);
-                        onMetaClick();
-                      }}
-                    >
-                      Yes
-                    </Button>
-                    <Button
-                      className="ml-2"
-                      onClick={() => {
-                        setShowDeleteModal(false);
-                      }}
-                    >
-                      No
-                    </Button>
-                  </div>
+              </div>
+            )}
+            <Modal
+              title="Delete tier"
+              onClose={() => setShowDeleteModal(false)}
+              show={isEditMode && showDeleteModal}
+            >
+              <div className="flex flex-col m-4">
+                <div className="mb-1">
+                  are you sure you want to delete this tier?
                 </div>
-              </Modal>
-              {isRecommended && (
+                <div className="flex justify-center mt-2">
+                  <Button
+                    onClick={() => {
+                      hidePost({
+                        variables: {
+                          request: { publicationId: id },
+                        },
+                      });
+                      setShowDeleteModal(false);
+                      onMetaClick();
+                    }}
+                  >
+                    Yes
+                  </Button>
+                  <Button
+                    className="ml-2"
+                    onClick={() => {
+                      setShowDeleteModal(false);
+                    }}
+                  >
+                    No
+                  </Button>
+                </div>
+              </div>
+            </Modal>
+            {isRecommended && (
+              <div className="absolute -right-4 -top-4 bg-slate-900 h-10 w-10 border border-theme rounded-3xl flex justify-center items-center">
                 <StarIcon
                   className="h-6 w-6 text-theme"
                   onClick={onMetaClick}
                 />
-              )}
-            </div>
+              </div>
+            )}
             <div className="bg-theme border border-theme rounded-3xl text-4xl h-12 w-12 flex justify-center items-center">
               {emoji}
             </div>

@@ -16,6 +16,7 @@ import { useAppStore } from "src/store/app";
 import Sidebar from "@modules/Settings/Sidebar";
 import Picture from "@modules/Settings/Picture";
 import Profile from "@modules/Settings/Profile";
+import PageLoader from "@components/PageLoader";
 
 const ProfileSettings: NextPage = () => {
   const currentProfile = useAppStore((state) => state.currentProfile);
@@ -30,7 +31,7 @@ const ProfileSettings: NextPage = () => {
   }
 
   if (loading) {
-    return <p>page loader</p>;
+    return <PageLoader />;
   }
 
   if (!currentProfile) {
