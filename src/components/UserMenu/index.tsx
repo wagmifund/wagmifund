@@ -11,6 +11,9 @@ import { useAppPersistStore, useAppStore } from "src/store/app";
 import { useDisconnect } from "wagmi";
 
 import { NextLink } from "@components/Navbar/Menuitems";
+import { PublicationTypes, useProfileFeedQuery } from "generated";
+import { usePublicationStore } from "@store/publication";
+import React from "react";
 
 const UserMenu: FC = () => {
   const router = useRouter();
@@ -20,6 +23,15 @@ const UserMenu: FC = () => {
   const setProfileId = useAppPersistStore((state) => state.setProfileId);
 
   const { disconnect } = useDisconnect();
+  const publications = usePublicationStore((state) => state.publications);
+  console.log("publicationsfinnnn", publications);
+  // React.useEffect(() => {
+  //   if (publications?.length >= 3) {
+  //     router.push(`/u/${currentProfile?.handle}`);
+  //   } else {
+  //     router.push("/onboard");
+  //   }
+  // }, []);
 
   const logout = () => {
     setCurrentProfile(null);
