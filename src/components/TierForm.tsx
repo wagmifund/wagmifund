@@ -246,6 +246,9 @@ const TierForm = () => {
   const [clickedOnContinue, setClickedOnContinue] = React.useState(false);
   const onCompleted = () => {
     toast.success("tier created successfully");
+    if (activeTier === 2) {
+      router.push(`/u/${currentProfile?.handle}`);
+    }
     setActiveTier((currentTier) => currentTier + 1);
     setPublicationContent("");
     resetCollectSettings();

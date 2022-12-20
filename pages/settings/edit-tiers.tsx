@@ -8,8 +8,9 @@ import { APP_NAME } from "@utils/constants";
 import type { FC } from "react";
 import { useAppStore } from "src/store/app";
 import Sidebar from "@modules/Settings/Sidebar";
-import { useProfileSettingsQuery } from "generated";
+import { PublicationSortCriteria, useProfileSettingsQuery } from "generated";
 import TierCardData from "@components/TierCardData";
+import { usePublicationStore } from "@store/publication";
 
 const EditTiers: FC = () => {
   const currentProfile = useAppStore((state) => state.currentProfile);
@@ -18,6 +19,8 @@ const EditTiers: FC = () => {
     variables: { request: { profileId: currentProfile?.id } },
     skip: !currentProfile?.id,
   });
+
+  const publications = usePublicationStore((state) => state.publications);
 
   const profile = data?.profile;
 
@@ -36,7 +39,9 @@ const EditTiers: FC = () => {
             <div className="text-lg font-bold">Edit Tiers</div>
           </div>
           <div className="pb-2">
-            here you can add or delete any of your tier
+            {publications.length > 0
+              ? "here you can add or delete any of your tier"
+              : "Seems like you dont have any tiers? Would you like to create some?"}
           </div>
           <div className="flex flex-wrap gap-1">
             <TierCardData profile={profile} isEditMode isStacked={false} />

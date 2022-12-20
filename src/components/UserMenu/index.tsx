@@ -23,15 +23,6 @@ const UserMenu: FC = () => {
   const setProfileId = useAppPersistStore((state) => state.setProfileId);
 
   const { disconnect } = useDisconnect();
-  const publications = usePublicationStore((state) => state.publications);
-  console.log("publicationsfinnnn", publications);
-  // React.useEffect(() => {
-  //   if (publications?.length >= 3) {
-  //     router.push(`/u/${currentProfile?.handle}`);
-  //   } else {
-  //     router.push("/onboard");
-  //   }
-  // }, []);
 
   const logout = () => {
     setCurrentProfile(null);

@@ -94,13 +94,9 @@ export const TierCards = ({
   tiers: Array<tier> | [];
   isEditMode: boolean;
   createCollect: any;
+  onMetaClick: () => void;
 }) => {
-  const { pathname, push } = useRouter();
-  const [hidePost] = useHidePublicationMutation({
-    onCompleted: () => {
-      pathname === "/posts/[id]" ? push("/") : location.reload();
-    },
-  });
+  const [hidePost] = useHidePublicationMutation();
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   return (
@@ -125,19 +121,31 @@ export const TierCards = ({
               >
                 <div className="flex flex-col m-4">
                   <div className="mb-1">
-                    are you sure you want to delete this tier?
+                    Are you sure you want to delete this tier?
                   </div>
-                  <Button
-                    onClick={() =>
-                      hidePost({
-                        variables: {
-                          request: { publicationId: id },
-                        },
-                      })
-                    }
-                  >
-                    confirm
-                  </Button>
+                  <div className="flex justify-center mt-2">
+                    <Button
+                      onClick={() => {
+                        hidePost({
+                          variables: {
+                            request: { publicationId: id },
+                          },
+                        });
+                        setShowDeleteModal(false);
+                        onMetaClick();
+                      }}
+                    >
+                      Yes
+                    </Button>
+                    <Button
+                      className="ml-2"
+                      onClick={() => {
+                        setShowDeleteModal(false);
+                      }}
+                    >
+                      No
+                    </Button>
+                  </div>
                 </div>
               </Modal>
               {isRecommended && (

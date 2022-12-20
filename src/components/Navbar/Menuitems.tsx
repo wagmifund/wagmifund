@@ -16,34 +16,6 @@ export const NextLink = ({ href, children, ...rest }: Record<string, any>) => (
 
 const MenuItems: FC = () => {
   const currentProfile = useAppStore((state) => state.currentProfile);
-  const profileId = useAppPersistStore((state) => state.profileId);
-  const setPublications = usePublicationStore((state) => state.setPublications);
-
-  const publicationTypes = [PublicationTypes.Post, PublicationTypes.Mirror];
-  const metadata = null;
-  const request = {
-    publicationTypes,
-    metadata,
-    profileId: currentProfile?.id,
-    limit: 10,
-  };
-  const reactionRequest = currentProfile
-    ? { profileId: currentProfile?.id }
-    : null;
-  // const profileId = currentProfile?.id ?? null;
-  console.log("publications", profileId);
-
-  const { data } = useProfileFeedQuery({
-    variables: { request, reactionRequest, profileId },
-    skip: false,
-  });
-  const Tierattributes = data?.publications.items;
-
-  const filterTierItems = Tierattributes?.filter(
-    (tier) => tier.appId === "wagmifund"
-  );
-  setPublications(filterTierItems);
-  console.log("publications", profileId);
 
   if (!currentProfile) {
     return <Login />;
