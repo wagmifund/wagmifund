@@ -12,6 +12,7 @@ import { useAccount, useDisconnect, useNetwork } from "wagmi";
 import Navbar from "@components/Navbar";
 import { POLYGON_CHAIN_ID } from "@utils/constants";
 import useIsMounted from "@utils/useIsMounted";
+import PageLoader from "@components/PageLoader";
 
 interface Props {
   children: ReactNode;
@@ -86,7 +87,12 @@ const Layout: FC<Props> = ({ children }) => {
     validateAuthentication();
   }, [address, chain, disconnect, profileId]);
 
-  if (loading || !mounted) return <p>page loader</p>;
+  if (loading || !mounted)
+    return (
+      <div className="h-screen">
+        <PageLoader />
+      </div>
+    );
   return (
     <>
       <Head>

@@ -12,6 +12,7 @@ import React from "react";
 import MockTierCard from "./MockTierCard";
 import { LoaderIcon } from "react-hot-toast";
 import { useAppStore } from "@store/app";
+import { StackedTierCard } from "./TierCard";
 
 const Tier = ({
   onClick,
@@ -145,11 +146,10 @@ const Tier = ({
           </AppearAnimation>
         </Form>
       </div>
-      <MockTierCard
-        currency={currency}
-        activeTier={activeTier}
+      <StackedTierCard
         tiers={fields}
         handle={currentProfile?.handle}
+        activeTier={activeTier}
       />
     </div>
   );

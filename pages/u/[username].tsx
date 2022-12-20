@@ -12,8 +12,9 @@ import { useRouter } from "next/router";
 import { useAppStore } from "@store/app";
 import TierCardData from "@components/TierCardData";
 import { useProfileUIStore } from "@store/profile";
+import PageLoader from "@components/PageLoader";
 const ProfilePage = ({ isEditable = true }) => {
-  const { cardView, theme, corners } = useProfileUIStore(
+  const { cardView, theme, corners, gradient } = useProfileUIStore(
     (state) => state.profileUIData
   );
 
@@ -50,7 +51,7 @@ const ProfilePage = ({ isEditable = true }) => {
       profile?.attributes?.filter(({ key }) => key === "about")?.[0]?.value
         ?.length)
   ) {
-    return <div>page loader</div>;
+    return <PageLoader />;
   }
 
   if (!profile) {
@@ -65,8 +66,12 @@ const ProfilePage = ({ isEditable = true }) => {
       >
         {isEditable && <ProfileEditor />}
 
-        <span className="bg-gradient-sides left"></span>
-        <span className="bg-gradient-sides right"></span>
+        {gradient && (
+          <>
+            <span className="bg-gradient-sides left"></span>
+            <span className="bg-gradient-sides right"></span>
+          </>
+        )}
 
         <div className="relative sm:min-h-[300px]">
           <CoverPicture />
@@ -99,8 +104,6 @@ const ProfilePage = ({ isEditable = true }) => {
           <Card className={clsx("w-full", cardView === "stack" && " lg:w-3/5")}>
             <AboutSection />
           </Card>
-          {/* <TierCardData profile={profile} /> */}
-
           {cardView === "stack" && <TierCardData profile={profile} isStacked />}
         </div>
       </div>
