@@ -19,6 +19,7 @@ import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
 import AutoLinkPlugin from "./plugins/AutoLinkPlugin";
 import EmojiPlugin from "./plugins/EmojiPlugin";
 import EmojiPickerPlugin from "./plugins/EmojiPickerPlugin";
+import { useProfileUIStore } from "@store/profile";
 
 type EditorProps = {
   isEditable: boolean;
@@ -28,6 +29,8 @@ type EditorProps = {
 };
 const Editor = (props: EditorProps) => {
   const { isEditable } = props;
+  const setProfileUIData = useProfileUIStore((state) => state.setProfileUIData);
+
   const initialConfig = {
     namespace: "composer",
     editable: isEditable ?? true,
