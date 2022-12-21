@@ -5,7 +5,7 @@ export interface ProfileUIState {
   theme?: Object;
   corners?: string;
   snow?: boolean;
-  gradient?: boolean;
+  gradient?: string;
   about?: string;
 }
 
@@ -27,15 +27,18 @@ export const useProfileUIStore = create<ProfileState>((set, get) => ({
     about: "",
     corners: "0.9",
     snow: true,
-    gradient: true,
+    gradient: "true",
   },
   showUISettings: false,
   setUISettings: (showUISettings) => set(() => ({ showUISettings })),
   setProfileUIData: (profileUIData: Partial<ProfileUIState>) => {
     set((currentState) => ({
       ...currentState,
-      profileUIData: { ...get().profileUIData, ...profileUIData },
+      profileUIData: { ...currentState.profileUIData, ...profileUIData },
     }));
-    console.log({ ...get(), ...profileUIData });
+    console.log({
+      ...get(),
+      profileUIData: { ...get().profileUIData, ...profileUIData },
+    });
   },
 }));

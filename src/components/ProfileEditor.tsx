@@ -112,14 +112,14 @@ const ProfileEditor = () => {
             </Button>
           </div>
           <div className="flex justify-center h-10 mt-4">
-            Gradient
+            Gradient {gradient}
             <input
               type="checkbox"
               className="toggle ml-2 bg-primary"
-              checked={gradient}
+              checked={gradient === "true"}
               onChange={() => {
                 setProfileUIData({
-                  gradient: !gradient,
+                  gradient: `${gradient === "true" ? "false" : "true"}`,
                 });
               }}
             />

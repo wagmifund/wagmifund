@@ -29,6 +29,7 @@ import { LensPeriphery } from "@abis/LensPeriphery";
 import splitSignature from "@utils/splitSignature";
 import getSignature from "@utils/getSignature";
 import IndexStatus from "@components/Shared/IndexStatus";
+import wantsGradient from "@utils/profileAttributes";
 const ProfilePage = ({ isEditable = true }) => {
   const setUISettings = useProfileUIStore((state) => state.setUISettings);
 
@@ -123,18 +124,19 @@ const ProfilePage = ({ isEditable = true }) => {
   );
   const profileUIData = useProfileUIStore((state) => state.profileUIData);
   const showUISettings = useProfileUIStore((state) => state.showUISettings);
+  const setProfileUIData = useProfileUIStore((state) => state.setProfileUIData);
   const [isUploading, setIsUploading] = useState(false);
 
-  console.log("profileUIData", profileUIData);
-
   useEffect(() => {
+    console.log(corners);
     document
       .querySelector('[data-theme="user"]')
-      ?.style.setProperty("--rounded-box", corners);
+      ?.style.setProperty("--rounded-box", `${corners}rem`);
+    const { h, s, l } = theme;
     document
       .querySelector('[data-theme="user"]')
-      ?.style.setProperty("--p", theme);
-  }, []);
+      ?.style.setProperty("--p", `${h} ${s * 100}% ${l * 100}%`);
+  }, [theme, corners]);
 
   const currentProfile = useAppStore((state) => state.currentProfile);
 
@@ -147,6 +149,16 @@ const ProfilePage = ({ isEditable = true }) => {
       who: currentProfile?.id ?? null,
     },
     skip: !username,
+    onCompleted: ({ profile: userUIData }) => {
+      console.log(Object.values(userUIData?.attributes), "acc");
+      Object.values(userUIData?.attributes).forEach(({ key, value }, idx) => {
+        if (key in profileUIData) {
+          setProfileUIData({
+            [key]: key === "theme" ? JSON.parse(value) : value,
+          });
+        }
+      });
+    },
   });
   const profile = data?.profile;
 
@@ -155,13 +167,15 @@ const ProfilePage = ({ isEditable = true }) => {
   }
   // store the value
   if (profile && profile?.attributes?.length) {
-    const test = Object.values(profile?.attributes).map((attribute, idx) => {
-      if (attribute.key in profileUIData) {
-        return attribute.value;
-      }
-    });
-
-    console.log("test", test);
+    const test = Object.values(profile?.attributes).reduce(
+      (acc: Array<Object>, attribute, idx) => {
+        if (attribute.key in profileUIData) {
+          acc.push({ key: attribute.key, value: attribute.value });
+        }
+        return acc;
+      },
+      []
+    );
   }
 
   if (
@@ -263,7 +277,7 @@ const ProfilePage = ({ isEditable = true }) => {
       >
         {isEditable && <ProfileEditor />}
 
-        {gradient && (
+        {gradient === "true" && (
           <>
             <span className="bg-gradient-sides left"></span>
             <span className="bg-gradient-sides right"></span>

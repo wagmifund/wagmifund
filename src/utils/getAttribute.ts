@@ -5,7 +5,7 @@ interface Attribute {
   value: string;
 }
 
-type Query = "app" | "twitter" | "location" | "website" | "statusEmoji";
+type Query = string;
 
 /**
  *
