@@ -167,7 +167,7 @@ const Tier = ({
                   type="text"
                   label="Emoji"
                   placeholder="💰"
-                  maxLength="1"
+                  // maxLength="2"
                   {...form.register(`emoji`, {
                     required: true,
                   })}
