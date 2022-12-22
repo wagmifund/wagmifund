@@ -2,15 +2,17 @@ import AboutSection from "@components/AboutSection";
 import { Card } from "@components/Card";
 import CoverPicture from "@components/CoverPicture";
 import ProfilePicture from "@components/ProfilePicture";
-import { StackedTierCard, TierCards } from "@components/TierCard";
-import ColorPicker from "@components/ColorPicker";
+import { tier, TierCards } from "@components/TierCard";
 import { clsx } from "clsx";
 import { useEffect, useState } from "react";
 import ProfileEditor from "@components/ProfileEditor";
 import {
   CreatePublicSetProfileMetadataUriRequest,
+  Profile,
+  PublicationTypes,
   useCreateSetProfileMetadataTypedDataMutation,
   useCreateSetProfileMetadataViaDispatcherMutation,
+  useProfileFeedQuery,
   useProfileQuery,
 } from "generated";
 import { useRouter } from "next/router";
@@ -30,6 +32,8 @@ import splitSignature from "@utils/splitSignature";
 import getSignature from "@utils/getSignature";
 import IndexStatus from "@components/Shared/IndexStatus";
 import wantsGradient from "@utils/profileAttributes";
+import { useProfileTierStore } from "@store/profile-tiers";
+import { usePublicationStore } from "@store/publication";
 const ProfilePage = ({ isEditable = true }) => {
   const setUISettings = useProfileUIStore((state) => state.setUISettings);
 
@@ -311,7 +315,7 @@ const ProfilePage = ({ isEditable = true }) => {
         </div>
         <div className="mt-10 w-full md:w-[80%] flex sm:justify-between mx-auto flex-wrap">
           {cardView === "card" && (
-            <TierCardData isStacked={false} profile={profile} />
+            <ProfilePageTierCard isStacked={false} profile={profile} />
           )}
         </div>
         <div
@@ -323,10 +327,89 @@ const ProfilePage = ({ isEditable = true }) => {
           <Card className={clsx("w-full", cardView === "stack" && " lg:w-3/5")}>
             <AboutSection />
           </Card>
-          {cardView === "stack" && <TierCardData profile={profile} isStacked />}
+          {cardView === "stack" && (
+            <ProfilePageTierCard profile={profile} isStacked />
+          )}
         </div>
       </div>
     </>
+  );
+};
+
+const ProfilePageTierCard = ({
+  isStacked,
+  profile,
+}: {
+  isStacked: boolean;
+  profile: Profile;
+}) => {
+  const mediaFeedFilters = useProfileTierStore(
+    (state) => state.mediaTierFilters
+  );
+
+  const type = "NEW_POST";
+  const publicationTypes =
+    type === "NEW_POST"
+      ? [PublicationTypes.Post, PublicationTypes.Mirror]
+      : type === "MEDIA"
+      ? [PublicationTypes.Post, PublicationTypes.Comment]
+      : [PublicationTypes.Comment];
+  const metadata = null;
+  const setPublications = usePublicationStore((state) => state.setPublications);
+  const request = {
+    publicationTypes,
+    metadata,
+    profileId: profile?.id,
+    limit: 10,
+  };
+  const reactionRequest = profile ? { profileId: profile?.id } : null;
+  const profileId = profile?.id ?? null;
+  const {
+    query: { username },
+  } = useRouter();
+  const { data, refetch } = useProfileFeedQuery({
+    variables: { request, reactionRequest, profileId },
+    skip: false,
+    onCompleted: (data) => {
+      if (profile?.handle !== username) {
+        const Tierattributes = data?.publications.items;
+        const filterTierItems = Tierattributes?.filter(
+          (tier) => tier.appId === "wagmifund"
+        );
+        setPublications(filterTierItems);
+      }
+    },
+  });
+
+  const Tierattributes = data?.publications.items;
+  const filterTierItems = Tierattributes?.filter(
+    (tier) => tier.appId === "wagmifund"
+  );
+
+  const tiers = filterTierItems?.map((tier) => ({
+    ...tier.metadata.attributes.reduce(
+      (acc, { traitType, value }) => ({
+        ...acc,
+        [traitType as string]: value,
+        id: tier.id,
+      }),
+      {}
+    ),
+  })) as Array<tier>;
+  return isStacked ? (
+    <TierCardData
+      onMetaClick={refetch}
+      profile={profile}
+      isStacked
+      tiers={tiers}
+    />
+  ) : (
+    <TierCardData
+      onMetaClick={refetch}
+      isStacked={false}
+      profile={profile}
+      tiers={tiers}
+    />
   );
 };
 

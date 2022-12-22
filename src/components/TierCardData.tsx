@@ -20,85 +20,21 @@ import useBroadcast from "@utils/useBroadcast";
 import { usePublicationStore } from "@store/publication";
 import { useRouter } from "next/router";
 const TierCardData = ({
+  onMetaClick,
   type = "NEW_POST",
+  tiers,
   isStacked = true,
   profile,
   isEditMode = false,
 }: {
+  onMetaClick: () => void;
   type: string;
+  tiers: Array<tier>;
   isStacked: boolean;
   profile: Profile;
   isEditMode: boolean;
 }) => {
   const currentProfile = useAppStore((state) => state.currentProfile);
-
-  const mediaFeedFilters = useProfileTierStore(
-    (state) => state.mediaTierFilters
-  );
-
-  const getMediaFilters = () => {
-    let filters: PublicationMainFocus[] = [];
-    if (mediaFeedFilters.images) {
-      filters.push(PublicationMainFocus.Image);
-    }
-    if (mediaFeedFilters.video) {
-      filters.push(PublicationMainFocus.Video);
-    }
-    if (mediaFeedFilters.audio) {
-      filters.push(PublicationMainFocus.Audio);
-    }
-    return filters;
-  };
-
-  const publicationTypes =
-    type === "NEW_POST"
-      ? [PublicationTypes.Post, PublicationTypes.Mirror]
-      : type === "MEDIA"
-      ? [PublicationTypes.Post, PublicationTypes.Comment]
-      : [PublicationTypes.Comment];
-  const metadata =
-    type === "MEDIA"
-      ? {
-          mainContentFocus: getMediaFilters(),
-        }
-      : null;
-
-  const setPublications = usePublicationStore((state) => state.setPublications);
-
-  const request = {
-    publicationTypes,
-    metadata,
-    profileId: profile?.id,
-    limit: 10,
-  };
-  const reactionRequest = currentProfile
-    ? { profileId: currentProfile?.id }
-    : null;
-  const profileId = currentProfile?.id ?? null;
-
-  const {
-    query: { username },
-  } = useRouter();
-  const { data, refetch } = useProfileFeedQuery({
-    variables: { request, reactionRequest, profileId },
-    skip: false,
-    onCompleted: (data) => {
-      if (currentProfile?.handle !== username) {
-        const Tierattributes = data?.publications.items;
-
-        const filterTierItems = Tierattributes?.filter(
-          (tier) => tier.appId === "wagmifund"
-        );
-        setPublications(filterTierItems);
-      }
-    },
-  });
-
-  const Tierattributes = data?.publications.items;
-
-  const filterTierItems = Tierattributes?.filter(
-    (tier) => tier.appId === "wagmifund"
-  );
   const { address } = useAccount();
   const userSigNonce = useAppStore((state) => state.userSigNonce);
   const setUserSigNonce = useAppStore((state) => state.setUserSigNonce);
@@ -174,16 +110,6 @@ const TierCardData = ({
     });
   };
 
-  const tiers = filterTierItems?.map((tier) => ({
-    ...tier.metadata.attributes.reduce(
-      (acc, { traitType, value }) => ({
-        ...acc,
-        [traitType as string]: value,
-        id: tier.id,
-      }),
-      {}
-    ),
-  })) as Array<tier>;
   if (isStacked) {
     return (
       <StackedTierCard
@@ -196,7 +122,7 @@ const TierCardData = ({
 
   return (
     <TierCards
-      onMetaClick={refetch}
+      onMetaClick={onMetaClick}
       tiers={tiers || []}
       isEditMode={isEditMode}
       createCollect={createCollect}

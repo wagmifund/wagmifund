@@ -14,6 +14,8 @@ import { NextLink } from "@components/Navbar/Menuitems";
 import { PublicationTypes, useProfileFeedQuery } from "generated";
 import { usePublicationStore } from "@store/publication";
 import React from "react";
+import { useProfileTierStore } from "@store/profile-tiers";
+import { tier } from "@components/MockTierCard";
 
 const UserMenu: FC = () => {
   const router = useRouter();
