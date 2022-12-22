@@ -96,7 +96,9 @@ export const TierCards = ({
   createCollect: any;
   onMetaClick: () => void;
 }) => {
-  const [hidePost] = useHidePublicationMutation();
+  const [hidePost] = useHidePublicationMutation({
+    onCompleted: onMetaClick,
+  });
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   return (
@@ -133,7 +135,6 @@ export const TierCards = ({
                         },
                       });
                       setShowDeleteModal(false);
-                      onMetaClick();
                     }}
                   >
                     Yes
