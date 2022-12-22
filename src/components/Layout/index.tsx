@@ -88,7 +88,7 @@ const Layout: FC<Props> = ({ children }) => {
   } = useRouter();
   const { refetch } = useProfileFeedQuery({
     variables: { request, reactionRequest, profileId },
-    skip: !profileId,
+    skip: !profileId || username === currentProfile?.handle,
     onCompleted: (data) => {
       const Tierattributes = data?.publications.items;
       const filterTierItems = Tierattributes?.filter(

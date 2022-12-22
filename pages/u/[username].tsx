@@ -356,6 +356,7 @@ const ProfilePageTierCard = ({
       : [PublicationTypes.Comment];
   const metadata = null;
   const setPublications = usePublicationStore((state) => state.setPublications);
+
   const request = {
     publicationTypes,
     metadata,
