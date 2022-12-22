@@ -103,10 +103,7 @@ const Login = () => {
   return (
     <>
       {hasProfile || !showClaimHandleModal ? (
-        <WalletSelectorButton
-          handleSign={() => handleSign()}
-          signing={loading}
-        />
+        <WalletSelectorButton handleSign={handleSign} signing={loading} />
       ) : (
         <Modal
           title="Claim Handle"

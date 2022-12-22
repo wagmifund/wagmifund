@@ -24,6 +24,9 @@ const UserMenu: FC = () => {
   const setCurrentProfile = useAppStore((state) => state.setCurrentProfile);
   const setProfileId = useAppPersistStore((state) => state.setProfileId);
 
+  const {
+    query: { username },
+  } = useRouter();
   const { disconnect } = useDisconnect();
 
   const logout = () => {
@@ -31,7 +34,7 @@ const UserMenu: FC = () => {
     setProfileId(null);
     resetAuthData();
     disconnect?.();
-    router.push("/");
+    !username && router.push("/");
   };
 
   return (

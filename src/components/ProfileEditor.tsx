@@ -112,7 +112,7 @@ const ProfileEditor = () => {
             </Button>
           </div>
           <div className="flex justify-center h-10 mt-4">
-            Gradient {gradient}
+            Gradient
             <input
               type="checkbox"
               className="toggle ml-2 bg-primary"

@@ -34,7 +34,7 @@ import IndexStatus from "@components/Shared/IndexStatus";
 import wantsGradient from "@utils/profileAttributes";
 import { useProfileTierStore } from "@store/profile-tiers";
 import { usePublicationStore } from "@store/publication";
-const ProfilePage = ({ isEditable = true }) => {
+const ProfilePage = () => {
   const setUISettings = useProfileUIStore((state) => state.setUISettings);
 
   const onCompleted = () => {
@@ -147,6 +147,7 @@ const ProfilePage = ({ isEditable = true }) => {
   const {
     query: { username, type },
   } = useRouter();
+  const isEditable = currentProfile?.handle === username;
   const { data, loading, error } = useProfileQuery({
     variables: {
       request: { handle: username },

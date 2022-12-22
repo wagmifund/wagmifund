@@ -2,7 +2,11 @@ import create from "zustand";
 
 export interface ProfileUIState {
   cardView?: "stack" | "card";
-  theme?: Object;
+  theme?: {
+    h: string;
+    s: string;
+    l: string;
+  };
   corners?: string;
   snow?: boolean;
   gradient?: string;
