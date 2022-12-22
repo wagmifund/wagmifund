@@ -20,16 +20,18 @@ import AutoLinkPlugin from "./plugins/AutoLinkPlugin";
 import EmojiPlugin from "./plugins/EmojiPlugin";
 import EmojiPickerPlugin from "./plugins/EmojiPickerPlugin";
 import { useProfileUIStore } from "@store/profile";
+import debounce from "@utils/debounce";
 
 type EditorProps = {
   isEditable: boolean;
-  hidePlaceholder: boolean;
+  hidePlaceholder?: boolean;
   initialState?: string;
   onChange?: (markdown: string) => void;
 };
 const Editor = (props: EditorProps) => {
   const { isEditable } = props;
   const setProfileUIData = useProfileUIStore((state) => state.setProfileUIData);
+  const profileUIData = useProfileUIStore((state) => state.profileUIData);
 
   const initialConfig = {
     namespace: "composer",
@@ -69,12 +71,13 @@ const Editor = (props: EditorProps) => {
       EmojiNode,
     ],
     editorState: () =>
-      $convertFromMarkdownString(props?.initialState || "", TRANSFORMERS),
+      $convertFromMarkdownString(profileUIData?.about || "", TRANSFORMERS),
     onError: (error: any) => {
       console.error(error);
     },
   };
 
+  const debouncedUpdateAbout = debounce(setProfileUIData, 1000);
   return (
     <LexicalComposer initialConfig={initialConfig}>
       <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
@@ -100,7 +103,7 @@ const Editor = (props: EditorProps) => {
         onChange={(editorState) => {
           editorState.read(() => {
             const markdown = $convertToMarkdownString(TRANSFORMERS);
-            props?.onChange?.(markdown);
+            debouncedUpdateAbout({ about: markdown });
           });
         }}
       />

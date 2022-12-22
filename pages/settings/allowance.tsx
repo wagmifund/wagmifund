@@ -16,6 +16,7 @@ import { useAppStore } from "src/store/app";
 
 import Sidebar from "@modules/Settings/Sidebar";
 import Modules from "@modules/Settings/Modules";
+import PageLoader from "@components/PageLoader";
 
 const getAllowancePayload = (currency: string) => {
   const {
@@ -56,7 +57,7 @@ const AllowanceSettings: NextPage = () => {
   }
 
   if (loading) {
-    return <p>page loader</p>;
+    return <PageLoader />;
   }
 
   if (!currentProfile) {

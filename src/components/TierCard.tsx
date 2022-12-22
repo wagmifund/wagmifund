@@ -40,7 +40,7 @@ export const StackedTierCard = ({
 
   return (
     <Card
-      className={clsx(`flex flex-col items-center md:w-2/5 p-2 sm:p-8`, {
+      className={clsx(`flex flex-col items-center lg:w-2/5 p-2 sm:p-8`, {
         " text-white bg-gray-900/50 ring-1": viewOnly,
         "border border-theme mx-3": !viewOnly,
       })}

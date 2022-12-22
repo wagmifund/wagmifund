@@ -6,7 +6,7 @@ export const Card: FC<HTMLProps<HTMLDivElement>> = (props) => {
     <div
       {...props}
       className={clsx(
-        "card border-gray-200 border-opacity-800 border m-2 w-full text-white bg-gray-900 border-theme h-fit",
+        "card border-gray-200 border-opacity-800 border m-2 w-full text-white bg-gray-900 border-theme",
         className
       )}
     >
