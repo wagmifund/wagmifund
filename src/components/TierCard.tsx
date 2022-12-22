@@ -23,7 +23,7 @@ export type tier = {
   title: string;
   currency: string;
   emoji: string;
-  isRecommended: string;
+  recommendedTier: string;
   id: string;
   setClickedOnContinue?: any;
 };
@@ -47,19 +47,21 @@ export const StackedTierCard = ({
     >
       {!viewOnly ? (
         <h2 className="h-auto font-bold text-xl flex-grow-0 sm:text-2xl text-center">
-          {tiers[currentTier]?.title?.length ||
-            `Collect tier to support ${handle} in
+          {tiers[currentTier]?.title?.length
+            ? tiers[currentTier]?.title
+            : `Collect tier to support ${handle} in
         ${tiers[currentTier]?.currency}`}
         </h2>
       ) : (
         <h2 className="h-auto font-bold text-xl flex-grow-0 sm:text-2xl text-center">
-          {tiers[currentTier]?.title?.length ||
-            `Collect tier to support ${handle} in
-        ${
-          SUPPORTED_CURRENCIES?.filter(
-            ({ address }) => address === tiers[currentTier]?.currency
-          )?.[0].symbol
-        }`}
+          {tiers[currentTier]?.title?.length
+            ? tiers[currentTier]?.title
+            : `Collect tier to support ${handle} in
+         ${
+           SUPPORTED_CURRENCIES?.filter(
+             ({ address }) => address === tiers[currentTier]?.currency
+           )?.[0].symbol
+         }`}
         </h2>
       )}
 
