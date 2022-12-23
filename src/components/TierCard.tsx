@@ -38,6 +38,8 @@ export const StackedTierCard = ({
 }: TierProps) => {
   const [currentTier, setCurrentTier] = useState(activeTier);
 
+  console.log("viewOnly", viewOnly);
+
   return (
     <Card
       className={clsx(`flex flex-col items-center lg:w-2/5 p-2 sm:p-8`, {
@@ -80,7 +82,6 @@ export const StackedTierCard = ({
                 onClick={() => {
                   !viewOnly && setCurrentTier(_index);
                 }}
-                disabled={viewOnly}
                 className={clsx(
                   _index === currentTier
                     ? "bg-theme-darker text-white"
@@ -98,6 +99,7 @@ export const StackedTierCard = ({
       <Button
         className="capitalize w-full button-primary border-theme"
         onClick={() => createCollect(tiers[currentTier]?.id)}
+        disabled={viewOnly}
       >
         Gift {tiers[currentTier]?.amount}
       </Button>
