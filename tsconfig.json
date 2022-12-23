@@ -21,7 +21,8 @@
       "@icons/*": ["src/icons/*"],
       "@utils/*": ["src/utils/*"],
       "@store/*": ["src/store/*"],
-      "@abis/*": ["src/abis/*"]
+      "@abis/*": ["src/abis/*"],
+      "@assets/*": ["src/assets/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

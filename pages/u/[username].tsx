@@ -34,6 +34,7 @@ import IndexStatus from "@components/Shared/IndexStatus";
 import wantsGradient from "@utils/profileAttributes";
 import { useProfileTierStore } from "@store/profile-tiers";
 import { usePublicationStore } from "@store/publication";
+import { NotFoundPage } from "@modules/Error/NotFoundPage";
 const ProfilePage = () => {
   const setUISettings = useProfileUIStore((state) => state.setUISettings);
 
@@ -193,7 +194,7 @@ const ProfilePage = () => {
   }
 
   if (!profile) {
-    return <div>404 page</div>;
+    return <NotFoundPage />;
   }
 
   const editProfile = async (profileUIData?: ProfileUIState) => {
