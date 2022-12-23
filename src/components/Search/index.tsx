@@ -74,6 +74,7 @@ const Search: FC<Props> = ({
         <Input
           type="text"
           placeholder={placeholder}
+          search
           value={searchText}
           iconLeft={<SearchIcon className="w-5 h-5 text-theme" />}
           iconRight={

@@ -8,6 +8,7 @@ interface InputProps {
   placeholder: string;
   name: string;
   type?: string;
+  search?: boolean;
   iconLeft?: ReactNode;
   iconRight?: ReactNode;
 }
@@ -16,7 +17,15 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
   props,
   ref
 ) {
-  const { label, placeholder, type, iconLeft, iconRight, ...rest } = props;
+  const {
+    label,
+    placeholder,
+    type,
+    iconLeft,
+    iconRight,
+    search = false,
+    ...rest
+  } = props;
   const iconStyles = [
     "text-zinc-500 [&>*]:peer-focus:text-brand-500 [&>*]:h-5",
   ];
@@ -25,7 +34,12 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
       <label className="label">
         <span className="label-text text-white">{label}</span>
       </label>
-      <div className="flex relative mx-auto text-white bg-[#2A303C] rounded-md items-center">
+      <div
+        className={clsx({
+          "flex relative mx-auto text-white bg-[#2A303C] rounded-md items-center":
+            search,
+        })}
+      >
         <input
           placeholder={placeholder}
           className="input w-full focus:outline-none"
