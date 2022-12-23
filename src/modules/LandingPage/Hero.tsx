@@ -1,15 +1,6 @@
 import Button from "@components/Button";
 import Image from "next/image";
 
-// import { ButtonLink } from '@/components/Button'
-// import { Container } from '@/components/Container'
-// import logoLaravel from '@/images/logos/laravel.svg'
-// import logoMirage from '@/images/logos/mirage.svg'
-// import logoStatamic from '@/images/logos/statamic.svg'
-// import logoStaticKit from '@/images/logos/statickit.svg'
-// import logoTransistor from '@/images/logos/transistor.svg'
-// import logoTuple from '@/images/logos/tuple.svg'
-
 export function Hero() {
   return (
     <div className="my-[120px] md:my-[240px] b-16 mx-auto max-w-7xl px-4 text-center sm:px-6">

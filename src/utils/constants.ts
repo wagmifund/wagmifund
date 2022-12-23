@@ -19,6 +19,7 @@ export const FREE_COLLECT_MODULE = getEnvConfig().freeCollectModuleAddress;
 
 export const IS_MAINNET = API_URL === MAINNET_API_URL;
 export const POLYGON_CHAIN_ID = IS_MAINNET ? 137 : 80001;
+export const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
 
 export const RELAY_ON = "true";
 

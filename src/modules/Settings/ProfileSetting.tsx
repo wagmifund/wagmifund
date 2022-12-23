@@ -17,6 +17,8 @@ import Sidebar from "@modules/Settings/Sidebar";
 import Picture from "@modules/Settings/Picture";
 import Profile from "@modules/Settings/Profile";
 import PageLoader from "@components/PageLoader";
+import { NotFoundPage } from "@modules/Error/NotFoundPage";
+import { ServerError } from "@modules/Error/ServerError";
 
 const ProfileSettings: NextPage = () => {
   const currentProfile = useAppStore((state) => state.currentProfile);
@@ -27,7 +29,7 @@ const ProfileSettings: NextPage = () => {
   });
 
   if (error) {
-    return <p>500 page</p>;
+    return <ServerError />;
   }
 
   if (loading) {
@@ -35,7 +37,7 @@ const ProfileSettings: NextPage = () => {
   }
 
   if (!currentProfile) {
-    return <p>404 page</p>;
+    return <NotFoundPage />;
   }
 
   const profile = data?.profile;

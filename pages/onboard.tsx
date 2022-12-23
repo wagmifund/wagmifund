@@ -1,5 +1,7 @@
 import PageLoader from "@components/PageLoader";
 import TierForm from "@components/TierForm";
+import { NotFoundPage } from "@modules/Error/NotFoundPage";
+import { ServerError } from "@modules/Error/ServerError";
 import { useAppStore } from "@store/app";
 import { useProfileSettingsQuery } from "generated";
 
@@ -12,7 +14,7 @@ const Onboard = () => {
   });
 
   if (error) {
-    return <p>500 page</p>;
+    return <ServerError />;
   }
 
   if (loading) {
@@ -20,7 +22,7 @@ const Onboard = () => {
   }
 
   if (!currentProfile) {
-    return <p>404 page</p>;
+    return <NotFoundPage />;
   }
 
   return (
