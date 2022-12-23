@@ -46,14 +46,14 @@ export const StackedTierCard = ({
       })}
     >
       {!viewOnly ? (
-        <h2 className="h-auto font-bold text-xl flex-grow-0 sm:text-2xl text-center">
+        <h2 className="h-auto font-bold text-xl flex-grow-0 sm:text-2xl text-center w-full overflow-hidden text-ellipsis">
           {tiers[currentTier]?.title?.length
             ? tiers[currentTier]?.title
             : `Collect tier to support ${handle} in
         ${tiers[currentTier]?.currency}`}
         </h2>
       ) : (
-        <h2 className="h-auto font-bold text-xl flex-grow-0 sm:text-2xl text-center">
+        <h2 className="h-auto font-bold text-xl flex-grow-0 sm:text-2xl text-center w-full overflow-hidden text-ellipsis">
           {tiers[currentTier]?.title?.length
             ? tiers[currentTier]?.title
             : `Collect tier to support ${handle} in

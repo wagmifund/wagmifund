@@ -111,12 +111,11 @@ const Tier = ({
               onClick(formData);
             }}
           >
-            <Card className=" bg-gray-900 w-full">
               <div className="form-control w-full max-w-md mx-auto py-8 px-3">
                 <Input
                   type="text"
-                  label="title"
-                  placeholder="Silve sponsor"
+                  label="Title"
+                  placeholder="Silver sponsor"
                   {...form.register(`title`)}
                 />
                 <label className="label">
@@ -210,7 +209,6 @@ const Tier = ({
                   )}
                 </div>
               </div>
-            </Card>
           </Form>
         </div>
         <StackedTierCard
