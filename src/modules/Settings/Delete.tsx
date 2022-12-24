@@ -23,6 +23,7 @@ import { useAppPersistStore, useAppStore } from "src/store/app";
 import { useContractWrite, useDisconnect, useSignTypedData } from "wagmi";
 
 import Sidebar from "@modules/Settings/Sidebar";
+import { NotFoundPage } from "@modules/Error/NotFoundPage";
 
 const DeleteSettings: FC = () => {
   const [showWarningModal, setShowWarningModal] = useState(false);
@@ -86,7 +87,7 @@ const DeleteSettings: FC = () => {
   const isDeleting = typedDataLoading || signLoading || writeLoading;
 
   if (!currentProfile) {
-    return <p>404 page</p>;
+    return <NotFoundPage />;
   }
 
   return (

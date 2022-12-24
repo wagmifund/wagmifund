@@ -206,3 +206,30 @@ div[data-lexical-editor="true"] {
     mix-blend-mode: normal;
   }
 }
+
+.span__underline-short.pink {
+  background-image: url(https://uploads-ssl.webflow.com/5ffdc00ed84c8443afac3d5f/6079c3002af97340777441bb_hwc__underline-short-salmon-1.svg);
+  cursor: pointer;
+}
+
+.span__underline-short.pale {
+  background-image: url(https://uploads-ssl.webflow.com/5ffdc00ed84c8443afac3d5f/607ddce1a8e8773705d8cec6_hwc__underline-short-mint.svg);
+  cursor: pointer;
+}
+
+.span__underline-short.yellow {
+  background-image: url(https://uploads-ssl.webflow.com/5ffdc00ed84c8443afac3d5f/6079c2d42ba9cc7559a2a668_hwc__underline-short-yellow-1.svg);
+  cursor: pointer;
+}
+
+.span__underline-short {
+  display: inline-block;
+  margin-bottom: -0.15em;
+  padding-bottom: 0.15em;
+  background-image: url(https://uploads-ssl.webflow.com/5ffdc00ed84c8443afac3d5f/6078881d8fcc2fe10d93c7c9_hwc__underline-short-2.svg);
+  background-position: 50% 100%;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  font-weight: 600;
+}

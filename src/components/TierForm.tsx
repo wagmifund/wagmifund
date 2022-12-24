@@ -166,7 +166,7 @@ const Tier = ({
                   type="text"
                   label="Emoji"
                   placeholder="💰"
-                  maxLength="1"
+                  // maxLength="2"
                   {...form.register(`emoji`, {
                     required: true,
                   })}
@@ -195,15 +195,12 @@ const Tier = ({
                   </Button>
 
                   {activeTier >= 3 ? (
-                    <Button
-                      variant="primary"
-                      onClick={() => {
-                        router.push(`/u/${currentProfile?.handle}`);
-                      }}
-                      className="mx-auto mt-3 max-w-xs"
+                    <a
+                      href={`/u/${currentProfile?.handle}`}
+                      className="px-6 flex items-center h-[48px] mt-3 text-blue-100 no-underline bg-secondary rounded"
                     >
                       continue to profile
-                    </Button>
+                    </a>
                   ) : (
                     <React.Fragment />
                   )}
@@ -226,6 +223,22 @@ const TierForm = () => {
   const [fields, setFields] = useState([
     {
       amount: 1,
+      title: "",
+      comment: "",
+      currency: "0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889",
+      emoji: "💰",
+      recommendedTier: false,
+    },
+    {
+      amount: 2,
+      title: "",
+      comment: "",
+      currency: "0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889",
+      emoji: "💰",
+      recommendedTier: false,
+    },
+    {
+      amount: 5,
       title: "",
       comment: "",
       currency: "0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889",
@@ -275,10 +288,7 @@ const TierForm = () => {
 
   const onCompleted = () => {
     toast.success("tier created successfully");
-    if (activeTier === 2) {
-      router.push(`/u/${currentProfile?.handle}`);
-    }
-    setActiveTier((currentTier) => currentTier + 1);
+    setActiveTier((activeTier) => activeTier + 1);
     setPublicationContent("");
   };
 

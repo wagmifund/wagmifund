@@ -17,6 +17,8 @@ import { useAppStore } from "src/store/app";
 import Sidebar from "@modules/Settings/Sidebar";
 import Modules from "@modules/Settings/Modules";
 import PageLoader from "@components/PageLoader";
+import { NotFoundPage } from "@modules/Error/NotFoundPage";
+import { ServerError } from "@modules/Error/ServerError";
 
 const getAllowancePayload = (currency: string) => {
   const {
@@ -53,7 +55,7 @@ const AllowanceSettings: NextPage = () => {
     });
 
   if (error) {
-    return <p>500 page</p>;
+    return <ServerError />;
   }
 
   if (loading) {
@@ -61,7 +63,7 @@ const AllowanceSettings: NextPage = () => {
   }
 
   if (!currentProfile) {
-    return <p>404 page</p>;
+    return <NotFoundPage />;
   }
 
   return (
