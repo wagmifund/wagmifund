@@ -4,14 +4,14 @@ import {
   useUserProfilesLazyQuery,
 } from "generated";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useAccount, useSignMessage } from "wagmi";
 
 import WalletSelectorButton from "@components/Shared/Auth/WalletSelectorButton";
 import onError from "@utils/onError";
 import { useAppPersistStore, useAppStore } from "@store/app";
-import { IS_MAINNET } from "@utils/constants";
+import { ERROR_MESSAGE, IS_MAINNET } from "@utils/constants";
 import Modal from "@components/Modal";
 
 const Login = () => {
@@ -24,12 +24,26 @@ const Login = () => {
   const [showClaimHandleModal, setShowClaimHandleModal] = useState(true);
   const { address } = useAccount();
   const { signMessageAsync } = useSignMessage({ onError });
-  const [loadChallenge] = useChallengeLazyQuery({
+  const [loadChallenge, { error: errorChallenge }] = useChallengeLazyQuery({
     fetchPolicy: "no-cache",
   });
-  const [authenticate] = useAuthenticateMutation();
-  const [getProfiles] = useUserProfilesLazyQuery();
+  const [authenticate, { error: errorAuthenticate }] =
+    useAuthenticateMutation();
+  const [getProfiles, { error: errorProfiles }] = useUserProfilesLazyQuery();
 
+  useEffect(() => {
+    if (
+      errorAuthenticate?.message ||
+      errorChallenge?.message ||
+      errorProfiles?.message
+    )
+      toast.error(
+        errorAuthenticate?.message ||
+          errorChallenge?.message ||
+          errorProfiles?.message ||
+          ERROR_MESSAGE
+      );
+  }, [errorAuthenticate, errorChallenge, errorProfiles]);
   const handleSign = async () => {
     try {
       setLoading(true);
@@ -80,6 +94,7 @@ const Login = () => {
       }
     } catch (error) {
       console.error(error);
+      toast.error("Sign in failed");
     } finally {
       setLoading(false);
     }
@@ -88,10 +103,7 @@ const Login = () => {
   return (
     <>
       {hasProfile || !showClaimHandleModal ? (
-        <WalletSelectorButton
-          handleSign={() => handleSign()}
-          signing={loading}
-        />
+        <WalletSelectorButton handleSign={handleSign} signing={loading} />
       ) : (
         <Modal
           title="Claim Handle"

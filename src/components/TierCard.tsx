@@ -6,6 +6,7 @@ import Button from "@components/Button";
 import { useHidePublicationMutation } from "generated";
 import { useRouter } from "next/router";
 import Modal from "@components/Modal";
+import { SUPPORTED_CURRENCIES } from "@utils/constants";
 interface TierProps {
   tiers: Array<tier>;
   handle: string;
@@ -19,9 +20,10 @@ export type tier = {
   isLoading?: boolean;
   amount: number;
   comment: string;
+  title: string;
   currency: string;
   emoji: string;
-  isRecommended: string;
+  recommendedTier: string;
   id: string;
   setClickedOnContinue?: any;
 };
@@ -30,22 +32,41 @@ export const StackedTierCard = ({
   activeTier = 0,
   tiers,
   profile,
+  handle,
   viewOnly = false,
   createCollect,
 }: TierProps) => {
   const [currentTier, setCurrentTier] = useState(activeTier);
 
+  console.log("viewOnly", viewOnly);
+
   return (
     <Card
-      className={clsx(`flex flex-col items-center lg:w-2/5 mx-3 p-2 sm:p-8`, {
+      className={clsx(`flex flex-col items-center lg:w-2/5 p-2 sm:p-8`, {
         " text-white bg-gray-900/50 ring-1": viewOnly,
-        "border border-theme": !viewOnly,
+        "border border-theme mx-3": !viewOnly,
       })}
     >
-      <h2 className="h-auto font-bold text-xl flex-grow-0 sm:text-2xl text-center">
-        Collect tier to support {profile?.handle} in{" "}
-        {tiers[currentTier]?.currency}
-      </h2>
+      {!viewOnly ? (
+        <h2 className="h-auto font-bold text-xl flex-grow-0 sm:text-2xl text-center">
+          {tiers[currentTier]?.title?.length
+            ? tiers[currentTier]?.title
+            : `Collect tier to support ${handle} in
+        ${tiers[currentTier]?.currency}`}
+        </h2>
+      ) : (
+        <h2 className="h-auto font-bold text-xl flex-grow-0 sm:text-2xl text-center">
+          {tiers[currentTier]?.title?.length
+            ? tiers[currentTier]?.title
+            : `Collect tier to support ${handle} in
+         ${
+           SUPPORTED_CURRENCIES?.filter(
+             ({ address }) => address === tiers[currentTier]?.currency
+           )?.[0].symbol
+         }`}
+        </h2>
+      )}
+
       <p className="h-auto min-h-12 py-2 flex-grow-0">
         {tiers[currentTier]?.comment || "sample comment"}
       </p>
@@ -78,6 +99,7 @@ export const StackedTierCard = ({
       <Button
         className="capitalize w-full button-primary border-theme"
         onClick={() => createCollect(tiers[currentTier]?.id)}
+        disabled={viewOnly}
       >
         Gift {tiers[currentTier]?.amount}
       </Button>
@@ -94,59 +116,77 @@ export const TierCards = ({
   tiers: Array<tier> | [];
   isEditMode: boolean;
   createCollect: any;
+  onMetaClick: () => void;
 }) => {
-  const { pathname, push } = useRouter();
   const [hidePost] = useHidePublicationMutation({
-    onCompleted: () => {
-      pathname === "/posts/[id]" ? push("/") : location.reload();
-    },
+    onCompleted: onMetaClick,
   });
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   return (
     <>
       {tiers.map(
-        ({ amount, comment, currency, emoji, id, isRecommended = false }) => (
+        ({
+          amount,
+          comment,
+          currency,
+          emoji,
+          id,
+          recommendedTier = "false",
+        }) => (
           <Card
             className="border p-4 border-primary w-full sm:w-[45%] lg:w-[30%] flex flex-col items-center relative"
             key={amount}
           >
-            <div className="absolute -right-4 -top-4 bg-slate-900 h-10 w-10 border border-theme rounded-3xl flex justify-center items-center">
-              {isEditMode && (
+            {isEditMode && (
+              <div className="absolute -right-4 -top-4 bg-slate-900 h-10 w-10 border border-theme rounded-3xl flex justify-center items-center">
                 <TrashIcon
                   className="h-8 w-8 text-red-600 cursor-pointer"
                   onClick={() => setShowDeleteModal(true)}
                 />
-              )}
-              <Modal
-                title="Delete tier"
-                onClose={() => setShowDeleteModal(false)}
-                show={isEditMode && showDeleteModal}
-              >
-                <div className="flex flex-col m-4">
-                  <div className="mb-1">
-                    are you sure you want to delete this tier?
-                  </div>
+              </div>
+            )}
+            <Modal
+              title="Delete tier"
+              onClose={() => setShowDeleteModal(false)}
+              show={isEditMode && showDeleteModal}
+            >
+              <div className="flex flex-col m-4">
+                <div className="mb-1">
+                  are you sure you want to delete this tier?
+                </div>
+                <div className="flex justify-center mt-2">
                   <Button
-                    onClick={() =>
+                    onClick={() => {
                       hidePost({
                         variables: {
                           request: { publicationId: id },
                         },
-                      })
-                    }
+                      });
+                      setShowDeleteModal(false);
+                    }}
                   >
-                    confirm
+                    Yes
+                  </Button>
+                  <Button
+                    className="ml-2"
+                    onClick={() => {
+                      setShowDeleteModal(false);
+                    }}
+                  >
+                    No
                   </Button>
                 </div>
-              </Modal>
-              {isRecommended && (
+              </div>
+            </Modal>
+            {recommendedTier === "true" && (
+              <div className="absolute -right-4 -top-4 bg-slate-900 h-10 w-10 border border-theme rounded-3xl flex justify-center items-center">
                 <StarIcon
                   className="h-6 w-6 text-theme"
                   onClick={onMetaClick}
                 />
-              )}
-            </div>
+              </div>
+            )}
             <div className="bg-theme border border-theme rounded-3xl text-4xl h-12 w-12 flex justify-center items-center">
               {emoji}
             </div>

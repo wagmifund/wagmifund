@@ -1,4 +1,5 @@
 import type { Profile } from "generated";
+import { createContext } from "react";
 import create from "zustand";
 import { persist } from "zustand/middleware";
 
@@ -31,3 +32,6 @@ export const useAppPersistStore = create(
     setProfileId: (profileId) => set(() => ({ profileId })),
   }))
 );
+
+
+export const ProfileContext = createContext({});

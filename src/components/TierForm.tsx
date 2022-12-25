@@ -2,14 +2,13 @@ import AppearAnimation from "./AnimatedAppear";
 import { Form, useZodForm } from "./Form";
 import Select from "./Select";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { object, number, string, array } from "zod";
+import { object, number, string, array, boolean } from "zod";
 import StepWizard from "./StepWizard";
 import { Card } from "./Card";
 import { RELAY_ON, SIGN_WALLET, SUPPORTED_CURRENCIES } from "@utils/constants";
 import Input from "./Input";
 import Button from "./Button";
 import React from "react";
-import MockTierCard from "./MockTierCard";
 import toast, { LoaderIcon } from "react-hot-toast";
 import { useAppStore } from "@store/app";
 import trimify from "@utils/trimify";
@@ -20,7 +19,6 @@ import { LensHubProxy } from "@abis/LensHubProxy";
 import onError from "@utils/onError";
 import useBroadcast from "@utils/useBroadcast";
 import { usePublicationStore } from "@store/publication";
-import { useCollectModuleStore } from "@store/collect-module";
 import router from "next/router";
 import { useTransactionPersistStore } from "@store/transaction";
 import {
@@ -38,8 +36,11 @@ export type tier = {
   comment: string;
   currency: string;
   emoji: string;
+  title?: string;
+  recommendedTier?: boolean;
   setClickedOnContinue?: any;
 };
+import { StackedTierCard } from "./TierCard";
 
 const Tier = ({
   onClick,
@@ -54,7 +55,14 @@ const Tier = ({
   field: tier;
   setTiersFields: Dispatch<
     SetStateAction<
-      { amount: number; comment: string; currency: string; emoji: string }[]
+      {
+        amount: number;
+        comment: string;
+        title: string;
+        recommendedTier: boolean;
+        currency: string;
+        emoji: string;
+      }[]
     >
   >;
   isLoading?: boolean;
@@ -65,47 +73,52 @@ const Tier = ({
   const form = useZodForm({
     schema: object({
       amount: number().lt(100),
+      title: string(),
       comment: string(),
       currency: string(),
       emoji: string(),
+      recommendedTier: boolean(),
     }),
     defaultValues: field,
   });
-  const [comment, amount, currency, emoji] = form.watch([
-    "comment",
-    "amount",
-    "currency",
-    "emoji",
-  ]);
+  const [comment, amount, title, currency, emoji, recommendedTier] = form.watch(
+    ["comment", "amount", "title", "currency", "emoji", "recommendedTier"]
+  );
 
   const [fields, setFields] = useState(fieldsData);
   const currentProfile = useAppStore((state) => state.currentProfile);
-
+  const [recommendedTierState, setRecommendedTierState] = useState(false);
   useEffect(() => {
     const newTiersData = [
       // Items before the insertion point:
       ...fieldsData.slice(0, activeTier),
       // New item:
-      { comment, amount, currency, emoji },
+      { comment, amount, currency, emoji, recommendedTier, title },
       // Items after the insertion point:
       ...fieldsData.slice(activeTier + 1),
     ];
     setFields(newTiersData);
     setTiersFields(newTiersData);
-  }, [comment, amount, currency, emoji]);
+  }, [comment, amount, currency, emoji, recommendedTier, title]);
 
   return (
-    <div className="flex justify-between w-full">
-      <div className="w-1/2">
-        <Form
-          form={form}
-          onSubmit={(formData) => {
-            onClick(formData);
-          }}
-        >
-          <AppearAnimation className="flex-grow rounded-2xl w-full">
+    <AppearAnimation className="flex-grow rounded-2xl w-full">
+      <div className="flex flex-col md:flex-row justify-between w-full items-center p-10">
+        <div className="w-full md:w-1/2">
+          <Form
+            form={form}
+            onSubmit={(formData) => {
+              onClick(formData);
+            }}
+          >
             <Card className=" bg-gray-900 w-full">
-              <div className="form-control w-full max-w-md mx-auto">
+              <div className="form-control w-full max-w-md mx-auto py-8 px-3">
+                <Input
+                  type="text"
+                  label="title"
+                  placeholder="Silve sponsor"
+                  {...form.register(`title`)}
+                />
                 <label className="label">
                   <span className="label-text text-white">Currency</span>
                 </label>
@@ -132,65 +145,79 @@ const Tier = ({
                     }))[0]
                   }
                 />
-              </div>
-              <Input
-                type="number"
-                label="Amount"
-                placeholder="5 MATIC"
-                {...form.register(`amount`, {
-                  valueAsNumber: true,
-                  required: true,
-                })}
-              />
-              <Input
-                type="text"
-                label="Comment"
-                placeholder="Thanks for supporting with 5 MATIC"
-                {...form.register(`comment`)}
-              />
-              <Input
-                type="text"
-                label="Emoji"
-                placeholder="💰"
-                {...form.register(`emoji`)}
-              />
-              <div className="flex">
-                <Button
-                  disabled={isLoading}
-                  type="submit"
-                  variant="primary"
-                  className="mx-auto mt-3 max-w-xs"
-                >
-                  {isLoading && <LoaderIcon className="mr-2 h-4 w-4" />} add
-                  more new tiers
-                </Button>
-
-                {activeTier >= 2 ? (
-                  <Button
-                    variant="primary"
-                    onClick={() => {
-                      onClick(form.getValues());
+                <Input
+                  type="number"
+                  label="Amount"
+                  placeholder="5"
+                  step="0.1"
+                  {...form.register(`amount`, {
+                    valueAsNumber: true,
+                    required: true,
+                  })}
+                />
+                <Input
+                  type="text"
+                  label="Comment"
+                  placeholder="Thanks for supporting with 5 MATIC"
+                  {...form.register(`comment`, {
+                    required: true,
+                  })}
+                />
+                <Input
+                  type="text"
+                  label="Emoji"
+                  placeholder="💰"
+                  // maxLength="2"
+                  {...form.register(`emoji`, {
+                    required: true,
+                  })}
+                />
+                <div className="flex justify-center h-10 mt-4">
+                  Recommended Tier
+                  <input
+                    type="checkbox"
+                    className="toggle toggle-primary ml-2"
+                    {...form.register(`recommendedTier`)}
+                    checked={recommendedTierState}
+                    onChange={() => {
+                      setRecommendedTierState(!recommendedTierState);
                     }}
+                  />
+                </div>
+                <div className="flex">
+                  <Button
+                    disabled={isLoading}
+                    type="submit"
+                    variant="primary"
                     className="mx-auto mt-3 max-w-xs"
                   >
-                    {isLoading && <LoaderIcon className="mr-2 h-4 w-4" />}
-                    continue to with existing tiers
+                    {isLoading && <LoaderIcon className="mr-2 h-4 w-4" />} add
+                    more new tiers
                   </Button>
-                ) : (
-                  <React.Fragment />
-                )}
+
+                  {activeTier >= 3 ? (
+                    <a
+                      href={`/u/${currentProfile?.handle}`}
+                      className="px-6 flex items-center h-[48px] mt-3 text-blue-100 no-underline bg-secondary rounded"
+                    >
+                      continue to profile
+                    </a>
+                  ) : (
+                    <React.Fragment />
+                  )}
+                </div>
               </div>
             </Card>
-          </AppearAnimation>
-        </Form>
+          </Form>
+        </div>
+        <StackedTierCard
+          tiers={fields}
+          handle={currentProfile?.handle}
+          activeTier={activeTier}
+          viewOnly
+        />
       </div>
-      <MockTierCard
-        currency={currency}
-        activeTier={activeTier}
-        tiers={fields}
-        handle={currentProfile?.handle}
-      />
-    </div>
+    </AppearAnimation>
   );
 };
 
@@ -198,21 +225,43 @@ const TierForm = () => {
   const [fields, setFields] = useState([
     {
       amount: 1,
+      title: "",
       comment: "",
       currency: "0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889",
       emoji: "💰",
+      recommendedTier: false,
     },
     {
       amount: 2,
+      title: "",
       comment: "",
       currency: "0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889",
       emoji: "💰",
+      recommendedTier: false,
     },
     {
       amount: 5,
+      title: "",
       comment: "",
       currency: "0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889",
       emoji: "💰",
+      recommendedTier: false,
+    },
+    {
+      amount: 2,
+      title: "",
+      comment: "",
+      currency: "0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889",
+      emoji: "💰",
+      recommendedTier: false,
+    },
+    {
+      amount: 5,
+      title: "",
+      comment: "",
+      currency: "0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889",
+      emoji: "💰",
+      recommendedTier: false,
     },
   ]);
   const [activeTier, setActiveTier] = useState(0);
@@ -235,23 +284,14 @@ const TierForm = () => {
     (state) => state.setPublicationContent
   );
 
-  // Collect module store
-  const resetCollectSettings = useCollectModuleStore((state) => state.reset);
-  const setPayload = useCollectModuleStore((state) => state.setPayload);
-
   // Transaction persist store
   const txnQueue = useTransactionPersistStore((state) => state.txnQueue);
   const setTxnQueue = useTransactionPersistStore((state) => state.setTxnQueue);
 
-  const [clickedOnContinue, setClickedOnContinue] = React.useState(false);
   const onCompleted = () => {
     toast.success("tier created successfully");
-    setActiveTier((currentTier) => currentTier + 1);
+    setActiveTier((activeTier) => activeTier + 1);
     setPublicationContent("");
-    resetCollectSettings();
-    if (clickedOnContinue && activeTier >= 2) {
-      router.push(`/u/${currentProfile?.handle}`);
-    }
   };
 
   const generateOptimisticPost = ({
@@ -376,12 +416,16 @@ const TierForm = () => {
   const createPost = async ({
     emoji,
     comment,
+    title,
     currency,
+    recommendedTier,
     amount,
   }: {
     emoji: string;
     comment: string;
+    title: string;
     currency: string;
+    recommendedTier: boolean;
     amount: number;
   }) => {
     const baseFeeData = {
@@ -393,15 +437,13 @@ const TierForm = () => {
       referralFee: parseFloat("0"),
       followerOnly: false,
     };
-    setPayload({
-      feeCollectModule: { ...baseFeeData },
-    });
+
     if (!currentProfile) {
       return toast.error(SIGN_WALLET);
     }
 
     if (publicationContent.length === 0) {
-      return toast.error("Post should not be empty!");
+      return toast.error("Tier should not be empty!");
     }
 
     setIsUploading(true);
@@ -434,9 +476,14 @@ const TierForm = () => {
         )?.[0].symbol,
       },
       {
-        traitType: "is_cryptster_tier",
+        traitType: "title",
         displayType: "string",
-        value: activeTier.toString(),
+        value: title,
+      },
+      {
+        traitType: "recommendedTier",
+        displayType: "string",
+        value: recommendedTier.toString(),
       },
     ];
 
@@ -448,7 +495,7 @@ const TierForm = () => {
       external_url: `https://wagmi.fund/u/${currentProfile?.handle}`,
       image: null,
       imageMimeType: null,
-      name: `Post by @${currentProfile?.handle}`,
+      name: `Tier by @${currentProfile?.handle}`,
       tags: [],
       animation_url: null,
       mainContentFocus: PublicationMainFocus?.TextOnly,

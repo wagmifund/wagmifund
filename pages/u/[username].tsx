@@ -2,46 +2,186 @@ import AboutSection from "@components/AboutSection";
 import { Card } from "@components/Card";
 import CoverPicture from "@components/CoverPicture";
 import ProfilePicture from "@components/ProfilePicture";
-import { StackedTierCard, TierCards } from "@components/TierCard";
-import ColorPicker from "@components/ColorPicker";
+import { tier, TierCards } from "@components/TierCard";
 import { clsx } from "clsx";
 import { useEffect, useState } from "react";
 import ProfileEditor from "@components/ProfileEditor";
-import { useProfileQuery } from "generated";
+import {
+  CreatePublicSetProfileMetadataUriRequest,
+  Profile,
+  PublicationTypes,
+  useCreateSetProfileMetadataTypedDataMutation,
+  useCreateSetProfileMetadataViaDispatcherMutation,
+  useProfileFeedQuery,
+  useProfileQuery,
+} from "generated";
 import { useRouter } from "next/router";
 import { useAppStore } from "@store/app";
 import TierCardData from "@components/TierCardData";
-import { useProfileUIStore } from "@store/profile";
-const ProfilePage = ({ isEditable = true }) => {
-  const { cardView, theme, corners } = useProfileUIStore(
+import { ProfileUIState, useProfileUIStore } from "@store/profile";
+import PageLoader from "@components/PageLoader";
+import Button from "@components/Button";
+import uploadToArweave from "@utils/uploadToArweave";
+import toast from "react-hot-toast";
+import { LENS_PERIPHERY, RELAY_ON, SIGN_WALLET } from "@utils/constants";
+import useBroadcast from "@utils/useBroadcast";
+import { useContractWrite, useSignTypedData } from "wagmi";
+import onError from "@utils/onError";
+import { LensPeriphery } from "@abis/LensPeriphery";
+import splitSignature from "@utils/splitSignature";
+import getSignature from "@utils/getSignature";
+import IndexStatus from "@components/Shared/IndexStatus";
+import wantsGradient from "@utils/profileAttributes";
+import { useProfileTierStore } from "@store/profile-tiers";
+import { usePublicationStore } from "@store/publication";
+import { NotFoundPage } from "@modules/Error/NotFoundPage";
+const ProfilePage = () => {
+  const setUISettings = useProfileUIStore((state) => state.setUISettings);
+
+  const onCompleted = () => {
+    toast.success("Profile updated successfully!");
+    setUISettings(false);
+  };
+  const {
+    broadcast,
+    data: broadcastData,
+    loading: broadcastLoading,
+  } = useBroadcast({ onCompleted });
+
+  const { isLoading: signLoading, signTypedDataAsync } = useSignTypedData({
+    onError,
+  });
+
+  const {
+    data: writeData,
+    isLoading: writeLoading,
+    error: Errr,
+    write,
+  } = useContractWrite({
+    address: LENS_PERIPHERY,
+    abi: LensPeriphery,
+    functionName: "setProfileMetadataURIWithSig",
+    mode: "recklesslyUnprepared",
+    onSuccess: onCompleted,
+    onError,
+  });
+
+  const [createSetProfileMetadataTypedData, { loading: typedDataLoading }] =
+    useCreateSetProfileMetadataTypedDataMutation({
+      onCompleted: async ({ createSetProfileMetadataTypedData }) => {
+        try {
+          const { id, typedData } = createSetProfileMetadataTypedData;
+          const { profileId, metadata, deadline } = typedData.value;
+          const signature = await signTypedDataAsync(getSignature(typedData));
+          const { v, r, s } = splitSignature(signature);
+          const sig = { v, r, s, deadline };
+          console.log("currentProfile", currentProfile);
+          const inputStruct = {
+            user: currentProfile?.ownedBy,
+            profileId,
+            metadata,
+            sig,
+          };
+          // setUserSigNonce(userSigNonce + 1);
+          if (!RELAY_ON) {
+            return write?.({ recklesslySetUnpreparedArgs: [inputStruct] });
+          }
+
+          const {
+            data: { broadcast: result },
+          } = await broadcast({ request: { id, signature } });
+
+          if ("reason" in result) {
+            write?.({ recklesslySetUnpreparedArgs: [inputStruct] });
+          }
+        } catch {}
+      },
+      onError,
+    });
+
+  const [
+    createSetProfileMetadataViaDispatcher,
+    { data: dispatcherData, loading: dispatcherLoading },
+  ] = useCreateSetProfileMetadataViaDispatcherMutation({
+    onCompleted,
+    onError,
+  });
+
+  const createViaDispatcher = async (
+    request: CreatePublicSetProfileMetadataUriRequest
+  ) => {
+    const { data } = await createSetProfileMetadataViaDispatcher({
+      variables: { request },
+    });
+    if (
+      data?.createSetProfileMetadataViaDispatcher?.__typename === "RelayError"
+    ) {
+      createSetProfileMetadataTypedData({
+        variables: {
+          // options: { overrideSigNonce: userSigNonce },
+          request,
+        },
+      });
+    }
+  };
+  const { cardView, theme, corners, gradient } = useProfileUIStore(
     (state) => state.profileUIData
   );
+  const profileUIData = useProfileUIStore((state) => state.profileUIData);
+  const showUISettings = useProfileUIStore((state) => state.showUISettings);
+  const setProfileUIData = useProfileUIStore((state) => state.setProfileUIData);
+  const [isUploading, setIsUploading] = useState(false);
 
   useEffect(() => {
+    console.log(corners);
     document
       .querySelector('[data-theme="user"]')
-      ?.style.setProperty("--rounded-box", corners);
+      ?.style.setProperty("--rounded-box", `${corners}rem`);
+    const { h, s, l } = theme;
     document
       .querySelector('[data-theme="user"]')
-      ?.style.setProperty("--p", theme);
-  }, []);
+      ?.style.setProperty("--p", `${h} ${s * 100}% ${l * 100}%`);
+  }, [theme, corners]);
 
   const currentProfile = useAppStore((state) => state.currentProfile);
 
   const {
     query: { username, type },
   } = useRouter();
+  const isEditable = currentProfile?.handle === username;
   const { data, loading, error } = useProfileQuery({
     variables: {
       request: { handle: username },
       who: currentProfile?.id ?? null,
     },
     skip: !username,
+    onCompleted: ({ profile: userUIData }) => {
+      console.log(Object.values(userUIData?.attributes), "acc");
+      Object.values(userUIData?.attributes).forEach(({ key, value }, idx) => {
+        if (key in profileUIData) {
+          setProfileUIData({
+            [key]: key === "theme" ? JSON.parse(value) : value,
+          });
+        }
+      });
+    },
   });
   const profile = data?.profile;
 
   if (error) {
     return <div />;
+  }
+  // store the value
+  if (profile && profile?.attributes?.length) {
+    const test = Object.values(profile?.attributes).reduce(
+      (acc: Array<Object>, attribute, idx) => {
+        if (attribute.key in profileUIData) {
+          acc.push({ key: attribute.key, value: attribute.value });
+        }
+        return acc;
+      },
+      []
+    );
   }
 
   if (
@@ -50,12 +190,90 @@ const ProfilePage = ({ isEditable = true }) => {
       profile?.attributes?.filter(({ key }) => key === "about")?.[0]?.value
         ?.length)
   ) {
-    return <div>page loader</div>;
+    return <PageLoader />;
   }
 
   if (!profile) {
-    return <div>404 page</div>;
+    return <NotFoundPage />;
   }
+
+  const editProfile = async (profileUIData?: ProfileUIState) => {
+    if (!currentProfile) {
+      return toast.error(SIGN_WALLET);
+    }
+
+    setIsUploading(true);
+    const id = await uploadToArweave({
+      name: currentProfile?.name,
+      bio: currentProfile?.bio,
+      cover_picture:
+        "https://1.bp.blogspot.com/-CbWLumSsnHA/X3NCN8Y97SI/AAAAAAAAbdM/6_nItNbt0jcQvkFzogyKeqUGJjMyM57rACLcBGAsYHQ/s16000/v3-290920-rocket-minimalist-desktop-wallpaper-hd.png",
+
+      // cover_picture: cover ? cover : null,
+      attributes: [
+        { traitType: "string", key: "app_name", value: "wagmifund" },
+        {
+          traitType: "string",
+          key: "cardView",
+          value: profileUIData?.cardView,
+        },
+        {
+          traitType: "string",
+          key: "corners",
+          value: profileUIData?.corners,
+        },
+        {
+          traitType: "string",
+          key: "snow",
+          value: profileUIData?.snow?.toString(),
+        },
+        {
+          traitType: "string",
+          key: "gradient",
+          value: profileUIData?.gradient?.toString(),
+        },
+        {
+          traitType: "string",
+          key: "theme",
+          value: JSON.stringify(profileUIData?.theme),
+        },
+      ],
+      version: "1.0.0",
+      metadata_id: Math.random(),
+      createdOn: new Date(),
+      appId: "wagmifund",
+    }).finally(() => {
+      setIsUploading(false);
+    });
+
+    const request = {
+      profileId: currentProfile?.id,
+      metadata: `https://arweave.net/${id}`,
+    };
+    if (currentProfile?.dispatcher?.canUseRelay) {
+      createViaDispatcher(request);
+    } else {
+      createSetProfileMetadataTypedData({
+        variables: {
+          request,
+        },
+      });
+    }
+  };
+
+  const isLoading =
+    isUploading ||
+    typedDataLoading ||
+    dispatcherLoading ||
+    signLoading ||
+    writeLoading ||
+    broadcastLoading;
+  const txHash =
+    writeData?.hash ??
+    broadcastData?.broadcast?.txHash ??
+    (dispatcherData?.createSetProfileMetadataViaDispatcher.__typename ===
+      "RelayerResult" &&
+      dispatcherData?.createSetProfileMetadataViaDispatcher.txHash);
 
   return (
     <>
@@ -65,8 +283,12 @@ const ProfilePage = ({ isEditable = true }) => {
       >
         {isEditable && <ProfileEditor />}
 
-        <span className="bg-gradient-sides left"></span>
-        <span className="bg-gradient-sides right"></span>
+        {gradient === "true" && (
+          <>
+            <span className="bg-gradient-sides left"></span>
+            <span className="bg-gradient-sides right"></span>
+          </>
+        )}
 
         <div className="relative sm:min-h-[300px]">
           <CoverPicture />
@@ -77,6 +299,14 @@ const ProfilePage = ({ isEditable = true }) => {
         <div className="text-center">
           <div className=" font-space-grotesek font-bold text-4xl mt-10">
             {profile.name}
+            {showUISettings && (
+              <Button
+                onClick={() => editProfile(profileUIData)}
+                className="ml-4"
+              >
+                Save
+              </Button>
+            )}
           </div>
           <div className=" font-space-grotesek font-semibold text-lg mt-2">
             {profile.handle}
@@ -87,7 +317,7 @@ const ProfilePage = ({ isEditable = true }) => {
         </div>
         <div className="mt-10 w-full md:w-[80%] flex sm:justify-between mx-auto flex-wrap">
           {cardView === "card" && (
-            <TierCardData isStacked={false} profile={profile} />
+            <ProfilePageTierCard isStacked={false} profile={profile} />
           )}
         </div>
         <div
@@ -99,12 +329,90 @@ const ProfilePage = ({ isEditable = true }) => {
           <Card className={clsx("w-full", cardView === "stack" && " lg:w-3/5")}>
             <AboutSection />
           </Card>
-          {/* <TierCardData profile={profile} /> */}
-
-          {cardView === "stack" && <TierCardData profile={profile} isStacked />}
+          {cardView === "stack" && (
+            <ProfilePageTierCard profile={profile} isStacked />
+          )}
         </div>
       </div>
     </>
+  );
+};
+
+const ProfilePageTierCard = ({
+  isStacked,
+  profile,
+}: {
+  isStacked: boolean;
+  profile: Profile;
+}) => {
+  const mediaFeedFilters = useProfileTierStore(
+    (state) => state.mediaTierFilters
+  );
+
+  const type = "NEW_POST";
+  const publicationTypes =
+    type === "NEW_POST"
+      ? [PublicationTypes.Post, PublicationTypes.Mirror]
+      : type === "MEDIA"
+      ? [PublicationTypes.Post, PublicationTypes.Comment]
+      : [PublicationTypes.Comment];
+  const metadata = null;
+  const setPublications = usePublicationStore((state) => state.setPublications);
+
+  const request = {
+    publicationTypes,
+    metadata,
+    profileId: profile?.id,
+    limit: 10,
+  };
+  const reactionRequest = profile ? { profileId: profile?.id } : null;
+  const profileId = profile?.id ?? null;
+  const {
+    query: { username },
+  } = useRouter();
+  const { data, refetch } = useProfileFeedQuery({
+    variables: { request, reactionRequest, profileId },
+    skip: false,
+    onCompleted: (data) => {
+      if (profile?.handle !== username) {
+        const Tierattributes = data?.publications.items;
+        const filterTierItems = Tierattributes?.filter(
+          (tier) => tier.appId === "wagmifund"
+        );
+        setPublications(filterTierItems);
+      }
+    },
+  });
+
+  const Tierattributes = data?.publications.items;
+  const filterTierItems = Tierattributes?.filter(
+    (tier) => tier.appId === "wagmifund"
+  );
+
+  const tiers = filterTierItems?.map((tier) => ({
+    ...tier.metadata.attributes.reduce(
+      (acc, { traitType, value }) => ({
+        ...acc,
+        [traitType as string]: value,
+        id: tier.id,
+      }),
+      {}
+    ),
+  })) as Array<tier>;
+  return isStacked ? (
+    <TierCardData
+      onMetaClick={refetch}
+      profile={profile}
+      isStacked
+      tiers={tiers}
+    />
+  ) : (
+    <TierCardData
+      onMetaClick={refetch}
+      isStacked={false}
+      profile={profile}
+      tiers={tiers}
+    />
   );
 };
 

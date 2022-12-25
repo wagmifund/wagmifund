@@ -11,9 +11,9 @@ export type tier = {
   comment: string;
   currency: string;
   emoji: string;
+  title?: string;
   setClickedOnContinue?: any;
 };
-
 
 interface TierProps {
   tiers: Array<tier>;
@@ -48,12 +48,13 @@ const MockTierCard = ({
         )}
       >
         <h2 className="h-auto font-bold text-xl flex-grow-0 sm:text-2xl text-center">
-          Collect tier to support {handle} in{" "}
+          {tiers[currentTier]?.title}
+          {/* Collect tier to support {handle} in{" "}
           {
             SUPPORTED_CURRENCIES.filter(
               ({ address }) => tiers[currentTier]?.currency === address
             )?.[0].name
-          }
+          } */}
         </h2>
         <p className="h-auto min-h-12 py-2 flex-grow-0">
           {tiers[currentTier]?.comment}

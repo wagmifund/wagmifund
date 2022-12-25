@@ -11,6 +11,11 @@ import { useAppPersistStore, useAppStore } from "src/store/app";
 import { useDisconnect } from "wagmi";
 
 import { NextLink } from "@components/Navbar/Menuitems";
+import { PublicationTypes, useProfileFeedQuery } from "generated";
+import { usePublicationStore } from "@store/publication";
+import React from "react";
+import { useProfileTierStore } from "@store/profile-tiers";
+import { tier } from "@components/MockTierCard";
 
 const UserMenu: FC = () => {
   const router = useRouter();
@@ -19,6 +24,9 @@ const UserMenu: FC = () => {
   const setCurrentProfile = useAppStore((state) => state.setCurrentProfile);
   const setProfileId = useAppPersistStore((state) => state.setProfileId);
 
+  const {
+    query: { username },
+  } = useRouter();
   const { disconnect } = useDisconnect();
 
   const logout = () => {
@@ -26,7 +34,7 @@ const UserMenu: FC = () => {
     setProfileId(null);
     resetAuthData();
     disconnect?.();
-    router.push("/");
+    !username && router.push("/");
   };
 
   return (

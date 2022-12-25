@@ -9,12 +9,13 @@ import type { FC } from "react";
 import { useAppStore } from "src/store/app";
 import Sidebar from "@modules/Settings/Sidebar";
 import ToggleDispatcher from "@modules/Settings/ToggleDispatcher";
+import { NotFoundPage } from "@modules/Error/NotFoundPage";
 
 const DispatcherSettings: FC = () => {
   const currentProfile = useAppStore((state) => state.currentProfile);
 
   if (!currentProfile) {
-    return <p>404</p>;
+    return <NotFoundPage />;
   }
 
   return (

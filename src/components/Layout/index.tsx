@@ -1,17 +1,21 @@
 import getIsAuthTokensAvailable from "@utils/getIsAuthTokensAvailable";
 import resetAuthData from "@utils/resetAuthData";
-import type { Profile } from "generated";
+import { Profile, PublicationTypes, useProfileFeedQuery } from "generated";
 import { useUserProfilesQuery } from "generated";
 import Head from "next/head";
 import type { FC, ReactNode } from "react";
 import { Toaster } from "react-hot-toast";
 import getToastOptions from "@utils/getToastOptions";
 import { useEffect } from "react";
-import { useAppPersistStore, useAppStore } from "@store/app";
+import { ProfileContext, useAppPersistStore, useAppStore } from "@store/app";
 import { useAccount, useDisconnect, useNetwork } from "wagmi";
 import Navbar from "@components/Navbar";
 import { POLYGON_CHAIN_ID } from "@utils/constants";
 import useIsMounted from "@utils/useIsMounted";
+import PageLoader from "@components/PageLoader";
+import { useRouter } from "next/router";
+import { usePublicationStore } from "@store/publication";
+import { tier } from "@components/MockTierCard";
 
 interface Props {
   children: ReactNode;
@@ -61,6 +65,49 @@ const Layout: FC<Props> = ({ children }) => {
     },
   });
 
+  const type = "NEW_POST";
+  const publicationTypes =
+    type === "NEW_POST"
+      ? [PublicationTypes.Post, PublicationTypes.Mirror]
+      : type === "MEDIA"
+      ? [PublicationTypes.Post, PublicationTypes.Comment]
+      : [PublicationTypes.Comment];
+  const metadata = null;
+  const setPublications = usePublicationStore((state) => state.setPublications);
+  const request = {
+    publicationTypes,
+    metadata,
+    profileId: currentProfile?.id,
+    limit: 10,
+  };
+  const reactionRequest = currentProfile
+    ? { profileId: currentProfile?.id }
+    : null;
+  const {
+    query: { username },
+  } = useRouter();
+  const { refetch } = useProfileFeedQuery({
+    variables: { request, reactionRequest, profileId },
+    skip: !profileId || username === currentProfile?.handle,
+    onCompleted: (data) => {
+      const Tierattributes = data?.publications.items;
+      const filterTierItems = Tierattributes?.filter(
+        (tier) => tier.appId === "wagmifund"
+      );
+      const tiers = filterTierItems?.map((tier) => ({
+        ...tier.metadata.attributes.reduce(
+          (acc, { traitType, value }) => ({
+            ...acc,
+            [traitType as string]: value,
+            id: tier.id,
+          }),
+          {}
+        ),
+      })) as Array<tier>;
+      setPublications(tiers);
+    },
+  });
+
   const validateAuthentication = () => {
     const currentProfileAddress = currentProfile?.ownedBy;
     const isWrongNetworkChain = chain?.id !== POLYGON_CHAIN_ID;
@@ -86,7 +133,12 @@ const Layout: FC<Props> = ({ children }) => {
     validateAuthentication();
   }, [address, chain, disconnect, profileId]);
 
-  if (loading || !mounted) return <p>page loader</p>;
+  if (loading || !mounted)
+    return (
+      <div className="h-screen">
+        <PageLoader />
+      </div>
+    );
   return (
     <>
       <Head>
@@ -94,8 +146,10 @@ const Layout: FC<Props> = ({ children }) => {
       </Head>
       <Toaster position="bottom-right" toastOptions={getToastOptions()} />
       <div className="flex flex-col min-h-screen">
-        <Navbar />
-        {children}
+        <ProfileContext.Provider value={{ refetch }}>
+          <Navbar />
+          {children}
+        </ProfileContext.Provider>
       </div>
     </>
   );
