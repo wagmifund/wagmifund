@@ -74,6 +74,10 @@ const Layout: FC<Props> = ({ children }) => {
       : [PublicationTypes.Comment];
   const metadata = null;
   const setPublications = usePublicationStore((state) => state.setPublications);
+  const setPublicationIsFetched = usePublicationStore(
+    (state) => state.setPublicationIsFetched
+  );
+
   const request = {
     publicationTypes,
     metadata,
@@ -105,6 +109,7 @@ const Layout: FC<Props> = ({ children }) => {
         ),
       })) as Array<tier>;
       setPublications(tiers);
+      setPublicationIsFetched(true);
     },
   });
 

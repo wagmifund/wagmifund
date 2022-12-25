@@ -37,9 +37,6 @@ export const StackedTierCard = ({
   createCollect,
 }: TierProps) => {
   const [currentTier, setCurrentTier] = useState(activeTier);
-
-  console.log("viewOnly", viewOnly);
-
   return (
     <Card
       className={clsx(`flex flex-col items-center lg:w-2/5 p-2 sm:p-8`, {
@@ -68,7 +65,7 @@ export const StackedTierCard = ({
       )}
 
       <p className="h-auto min-h-12 py-2 flex-grow-0">
-        {tiers[currentTier]?.comment || "sample comment"}
+        {tiers[currentTier]?.comment || "Thanks for gifting me"}
       </p>
       <Card className="border border-theme w-full flex items-center bg-theme p-4">
         <div className="flex justify-center items-center">
@@ -97,9 +94,11 @@ export const StackedTierCard = ({
         </div>
       </Card>
       <Button
-        className="capitalize w-full button-primary border-theme"
+        className={clsx(
+          "capitalize w-full button-primary border-theme btn-disabled",
+          viewOnly ? "btn-disabled cursor-not-allowed" : null
+        )}
         onClick={() => createCollect(tiers[currentTier]?.id)}
-        disabled={viewOnly}
       >
         Gift {tiers[currentTier]?.amount}
       </Button>
@@ -128,6 +127,7 @@ export const TierCards = ({
       {tiers.map(
         ({
           amount,
+          title,
           comment,
           currency,
           emoji,
@@ -179,7 +179,7 @@ export const TierCards = ({
                 </div>
               </div>
             </Modal>
-            {recommendedTier === "true" && (
+            {recommendedTier === "true" && !isEditMode && (
               <div className="absolute -right-4 -top-4 bg-slate-900 h-10 w-10 border border-theme rounded-3xl flex justify-center items-center">
                 <StarIcon
                   className="h-6 w-6 text-theme"
@@ -190,7 +190,10 @@ export const TierCards = ({
             <div className="bg-theme border border-theme rounded-3xl text-4xl h-12 w-12 flex justify-center items-center">
               {emoji}
             </div>
-            <div className="my-4">{comment}</div>
+            <h2 className="h-auto font-bold text-xl flex-grow-0 sm:text-2xl text-center w-full overflow-hidden text-ellipsis">
+              {title}
+            </h2>
+            <p className="h-auto py-2 flex-grow-0">{comment}</p>
             <div className="my-4 text-lg font-semibold">
               {amount} {currency}
             </div>
