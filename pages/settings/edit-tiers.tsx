@@ -18,6 +18,7 @@ import TierCardData from "@components/TierCardData";
 import { usePublicationStore } from "@store/publication";
 import { useRouter } from "next/router";
 import { tier } from "@components/MockTierCard";
+import Button from "@components/Button";
 
 const EditTiers: FC = () => {
   const currentProfile = useAppStore((state) => state.currentProfile);
@@ -30,30 +31,8 @@ const EditTiers: FC = () => {
 
   const profile = data?.profile;
 
-  const type = "NEW_POST";
-  const publicationTypes =
-    type === "NEW_POST"
-      ? [PublicationTypes.Post, PublicationTypes.Mirror]
-      : type === "MEDIA"
-      ? [PublicationTypes.Post, PublicationTypes.Comment]
-      : [PublicationTypes.Comment];
-  const metadata = null;
-  const setPublications = usePublicationStore((state) => state.setPublications);
-  const request = {
-    publicationTypes,
-    metadata,
-    profileId: currentProfile?.id,
-    limit: 10,
-  };
-  const reactionRequest = currentProfile
-    ? { profileId: currentProfile?.id }
-    : null;
-  const profileId = currentProfile?.id ?? null;
-  const {
-    query: { username },
-  } = useRouter();
-
   const { refetch } = useContext(ProfileContext);
+  const router = useRouter();
 
   return (
     <GridLayout>
@@ -62,12 +41,17 @@ const EditTiers: FC = () => {
       </GridItemFour>
       <GridItemEight>
         <Card className="space-y-2 linkify p-5">
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2 justify-between">
             <div className="text-lg font-bold">Edit Tiers</div>
+            {publications.length < 5 && (
+              <Button onClick={() => router.push("/onboard")}>
+                Create Tiers
+              </Button>
+            )}
           </div>
           <div className="pb-2">
             {publications.length > 0
-              ? "here you can add or delete any of your tier"
+              ? "Here you can add or delete any of your tier"
               : "Seems like you dont have any tiers? Would you like to create some?"}
           </div>
           <div className="flex flex-wrap gap-1">
