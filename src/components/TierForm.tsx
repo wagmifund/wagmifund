@@ -1,4 +1,5 @@
 import AppearAnimation from "./AnimatedAppear";
+import { Menu } from "@headlessui/react";
 import { Form, useZodForm } from "./Form";
 import Select from "./Select";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
@@ -41,6 +42,7 @@ export type tier = {
   setClickedOnContinue?: any;
 };
 import { StackedTierCard } from "./TierCard";
+import EmojiPicker from "emoji-picker-react";
 
 const Tier = ({
   onClick,
@@ -103,111 +105,128 @@ const Tier = ({
 
   return (
     <AppearAnimation className="flex-grow rounded-2xl w-full">
-      <div className="flex flex-col md:flex-row justify-between w-full items-center p-10">
-        <div className="w-full md:w-1/2">
+      <div className="flex flex-col flex-wrap md:flex-row justify-between w-full items-center p-10 pt-0">
+        <div className="w-full lg:w-1/2">
           <Form
             form={form}
             onSubmit={(formData) => {
               onClick(formData);
             }}
           >
-            <Card className=" bg-gray-900 w-full">
-              <div className="form-control w-full max-w-md mx-auto py-8 px-3">
-                <Input
-                  type="text"
-                  label="title"
-                  placeholder="Silve sponsor"
-                  {...form.register(`title`)}
-                />
-                <label className="label">
-                  <span className="label-text text-white">Currency</span>
-                </label>
-                <Select
-                  className="text-white"
-                  options={SUPPORTED_CURRENCIES.map(
-                    ({ name, address, symbol }) => ({
-                      name,
-                      symbol,
-                      currency: address,
-                      label: name,
-                    })
-                  )}
-                  onChange={(e: { currency: string }) => {
-                    form.setValue("currency", e.currency);
-                  }}
-                  selected
-                  defaultValue={
-                    SUPPORTED_CURRENCIES.map(({ name, symbol, address }) => ({
-                      name,
-                      symbol,
-                      currency: address,
-                      label: name,
-                    }))[0]
-                  }
-                />
-                <Input
-                  type="number"
-                  label="Amount"
-                  placeholder="5"
-                  step="0.1"
-                  {...form.register(`amount`, {
-                    valueAsNumber: true,
-                    required: true,
-                  })}
-                />
-                <Input
-                  type="text"
-                  label="Comment"
-                  placeholder="Thanks for supporting with 5 MATIC"
-                  {...form.register(`comment`, {
-                    required: true,
-                  })}
-                />
-                <Input
-                  type="text"
-                  label="Emoji"
-                  placeholder="💰"
-                  // maxLength="2"
-                  {...form.register(`emoji`, {
-                    required: true,
-                  })}
-                />
-                <div className="flex justify-center h-10 mt-4">
-                  Recommended Tier
-                  <input
-                    type="checkbox"
-                    className="toggle toggle-primary ml-2"
-                    {...form.register(`recommendedTier`)}
-                    checked={recommendedTierState}
-                    onChange={() => {
-                      setRecommendedTierState(!recommendedTierState);
-                    }}
-                  />
-                </div>
-                <div className="flex">
-                  <Button
-                    disabled={isLoading}
-                    type="submit"
-                    variant="primary"
-                    className="mx-auto mt-3 max-w-xs"
-                  >
-                    {isLoading && <LoaderIcon className="mr-2 h-4 w-4" />} add
-                    more new tiers
-                  </Button>
+            <div className="form-control w-full max-w-md mx-auto py-8 px-3">
+              <Input
+                disabled={isLoading}
+                type="text"
+                label="Title"
+                placeholder="Silver sponsor"
+                {...form.register(`title`)}
+              />
+              <Menu>
+                <Menu.Button className="w-fit">
+                  <div className="form-control w-full mx-auto">
+                    <label className="label">
+                      <span className="label-text text-white">Emoji</span>
+                    </label>
+                    <div className="flex relative text-2xl text-white w-12 h-12 justify-center bg-[#2A303C] rounded-md items-center">
+                      {form.getValues("emoji")}
+                    </div>
+                  </div>
+                </Menu.Button>
+                <Menu.Items>
+                  <div className="absolute z-50">
+                    <EmojiPicker
+                      theme="dark"
+                      onEmojiClick={({ emoji }) => {
+                        form.setValue("emoji", emoji);
+                      }}
+                    />
+                  </div>
+                </Menu.Items>
+              </Menu>
 
-                  {activeTier >= 3 ? (
-                    <a
-                      href={`/u/${currentProfile?.handle}`}
-                      className="px-6 flex items-center h-[48px] mt-3 text-blue-100 no-underline bg-secondary rounded"
-                    >
-                      continue to profile
-                    </a>
-                  ) : (
-                    <React.Fragment />
-                  )}
-                </div>
+              <label className="label">
+                <span className="label-text text-white">Currency</span>
+              </label>
+              <Select
+                isDisabled={isLoading}
+                className="text-white"
+                options={SUPPORTED_CURRENCIES.map(
+                  ({ name, address, symbol }) => ({
+                    name,
+                    symbol,
+                    currency: address,
+                    label: name,
+                  })
+                )}
+                onChange={(e: { currency: string }) => {
+                  form.setValue("currency", e.currency);
+                }}
+                selected
+                defaultValue={
+                  SUPPORTED_CURRENCIES.map(({ name, symbol, address }) => ({
+                    name,
+                    symbol,
+                    currency: address,
+                    label: name,
+                  }))[0]
+                }
+              />
+              <Input
+                disabled={isLoading}
+                type="number"
+                label="Amount"
+                placeholder="5"
+                step="0.1"
+                {...form.register(`amount`, {
+                  valueAsNumber: true,
+                  required: true,
+                })}
+              />
+              <Input
+                disabled={isLoading}
+                type="text"
+                label="Comment"
+                placeholder="Thanks for supporting with 5 MATIC"
+                {...form.register(`comment`, {
+                  required: true,
+                })}
+              />
+              <div className="flex justify-center h-10 mt-4">
+                Recommended Tier
+                <input
+                  disabled={isLoading}
+                  type="checkbox"
+                  className="toggle toggle-primary ml-2"
+                  {...form.register(`recommendedTier`)}
+                  checked={recommendedTierState}
+                  onChange={() => {
+                    setRecommendedTierState(!recommendedTierState);
+                  }}
+                />
               </div>
-            </Card>
+              <div className="flex">
+                <Button
+                  disabled={isLoading}
+                  type="submit"
+                  variant="primary"
+                  className="mx-auto mt-3 max-w-xs"
+                >
+                  {isLoading && <LoaderIcon className="mr-2 h-4 w-4" />} add
+                  more new tiers
+                </Button>
+
+                {activeTier >= 3 ? (
+                  <a
+                    href={`/u/${currentProfile?.handle}`}
+                    className="px-6 flex items-center h-[48px] mt-3 text-blue-100 no-underline bg-secondary rounded"
+                  >
+                    continue to profile
+                  </a>
+                ) : (
+                  <React.Fragment />
+                )}
+              </div>
+            </div>
           </Form>
         </div>
         <StackedTierCard
@@ -248,7 +267,7 @@ const TierForm = () => {
       recommendedTier: false,
     },
     {
-      amount: 2,
+      amount: 10,
       title: "",
       comment: "",
       currency: "0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889",
@@ -256,7 +275,7 @@ const TierForm = () => {
       recommendedTier: false,
     },
     {
-      amount: 5,
+      amount: 20,
       title: "",
       comment: "",
       currency: "0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889",
@@ -264,8 +283,18 @@ const TierForm = () => {
       recommendedTier: false,
     },
   ]);
+  const publications = usePublicationStore((state) => state.publications);
   const [activeTier, setActiveTier] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
+
+  useEffect(() => {
+    if (publications.length >= 5) {
+      debugger;
+      router.push(`/u/${currentProfile?.handle}`);
+    } else {
+      setActiveTier(publications.length);
+    }
+  }, [publications.length]);
 
   const { isLoading: signLoading, signTypedDataAsync } = useSignTypedData({
     onError,
@@ -290,7 +319,11 @@ const TierForm = () => {
 
   const onCompleted = () => {
     toast.success("tier created successfully");
-    setActiveTier((activeTier) => activeTier + 1);
+    if (activeTier === 4) {
+      router.push(`/u/${currentProfile?.handle}`);
+    } else {
+      setActiveTier((activeTier) => activeTier + 1);
+    }
     setPublicationContent("");
   };
 

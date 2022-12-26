@@ -10,7 +10,7 @@ export function NotFoundPage() {
         </div>
 
         <h1 className="my-2 text-white font-bold text-2xl">
-          Looks like you've found the doorway to the great nothing
+          Looks like you&apos;ve found the doorway to the great nothing
         </h1>
         <p className="my-7 text-white">
           Sorry about that! Please visit our hompage to get where you need to
