@@ -211,10 +211,10 @@ const Profile: FC<Props> = ({ profile }) => {
       cover_picture:
         "https://1.bp.blogspot.com/-CbWLumSsnHA/X3NCN8Y97SI/AAAAAAAAbdM/6_nItNbt0jcQvkFzogyKeqUGJjMyM57rACLcBGAsYHQ/s16000/v3-290920-rocket-minimalist-desktop-wallpaper-hd.png",
       attributes: [
+        ...currentProfile?.attributes,
         { traitType: "string", key: "location", value: location },
         { traitType: "string", key: "website", value: website },
         { traitType: "string", key: "twitter", value: twitter },
-        ...currentProfile?.attributes,
       ],
       version: "1.0.0",
       metadata_id: uuid(),
