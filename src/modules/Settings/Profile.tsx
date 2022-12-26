@@ -114,7 +114,7 @@ const Profile: FC<Props> = ({ profile }) => {
             sig,
           };
 
-          setUserSigNonce(userSigNonce + 1);
+          // setUserSigNonce(userSigNonce + 1);
           if (!RELAY_ON) {
             return write?.({ recklesslySetUnpreparedArgs: [inputStruct] });
           }
@@ -126,7 +126,9 @@ const Profile: FC<Props> = ({ profile }) => {
           if ("reason" in result) {
             write?.({ recklesslySetUnpreparedArgs: [inputStruct] });
           }
-        } catch {}
+        } catch {
+          setUploading(false);
+        }
       },
       onError,
     });
@@ -202,16 +204,26 @@ const Profile: FC<Props> = ({ profile }) => {
       return toast.error(SIGN_WALLET);
     }
 
+    // let checkkk = [
+    //   { traitType: "string", key: "location", value: location },
+    //   { traitType: "string", key: "website", value: website },
+    //   { traitType: "string", key: "twitter", value: twitter },
+    //   { traitType: "string", key: "app", value: APP_NAME },
+    //   ...currentProfile?.attributes,
+    // ];
+
+    console.log("currentProfile", currentProfile?.attributes);
+
     setIsUploading(true);
     const id = await uploadToArweave({
       name,
       bio,
       cover_picture: cover ? cover : null,
       attributes: [
+        ...currentProfile?.attributes,
         { traitType: "string", key: "location", value: location },
         { traitType: "string", key: "website", value: website },
         { traitType: "string", key: "twitter", value: twitter },
-        { traitType: "string", key: "app", value: APP_NAME },
       ],
       version: "1.0.0",
       metadata_id: uuid(),
@@ -331,7 +343,7 @@ const Profile: FC<Props> = ({ profile }) => {
           >
             Save
           </Button>
-          {txHash ? <IndexStatus txHash={txHash} /> : null}
+          {/* {txHash ? <IndexStatus txHash={txHash} /> : null} */}
         </div>
       </Form>
     </Card>

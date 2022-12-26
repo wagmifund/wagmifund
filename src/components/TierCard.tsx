@@ -133,6 +133,7 @@ export const TierCards = ({
   });
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleteItemId, setDeleteItemId] = useState("");
   return (
     <>
       {tiers.map(
@@ -156,7 +157,10 @@ export const TierCards = ({
               <div className="absolute -right-4 -top-4 bg-slate-900 h-10 w-10 border border-theme rounded-3xl flex justify-center items-center">
                 <TrashIcon
                   className="h-8 w-8 text-red-600 cursor-pointer"
-                  onClick={() => setShowDeleteModal(true)}
+                  onClick={() => {
+                    setDeleteItemId(id);
+                    setShowDeleteModal(true);
+                  }}
                 />
               </div>
             )}
@@ -174,9 +178,10 @@ export const TierCards = ({
                     onClick={() => {
                       hidePost({
                         variables: {
-                          request: { publicationId: id },
+                          request: { publicationId: deleteItemId },
                         },
                       });
+
                       setShowDeleteModal(false);
                     }}
                   >
