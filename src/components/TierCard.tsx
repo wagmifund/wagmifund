@@ -7,6 +7,7 @@ import { useHidePublicationMutation } from "generated";
 import { useRouter } from "next/router";
 import Modal from "@components/Modal";
 import { SUPPORTED_CURRENCIES } from "@utils/constants";
+import { Loader } from "./Loader";
 interface TierProps {
   tiers: Array<tier>;
   handle: string;
@@ -14,6 +15,7 @@ interface TierProps {
   viewOnly?: boolean;
   profile?: any;
   createCollect?: any;
+  loading?: boolean;
 }
 
 export type tier = {
@@ -35,6 +37,7 @@ export const StackedTierCard = ({
   handle,
   viewOnly = false,
   createCollect,
+  loading = false,
 }: TierProps) => {
   const [currentTier, setCurrentTier] = useState(activeTier);
   return (
@@ -95,11 +98,13 @@ export const StackedTierCard = ({
       </Card>
       <Button
         className={clsx(
-          "capitalize w-full button-primary border-theme btn-disabled",
+          "capitalize w-full !text-white button-primary border-theme",
           viewOnly ? "btn-disabled cursor-not-allowed" : null
         )}
+        disabled={loading}
         onClick={() => createCollect(tiers[currentTier]?.id)}
       >
+        <span className="mr-1">{loading && <Loader size="sm" />}</span>
         Gift {tiers[currentTier]?.amount}
       </Button>
     </Card>
@@ -111,11 +116,17 @@ export const TierCards = ({
   isEditMode,
   onMetaClick,
   createCollect,
+  loading,
+  setIndex,
+  index,
 }: {
   tiers: Array<tier> | [];
   isEditMode: boolean;
   createCollect: any;
   onMetaClick: () => void;
+  loading: boolean;
+  index: number | null;
+  setIndex: any;
 }) => {
   const [hidePost] = useHidePublicationMutation({
     onCompleted: onMetaClick,
@@ -125,15 +136,18 @@ export const TierCards = ({
   return (
     <>
       {tiers.map(
-        ({
-          amount,
-          title,
-          comment,
-          currency,
-          emoji,
-          id,
-          recommendedTier = "false",
-        }) => (
+        (
+          {
+            amount,
+            title,
+            comment,
+            currency,
+            emoji,
+            id,
+            recommendedTier = "false",
+          },
+          idx
+        ) => (
           <Card
             className="border p-4 border-primary w-full sm:w-[45%] lg:w-[30%] flex flex-col items-center relative"
             key={amount}
@@ -198,12 +212,16 @@ export const TierCards = ({
               {amount} {currency}
             </div>
             <Button
-              className="capitalize w-full button-primary border-theme p-1 min-h-[2] !h-2"
+              className="capitalize w-full button-primary border-theme p-1 !text-white min-h-[2] !h-2"
               onClick={() => {
                 createCollect(id);
+                setIndex(idx);
               }}
-              disabled={isEditMode}
+              disabled={isEditMode || index === idx}
             >
+              {index === idx ? (
+                <span className="mr-1">{loading && <Loader size="sm" />}</span>
+              ) : null}
               Gift
             </Button>
           </Card>

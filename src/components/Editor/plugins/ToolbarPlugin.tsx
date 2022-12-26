@@ -120,7 +120,9 @@ const ToolbarPlugin: FC = () => {
           if ("reason" in result) {
             write?.({ recklesslySetUnpreparedArgs: [inputStruct] });
           }
-        } catch {}
+        } catch {
+          setIsUploading(false);
+        }
       },
       onError,
     });

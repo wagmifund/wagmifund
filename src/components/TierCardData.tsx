@@ -19,6 +19,7 @@ import { LensHubProxy } from "@abis/LensHubProxy";
 import useBroadcast from "@utils/useBroadcast";
 import { usePublicationStore } from "@store/publication";
 import { useRouter } from "next/router";
+import { useState } from "react";
 const TierCardData = ({
   onMetaClick,
   type = "NEW_POST",
@@ -39,11 +40,16 @@ const TierCardData = ({
   const userSigNonce = useAppStore((state) => state.userSigNonce);
   const setUserSigNonce = useAppStore((state) => state.setUserSigNonce);
 
+  const [loading, setLoading] = useState(false);
+  const [index, setIndex] = useState(null);
+
   const { signTypedDataAsync } = useSignTypedData({
     onError,
   });
   const onCompleted = () => {
     toast.success("Transaction submitted successfully!");
+    setLoading(false);
+    setIndex(null);
   };
 
   const { write } = useContractWrite({
@@ -90,7 +96,9 @@ const TierCardData = ({
         if ("reason" in result) {
           write?.({ recklesslySetUnpreparedArgs: [inputStruct] });
         }
-      } catch {}
+      } catch {
+        setLoading(false);
+      }
     },
     onError,
   });
@@ -99,6 +107,7 @@ const TierCardData = ({
     if (!currentProfile) {
       return toast.error(SIGN_WALLET);
     }
+    setLoading(true);
 
     createCollectTypedData({
       variables: {
@@ -116,6 +125,7 @@ const TierCardData = ({
         tiers={tiers || []}
         handle={profile?.handle}
         createCollect={createCollect}
+        loading={loading}
       />
     );
   }
@@ -126,6 +136,9 @@ const TierCardData = ({
       tiers={tiers || []}
       isEditMode={isEditMode}
       createCollect={createCollect}
+      loading={loading}
+      setIndex={setIndex}
+      index={index}
     />
   );
 };
