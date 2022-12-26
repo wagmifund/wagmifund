@@ -202,7 +202,7 @@ const ToolbarPlugin: FC = () => {
       metadata_id: Math.random(),
       createdOn: new Date(),
       appId: "wagmifund",
-    }).finally(() => {});
+    });
 
     const request = {
       profileId: currentProfile?.id,
