@@ -28,6 +28,7 @@ import onError from "@utils/onError";
 import { LensPeriphery } from "@abis/LensPeriphery";
 import { splitSignature } from "ethers/lib/utils.js";
 import getSignature from "@utils/getSignature";
+import { Loader } from "@components/Loader";
 
 const ToolbarPlugin: FC = () => {
   const [editor] = useLexicalComposerContext();
@@ -65,6 +66,7 @@ const ToolbarPlugin: FC = () => {
   const onCompleted = () => {
     toast.success("Profile updated successfully!");
     setUISettings(false);
+    setIsUploading(false);
   };
   const {
     broadcast,
@@ -198,9 +200,7 @@ const ToolbarPlugin: FC = () => {
       metadata_id: Math.random(),
       createdOn: new Date(),
       appId: "wagmifund",
-    }).finally(() => {
-      setIsUploading(false);
-    });
+    }).finally(() => {});
 
     const request = {
       profileId: currentProfile?.id,
@@ -253,7 +253,9 @@ const ToolbarPlugin: FC = () => {
       <Button
         className="btn-sm !text-white"
         onClick={() => editProfile(profileUIData)}
+        disabled={isUploading}
       >
+        <span className="mr-1">{isUploading && <Loader size="sm" />}</span>
         save
       </Button>
     </div>

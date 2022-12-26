@@ -11,11 +11,12 @@ import { useAppPersistStore, useAppStore } from "src/store/app";
 import { useDisconnect } from "wagmi";
 
 import { NextLink } from "@components/Navbar/Menuitems";
-import { PublicationTypes, useProfileFeedQuery } from "generated";
+import { Profile, PublicationTypes, useProfileFeedQuery } from "generated";
 import { usePublicationStore } from "@store/publication";
 import React from "react";
 import { useProfileTierStore } from "@store/profile-tiers";
 import { tier } from "@components/MockTierCard";
+import getAvatar from "@utils/getAvatar";
 
 const UserMenu: FC = () => {
   const router = useRouter();
@@ -43,7 +44,7 @@ const UserMenu: FC = () => {
         <div>
           <Menu.Button
             as="img"
-            src={"https://files.readme.io/a0959e6-lens-logo1.svg"}
+            src={getAvatar(currentProfile as Profile)}
             alt={currentProfile?.handle}
             className="inline-flex justify-center w-8 h-8 rounded-full border cursor-pointer"
           />

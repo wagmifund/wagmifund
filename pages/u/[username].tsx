@@ -278,7 +278,7 @@ const ProfilePage = () => {
   return (
     <>
       <div
-        className="w-full z-1 bg-[#0d1933] text-white flex flex-grow px-4 sm:px-8 flex-col"
+        className="w-full z-1 bg-[#0d1933] text-white flex flex-grow px-4 sm:px-8 flex-col mb-[80px] md:mb-[150px]"
         data-theme="user"
       >
         {isEditable && <ProfileEditor />}
@@ -293,7 +293,7 @@ const ProfilePage = () => {
         <div className="relative sm:min-h-[300px]">
           <CoverPicture />
           <div className="absolute -bottom-8 left-1/2 -translate-x-[71px] z-10">
-            <ProfilePicture />
+            <ProfilePicture profile={profile} />
           </div>
         </div>
         <div className="text-center">
