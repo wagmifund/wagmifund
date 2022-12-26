@@ -152,7 +152,7 @@ const Profile: FC<Props> = ({ profile }) => {
     ) {
       createSetProfileMetadataTypedData({
         variables: {
-          options: { overrideSigNonce: userSigNonce },
+          // options: { overrideSigNonce: userSigNonce },
           request,
         },
       });
@@ -208,12 +208,13 @@ const Profile: FC<Props> = ({ profile }) => {
     const id = await uploadToArweave({
       name,
       bio,
-      cover_picture: cover ? cover : null,
+      cover_picture:
+        "https://1.bp.blogspot.com/-CbWLumSsnHA/X3NCN8Y97SI/AAAAAAAAbdM/6_nItNbt0jcQvkFzogyKeqUGJjMyM57rACLcBGAsYHQ/s16000/v3-290920-rocket-minimalist-desktop-wallpaper-hd.png",
       attributes: [
-        ...currentProfile?.attributes,
         { traitType: "string", key: "location", value: location },
         { traitType: "string", key: "website", value: website },
         { traitType: "string", key: "twitter", value: twitter },
+        ...currentProfile?.attributes,
       ],
       version: "1.0.0",
       metadata_id: uuid(),
@@ -231,7 +232,6 @@ const Profile: FC<Props> = ({ profile }) => {
     } else {
       createSetProfileMetadataTypedData({
         variables: {
-          options: { overrideSigNonce: userSigNonce },
           request,
         },
       });
