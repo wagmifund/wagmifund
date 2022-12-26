@@ -35,6 +35,8 @@ import wantsGradient from "@utils/profileAttributes";
 import { useProfileTierStore } from "@store/profile-tiers";
 import { usePublicationStore } from "@store/publication";
 import { NotFoundPage } from "@modules/Error/NotFoundPage";
+import { v4 as uuid } from "uuid";
+
 const ProfilePage = () => {
   const setUISettings = useProfileUIStore((state) => state.setUISettings);
 
@@ -211,6 +213,7 @@ const ProfilePage = () => {
 
       // cover_picture: cover ? cover : null,
       attributes: [
+        ...currentProfile?.attributes,
         { traitType: "string", key: "app_name", value: "wagmifund" },
         {
           traitType: "string",
@@ -239,7 +242,7 @@ const ProfilePage = () => {
         },
       ],
       version: "1.0.0",
-      metadata_id: Math.random(),
+      metadata_id: uuid(),
       createdOn: new Date(),
       appId: "wagmifund",
     }).finally(() => {

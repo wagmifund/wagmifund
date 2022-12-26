@@ -49,7 +49,7 @@ const Layout: FC<Props> = ({ children }) => {
           a.isDefault === b.isDefault ? 0 : a.isDefault ? -1 : 1
         );
 
-      if (!profiles.length) {
+      if (!profiles?.length) {
         return resetAuthState();
       }
 

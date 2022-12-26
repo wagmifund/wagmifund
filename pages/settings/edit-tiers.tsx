@@ -8,12 +8,7 @@ import { APP_NAME } from "@utils/constants";
 import { FC, useContext } from "react";
 import { ProfileContext, useAppStore } from "src/store/app";
 import Sidebar from "@modules/Settings/Sidebar";
-import {
-  PublicationSortCriteria,
-  PublicationTypes,
-  useProfileFeedQuery,
-  useProfileSettingsQuery,
-} from "generated";
+import { useProfileSettingsQuery } from "generated";
 import TierCardData from "@components/TierCardData";
 import { usePublicationStore } from "@store/publication";
 import { useRouter } from "next/router";
@@ -43,14 +38,14 @@ const EditTiers: FC = () => {
         <Card className="space-y-2 linkify p-5">
           <div className="flex items-center space-x-2 justify-between">
             <div className="text-lg font-bold">Edit Tiers</div>
-            {publications.length < 5 && (
+            {publications?.length < 5 && (
               <Button onClick={() => router.push("/onboard")}>
                 Create Tiers
               </Button>
             )}
           </div>
           <div className="pb-2">
-            {publications.length > 0
+            {publications?.length > 0
               ? "Here you can add or delete any of your tier"
               : "Seems like you dont have any tiers? Would you like to create some?"}
           </div>
