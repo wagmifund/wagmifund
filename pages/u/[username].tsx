@@ -366,7 +366,11 @@ const ProfilePageTierCard = ({
   const {
     query: { username },
   } = useRouter();
-  const { data, refetch } = useProfileFeedQuery({
+  const {
+    data,
+    refetch,
+    loading: loadingTiers,
+  } = useProfileFeedQuery({
     variables: { request, reactionRequest, profileId },
     skip: false,
     onCompleted: (data) => {
@@ -397,6 +401,7 @@ const ProfilePageTierCard = ({
   })) as Array<tier>;
   return layout === "stack" ? (
     <TierCardData
+      loadingTiers={loadingTiers}
       onMetaClick={refetch}
       profile={profile}
       layout="stack"
@@ -404,6 +409,7 @@ const ProfilePageTierCard = ({
     />
   ) : (
     <TierCardData
+      loadingTiers={loadingTiers}
       onMetaClick={refetch}
       layout="collection"
       profile={profile}
