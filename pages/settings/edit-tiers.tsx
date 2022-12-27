@@ -54,7 +54,7 @@ const EditTiers: FC = () => {
               onMetaClick={refetch}
               profile={profile}
               isEditMode
-              isStacked={false}
+              layout="default"
               tiers={publications}
             />
           </div>

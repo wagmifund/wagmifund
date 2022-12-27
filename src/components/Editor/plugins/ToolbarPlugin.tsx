@@ -179,11 +179,6 @@ const ToolbarPlugin: FC = () => {
         },
         {
           traitType: "string",
-          key: "snow",
-          value: profileUIData?.snow?.toString(),
-        },
-        {
-          traitType: "string",
           key: "gradient",
           value: profileUIData?.gradient?.toString(),
         },

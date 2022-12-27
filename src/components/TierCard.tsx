@@ -1,13 +1,19 @@
 import clsx from "clsx";
 import { useState } from "react";
 import { Card } from "./Card";
-import { StarIcon, TrashIcon, XIcon } from "@heroicons/react/outline";
+import {
+  ChevronDownIcon,
+  StarIcon,
+  TrashIcon,
+  XIcon,
+} from "@heroicons/react/outline";
 import Button from "@components/Button";
 import { useHidePublicationMutation } from "generated";
 import { useRouter } from "next/router";
 import Modal from "@components/Modal";
 import { SUPPORTED_CURRENCIES } from "@utils/constants";
 import { Loader } from "./Loader";
+import AppearAnimation from "./AnimatedAppear";
 interface TierProps {
   tiers: Array<tier>;
   handle: string;
@@ -90,7 +96,7 @@ export const StackedTierCard = ({
                 )}
                 key={"tier" + _index}
               >
-                <span>{amount}</span>
+                <span>{amount || 0}</span>
               </button>
             ))}
           </div>
@@ -231,6 +237,56 @@ export const TierCards = ({
             </Button>
           </Card>
         )
+      )}
+    </>
+  );
+};
+
+export const TierCardsCollection = ({
+  tiers,
+  handle,
+  isEditMode,
+  onMetaClick,
+  createCollect,
+  loading,
+  setIndex,
+  index,
+}: {
+  tiers: Array<tier> | [];
+  handle: string;
+  isEditMode: boolean;
+  createCollect: any;
+  onMetaClick: () => void;
+  loading: boolean;
+  index: number | null;
+  setIndex: any;
+}) => {
+  const [showMore, setShowMore] = useState(false);
+
+  return (
+    <>
+      <div className="mt-10 w-full md:w-[80%] flex sm:justify-between mx-auto flex-wrap">
+        <TierCards
+          onMetaClick={onMetaClick}
+          tiers={!showMore ? tiers.slice(0, 3) : tiers}
+          isEditMode={isEditMode}
+          createCollect={createCollect}
+          loading={loading}
+          setIndex={setIndex}
+          index={index}
+        />
+      </div>
+      {!showMore && tiers.length > 3 && (
+        <div className="flex justify-center flex-grow">
+          <Button
+            className="flex mt-2"
+            onClick={() => {
+              setShowMore(true);
+            }}
+          >
+            <p> Show More</p> <ChevronDownIcon className="ml-2 h-6 w-6" />
+          </Button>
+        </div>
       )}
     </>
   );

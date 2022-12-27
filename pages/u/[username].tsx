@@ -227,11 +227,6 @@ const ProfilePage = () => {
         },
         {
           traitType: "string",
-          key: "snow",
-          value: profileUIData?.snow?.toString(),
-        },
-        {
-          traitType: "string",
           key: "gradient",
           value: profileUIData?.gradient?.toString(),
         },
@@ -318,11 +313,9 @@ const ProfilePage = () => {
             {profile.bio}
           </div>
         </div>
-        <div className="mt-10 w-full md:w-[80%] flex sm:justify-between mx-auto flex-wrap">
-          {cardView === "card" && (
-            <ProfilePageTierCard isStacked={false} profile={profile} />
-          )}
-        </div>
+        {cardView === "card" && (
+          <ProfilePageTierCard layout="default" profile={profile} />
+        )}
         <div
           className={clsx(
             "flex lg:flex-nowrap flex-wrap-reverse w-full md:w-[80%] mt-5 mx-auto",
@@ -333,7 +326,7 @@ const ProfilePage = () => {
             <AboutSection />
           </Card>
           {cardView === "stack" && (
-            <ProfilePageTierCard profile={profile} isStacked />
+            <ProfilePageTierCard profile={profile} layout="stack" />
           )}
         </div>
       </div>
@@ -342,10 +335,10 @@ const ProfilePage = () => {
 };
 
 const ProfilePageTierCard = ({
-  isStacked,
+  layout,
   profile,
 }: {
-  isStacked: boolean;
+  layout: "stack" | "collection" | "default";
   profile: Profile;
 }) => {
   const mediaFeedFilters = useProfileTierStore(
@@ -373,7 +366,11 @@ const ProfilePageTierCard = ({
   const {
     query: { username },
   } = useRouter();
-  const { data, refetch } = useProfileFeedQuery({
+  const {
+    data,
+    refetch,
+    loading: loadingTiers,
+  } = useProfileFeedQuery({
     variables: { request, reactionRequest, profileId },
     skip: false,
     onCompleted: (data) => {
@@ -402,17 +399,19 @@ const ProfilePageTierCard = ({
       {}
     ),
   })) as Array<tier>;
-  return isStacked ? (
+  return layout === "stack" ? (
     <TierCardData
+      loadingTiers={loadingTiers}
       onMetaClick={refetch}
       profile={profile}
-      isStacked
+      layout="stack"
       tiers={tiers}
     />
   ) : (
     <TierCardData
+      loadingTiers={loadingTiers}
       onMetaClick={refetch}
-      isStacked={false}
+      layout="collection"
       profile={profile}
       tiers={tiers}
     />
