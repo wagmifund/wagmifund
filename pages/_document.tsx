@@ -16,7 +16,6 @@ export default function Document() {
         <Main />
         <NextScript />
       </body>
-      <script src="https://app.embed.im/snow.js" defer></script>
     </Html>
   );
 }

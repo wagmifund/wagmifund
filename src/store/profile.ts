@@ -8,7 +8,6 @@ export interface ProfileUIState {
     l: string;
   };
   corners?: string;
-  snow?: boolean;
   gradient?: string;
   about?: string;
 }
@@ -30,7 +29,6 @@ export const useProfileUIStore = create<ProfileState>((set, get) => ({
     },
     about: "",
     corners: "0.9",
-    snow: true,
     gradient: "true",
   },
   showUISettings: false,
