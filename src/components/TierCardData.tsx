@@ -27,6 +27,8 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { Card } from "./Card";
 import Button from "./Button";
+import clsx from "clsx";
+import { useProfileUIStore } from "@store/profile";
 const TierCardData = ({
   onMetaClick,
   type = "NEW_POST",
@@ -51,6 +53,7 @@ const TierCardData = ({
 
   const [loading, setLoading] = useState(false);
   const [index, setIndex] = useState(null);
+  const about = useProfileUIStore((state) => state.profileUIData.about);
 
   const { signTypedDataAsync } = useSignTypedData({
     onError,
@@ -128,12 +131,16 @@ const TierCardData = ({
       },
     });
   };
+  const {
+    query: { username },
+  } = useRouter();
   if (loadingTiers) {
     return layout === "stack" ? (
       <div
-        className="m-2 w-full lg:w-2/5 tier-card
-      card shadow-lg shadow-slate-900/5  flex flex-col justify-center items-center
-       border border-theme"
+        className={clsx(
+          "m-2 w-full tier-card card shadow-lg shadow-slate-900/5  flex flex-col justify-center items-center border border-theme",
+          about || username === currentProfile?.handle ? "lg:w-2/5" : "w-full"
+        )}
       >
         <div className="card-body sm:p-8 w-full">
           <h2 className="h-auto font-bold text-xl flex-grow-0 sm:text-2xl text-center bg-gray-800 animate-pulse">
@@ -149,14 +156,14 @@ const TierCardData = ({
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
-                    stroke-width="2"
+                    strokeWidth="2"
                     stroke="currentColor"
                     aria-hidden="true"
                     className="w-7 h-7 outline-1 dark:text-white text-theme"
                   >
                     <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                       d="M6 18L18 6M6 6l12 12"
                     ></path>
                   </svg>

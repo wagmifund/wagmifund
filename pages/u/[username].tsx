@@ -186,12 +186,7 @@ const ProfilePage = () => {
     );
   }
 
-  if (
-    loading ||
-    (!data &&
-      profile?.attributes?.filter(({ key }) => key === "about")?.[0]?.value
-        ?.length)
-  ) {
+  if (loading || !profile) {
     return <PageLoader />;
   }
 
@@ -322,9 +317,25 @@ const ProfilePage = () => {
             cardView === "card"
           )}
         >
-          <Card className={clsx("w-full", cardView === "stack" && " lg:w-3/5")}>
-            <AboutSection />
-          </Card>
+          {profileUIData?.about ? (
+            <Card
+              className={clsx(
+                "w-full min-h-[390px] h-full",
+                cardView === "stack" && " lg:w-3/5"
+              )}
+            >
+              <AboutSection />
+            </Card>
+          ) : username === currentProfile?.handle ? (
+            <Card
+              className={clsx(
+                "w-full min-h-[390px] h-full",
+                cardView === "stack" && " lg:w-3/5"
+              )}
+            >
+              <AboutSection />
+            </Card>
+          ) : null}
           {cardView === "stack" && (
             <ProfilePageTierCard profile={profile} layout="stack" />
           )}
@@ -410,7 +421,7 @@ const ProfilePageTierCard = ({
   ) : (
     <TierCardData
       loadingTiers={loadingTiers}
-      onMetaClick={refetch}
+      onMetaClick={() => {}}
       layout="collection"
       profile={profile}
       tiers={tiers}

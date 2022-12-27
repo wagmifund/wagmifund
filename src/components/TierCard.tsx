@@ -14,6 +14,8 @@ import Modal from "@components/Modal";
 import { SUPPORTED_CURRENCIES } from "@utils/constants";
 import { Loader } from "./Loader";
 import AppearAnimation from "./AnimatedAppear";
+import { useProfileUIStore } from "@store/profile";
+import { useAppStore } from "@store/app";
 interface TierProps {
   tiers: Array<tier>;
   handle: string;
@@ -46,12 +48,52 @@ export const StackedTierCard = ({
   loading = false,
 }: TierProps) => {
   const [currentTier, setCurrentTier] = useState(activeTier);
+
+  const about = useProfileUIStore((state) => state.profileUIData.about);
+  const currentProfile = useAppStore((state) => state.currentProfile);
+  const {
+    query: { username },
+    push,
+  } = useRouter();
+
+  if (tiers.length === 0) {
+    return (
+      <Card
+        className={clsx(
+          `flex flex-col items-center p-2 sm:p-8 text-center h-fit`,
+          about || username === currentProfile?.handle ? "lg:w-2/5" : "w-full",
+          {
+            " text-white bg-gray-900/50 ring-1": viewOnly,
+            "border border-theme": !viewOnly,
+          }
+        )}
+      >
+        oops seems like there are no tiers created yet
+        {username === currentProfile?.handle && (
+          <Button
+            className="mt-4"
+            onClick={() => {
+              push("/onboard");
+            }}
+          >
+            Create Tiers
+          </Button>
+        )}
+      </Card>
+    );
+  }
   return (
     <Card
-      className={clsx(`flex flex-col items-center lg:w-2/5 p-2 sm:p-8`, {
-        " text-white bg-gray-900/50 ring-1": viewOnly,
-        "border border-theme mx-3": !viewOnly,
-      })}
+      className={clsx(
+        `flex flex-col items-center p-2 sm:p-8 h-fit`,
+        about || username === currentProfile?.handle || viewOnly
+          ? "lg:w-2/5"
+          : "w-full",
+        {
+          " text-white bg-gray-900/50 ring-1": viewOnly,
+          "border border-theme": !viewOnly,
+        }
+      )}
     >
       {!viewOnly ? (
         <h2 className="h-auto font-bold text-xl flex-grow-0 sm:text-2xl text-center w-full overflow-hidden text-ellipsis">
