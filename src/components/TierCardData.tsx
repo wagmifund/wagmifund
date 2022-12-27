@@ -1,5 +1,10 @@
 import { useAppStore } from "@store/app";
-import { StackedTierCard, tier, TierCards } from "./TierCard";
+import {
+  StackedTierCard,
+  tier,
+  TierCards,
+  TierCardsCollection,
+} from "./TierCard";
 import {
   Profile,
   PublicationMainFocus,
@@ -24,16 +29,16 @@ const TierCardData = ({
   onMetaClick,
   type = "NEW_POST",
   tiers,
-  isStacked = true,
+  layout = true,
   profile,
   isEditMode = false,
 }: {
   onMetaClick: () => void;
-  type: string;
+  type?: string;
   tiers: Array<tier>;
-  isStacked: boolean;
+  layout: "stack" | "collection" | "default";
   profile: Profile;
-  isEditMode: boolean;
+  isEditMode?: boolean;
 }) => {
   const currentProfile = useAppStore((state) => state.currentProfile);
   const { address } = useAccount();
@@ -97,6 +102,7 @@ const TierCardData = ({
           write?.({ recklesslySetUnpreparedArgs: [inputStruct] });
         }
       } catch {
+        setIndex(null);
         setLoading(false);
       }
     },
@@ -119,13 +125,25 @@ const TierCardData = ({
     });
   };
 
-  if (isStacked) {
+  if (layout === "stack") {
     return (
       <StackedTierCard
         tiers={tiers || []}
         handle={profile?.handle}
         createCollect={createCollect}
         loading={loading}
+      />
+    );
+  } else if (layout === "collection") {
+    return (
+      <TierCardsCollection
+        onMetaClick={onMetaClick}
+        tiers={tiers || []}
+        isEditMode={isEditMode}
+        createCollect={createCollect}
+        loading={loading}
+        setIndex={setIndex}
+        index={index}
       />
     );
   }
