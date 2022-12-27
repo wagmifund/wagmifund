@@ -14,15 +14,13 @@ export default function Home() {
   const { width, height } = useWindow();
   return (
     <>
-      <main>
-        <Hero />
+      <Hero />
 
-        <div className=" max-w-[640px] m-auto p-10">
-          <Search onProfileSelected={onProfileSelected} />
-        </div>
+      {/* <div className=" max-w-[540px] relative m-auto pb-[50px] sm:p-10 sm:pb-[100px]">
+        <Search onProfileSelected={onProfileSelected} />
+      </div> */}
 
-        <Features />
-      </main>
+      {/* <Features /> */}
       <Footer />
     </>
   );

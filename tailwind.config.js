@@ -29,15 +29,15 @@ module.exports = {
     themes: [
       {
         user: {
-          "primary": "#06b6d4",
-          "secondary": "#fb7185",
-          "accent": "#d65ecc",
-          "neutral": "#374151",
+          primary: "#06b6d4",
+          secondary: "#fb7185",
+          accent: "#d65ecc",
+          neutral: "#374151",
           "base-100": "#f3f4f6",
-          "info": "#67e8f9",
-          "success": "#4ade80",
-          "warning": "#fde047",
-          "error": "#ef4444",
+          info: "#67e8f9",
+          success: "#4ade80",
+          warning: "#fde047",
+          error: "#ef4444",
         },
       },
       "light",
@@ -81,5 +81,5 @@ module.exports = {
       darkTheme: "light",
     },
   },
-  plugins: [require("daisyui")],
+  plugins: [require("daisyui"), require("@tailwindcss/line-clamp")],
 };

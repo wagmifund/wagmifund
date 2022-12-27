@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export function Hero() {
   return (
-    <div className="my-[120px] md:my-[240px] b-16 mx-auto max-w-7xl px-4 text-center sm:px-6">
+    <div className="my-[120px]  max-w-7xl px-4 text-center sm:px-6">
       <h1 className="mx-auto max-w-4xl font-display text-5xl font-medium tracking-tight text-white sm:text-7xl">
         Funding{" "}
         <span className="relative whitespace-nowrap text-blue-600">

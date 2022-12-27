@@ -36,7 +36,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
       </label>
       <div
         className={clsx({
-          "flex relative mx-auto text-white bg-[#2A303C] rounded-md items-center":
+          "flex relative mx-auto w-full text-white bg-[#2A303C] rounded-md items-center":
             search,
         })}
       >

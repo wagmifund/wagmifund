@@ -99,7 +99,7 @@ const Search: FC<Props> = ({
           )}
           ref={dropdownRef}
         >
-          <Card className="overflow-y-auto py-2 max-h-[80vh]">
+          <Card className="overflow-y-auto py-2 max-h-[80vh] z-[2]">
             {searchUsersLoading ? (
               <div className="py-2 px-4 space-y-2 text-sm font-bold text-center">
                 <Spinner size="sm" className="mx-auto" />
