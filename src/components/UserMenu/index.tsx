@@ -97,7 +97,7 @@ const UserMenu: FC = () => {
                       "group flex w-full items-center rounded-md px-2 py-2 text-sm"
                     )}
                   >
-                    Disconnect
+                    Logout
                   </button>
                 )}
               </Menu.Item>

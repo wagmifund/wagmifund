@@ -37,7 +37,7 @@ const connectors = connectorsForWallets([
       injectedWallet({ chains, shimDisconnect: true }),
       metaMaskWallet({ chains, shimDisconnect: true }),
       rainbowWallet({ chains }),
-      coinbaseWallet({ appName: APP_NAME, chains }),
+      // coinbaseWallet({ appName: APP_NAME, chains }),
       walletConnectWallet({ chains }),
     ],
   },
