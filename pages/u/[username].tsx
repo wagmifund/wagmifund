@@ -35,6 +35,8 @@ import wantsGradient from "@utils/profileAttributes";
 import { useProfileTierStore } from "@store/profile-tiers";
 import { usePublicationStore } from "@store/publication";
 import { NotFoundPage } from "@modules/Error/NotFoundPage";
+import { v4 as uuid } from "uuid";
+
 const ProfilePage = () => {
   const setUISettings = useProfileUIStore((state) => state.setUISettings);
 
@@ -211,6 +213,7 @@ const ProfilePage = () => {
 
       // cover_picture: cover ? cover : null,
       attributes: [
+        ...currentProfile?.attributes,
         { traitType: "string", key: "app_name", value: "wagmifund" },
         {
           traitType: "string",
@@ -239,7 +242,7 @@ const ProfilePage = () => {
         },
       ],
       version: "1.0.0",
-      metadata_id: Math.random(),
+      metadata_id: uuid(),
       createdOn: new Date(),
       appId: "wagmifund",
     }).finally(() => {
@@ -278,7 +281,7 @@ const ProfilePage = () => {
   return (
     <>
       <div
-        className="w-full z-1 bg-[#0d1933] text-white flex flex-grow px-4 sm:px-8 flex-col"
+        className="w-full z-1 bg-[#0d1933] text-white flex flex-grow px-4 sm:px-8 flex-col mb-[80px] md:mb-[150px]"
         data-theme="user"
       >
         {isEditable && <ProfileEditor />}
@@ -293,7 +296,7 @@ const ProfilePage = () => {
         <div className="relative sm:min-h-[300px]">
           <CoverPicture />
           <div className="absolute -bottom-8 left-1/2 -translate-x-[71px] z-10">
-            <ProfilePicture />
+            <ProfilePicture profile={profile} />
           </div>
         </div>
         <div className="text-center">

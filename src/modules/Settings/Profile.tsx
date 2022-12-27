@@ -114,7 +114,7 @@ const Profile: FC<Props> = ({ profile }) => {
             sig,
           };
 
-          setUserSigNonce(userSigNonce + 1);
+          // setUserSigNonce(userSigNonce + 1);
           if (!RELAY_ON) {
             return write?.({ recklesslySetUnpreparedArgs: [inputStruct] });
           }
@@ -126,7 +126,9 @@ const Profile: FC<Props> = ({ profile }) => {
           if ("reason" in result) {
             write?.({ recklesslySetUnpreparedArgs: [inputStruct] });
           }
-        } catch {}
+        } catch {
+          setUploading(false);
+        }
       },
       onError,
     });
@@ -150,7 +152,7 @@ const Profile: FC<Props> = ({ profile }) => {
     ) {
       createSetProfileMetadataTypedData({
         variables: {
-          options: { overrideSigNonce: userSigNonce },
+          // options: { overrideSigNonce: userSigNonce },
           request,
         },
       });
@@ -206,12 +208,13 @@ const Profile: FC<Props> = ({ profile }) => {
     const id = await uploadToArweave({
       name,
       bio,
-      cover_picture: cover ? cover : null,
+      cover_picture:
+        "https://1.bp.blogspot.com/-CbWLumSsnHA/X3NCN8Y97SI/AAAAAAAAbdM/6_nItNbt0jcQvkFzogyKeqUGJjMyM57rACLcBGAsYHQ/s16000/v3-290920-rocket-minimalist-desktop-wallpaper-hd.png",
       attributes: [
+        ...currentProfile?.attributes,
         { traitType: "string", key: "location", value: location },
         { traitType: "string", key: "website", value: website },
         { traitType: "string", key: "twitter", value: twitter },
-        { traitType: "string", key: "app", value: APP_NAME },
       ],
       version: "1.0.0",
       metadata_id: uuid(),
@@ -229,7 +232,6 @@ const Profile: FC<Props> = ({ profile }) => {
     } else {
       createSetProfileMetadataTypedData({
         variables: {
-          options: { overrideSigNonce: userSigNonce },
           request,
         },
       });
@@ -331,7 +333,7 @@ const Profile: FC<Props> = ({ profile }) => {
           >
             Save
           </Button>
-          {txHash ? <IndexStatus txHash={txHash} /> : null}
+          {/* {txHash ? <IndexStatus txHash={txHash} /> : null} */}
         </div>
       </Form>
     </Card>

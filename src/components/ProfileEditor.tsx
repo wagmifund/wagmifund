@@ -13,7 +13,6 @@ import ColorPicker, { convertToHSL } from "./ColorPicker";
 
 const ProfileEditor = () => {
   const setProfileUIData = useProfileUIStore((state) => state.setProfileUIData);
-  const snow = useProfileUIStore((state) => state.profileUIData.snow);
   const gradient = useProfileUIStore((state) => state.profileUIData.gradient);
   const customColor = useProfileUIStore(
     (state) => state.profileUIData.theme
@@ -120,19 +119,6 @@ const ProfileEditor = () => {
               onChange={() => {
                 setProfileUIData({
                   gradient: `${gradient === "true" ? "false" : "true"}`,
-                });
-              }}
-            />
-          </div>
-          <div className="flex justify-center h-10 mt-4">
-            Snow
-            <input
-              type="checkbox"
-              className="toggle ml-2 bg-primary"
-              checked={snow}
-              onChange={() => {
-                setProfileUIData({
-                  snow: !snow,
                 });
               }}
             />
