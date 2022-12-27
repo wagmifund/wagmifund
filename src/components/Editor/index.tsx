@@ -1,11 +1,13 @@
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
 import { HeadingNode, QuoteNode } from "@lexical/rich-text";
 import { CodeNode } from "@lexical/code";
+import { ListPlugin } from "@lexical/react/LexicalListPlugin";
 import { HashtagNode } from "@lexical/hashtag";
 import { AutoLinkNode, LinkNode } from "@lexical/link";
 import {
   $convertFromMarkdownString,
   $convertToMarkdownString,
+  UNORDERED_LIST,
 } from "@lexical/markdown";
 import { EmojiNode } from "./nodes/EmojiNode";
 import { ListItemNode, ListNode } from "@lexical/list";
@@ -21,6 +23,7 @@ import EmojiPlugin from "./plugins/EmojiPlugin";
 import EmojiPickerPlugin from "./plugins/EmojiPickerPlugin";
 import { useProfileUIStore } from "@store/profile";
 import debounce from "@utils/debounce";
+import ListMaxIndentLevelPlugin from "./plugins/MaxListIndentPlugin";
 
 type EditorProps = {
   isEditable: boolean;
@@ -46,6 +49,8 @@ const Editor = (props: EditorProps) => {
       hashtag: "text-brand",
       list: {
         listitem: "PlaygroundEditorTheme__listItem",
+        listitemChecked: "PlaygroundEditorTheme__listItemChecked",
+        listitemUnchecked: "PlaygroundEditorTheme__listItemUnchecked",
         nested: {
           listitem: "PlaygroundEditorTheme__nestedListItem",
         },
@@ -61,14 +66,14 @@ const Editor = (props: EditorProps) => {
     },
     nodes: [
       HeadingNode,
-      ListNode,
-      ListItemNode,
       QuoteNode,
       CodeNode,
       HashtagNode,
       AutoLinkNode,
       LinkNode,
       EmojiNode,
+      ListNode,
+      ListItemNode,
     ],
     editorState: () =>
       $convertFromMarkdownString(profileUIData?.about || "", TRANSFORMERS),
@@ -81,6 +86,7 @@ const Editor = (props: EditorProps) => {
   return (
     <LexicalComposer initialConfig={initialConfig}>
       <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
+      <ListPlugin />
       {isEditable ? <ToolbarPlugin /> : ""}
       <RichTextPlugin
         contentEditable={
@@ -97,13 +103,13 @@ const Editor = (props: EditorProps) => {
             <div></div>
           )
         }
-        ErrorBoundary={() => <div>error</div>}
+        ErrorBoundary={(e) => <div>{console.log(e)}</div>}
       />
       <OnChangePlugin
         onChange={(editorState) => {
           editorState.read(() => {
             const markdown = $convertToMarkdownString(TRANSFORMERS);
-            debouncedUpdateAbout({ about: markdown });
+            setProfileUIData({ about: markdown });
           });
         }}
       />

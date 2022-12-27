@@ -233,3 +233,27 @@ div[data-lexical-editor="true"] {
   background-attachment: scroll;
   font-weight: 600;
 }
+
+// Lexical stylings
+
+.PlaygroundEditorTheme__listItem {
+  margin-left: 16px;
+}
+
+.PlaygroundEditorTheme__ul {
+  padding: 0;
+  margin: 0;
+  margin-left: 16px;
+  list-style-position: inside;
+  & li {
+    list-style: disc;
+  }
+}
+
+ol li.PlaygroundEditorTheme__listItem {
+  padding: 0;
+  margin: 0;
+  margin-left: 16px;
+  list-style-type: decimal;
+  list-style-position: inside;
+}
