@@ -1,7 +1,4 @@
-import {
-  ChevronRightIcon,
-  CogIcon,
-} from "@heroicons/react/outline";
+import { ChevronRightIcon, CogIcon } from "@heroicons/react/outline";
 import { v4 as uuid } from "uuid";
 import { LENS_PERIPHERY, RELAY_ON, SIGN_WALLET } from "@utils/constants";
 import { ProfileUIState, useProfileUIStore } from "@store/profile";
@@ -76,10 +73,7 @@ const ProfileEditor = () => {
     onError,
   });
 
-  const {
-    isLoading: writeLoading,
-    write,
-  } = useContractWrite({
+  const { isLoading: writeLoading, write } = useContractWrite({
     address: LENS_PERIPHERY,
     abi: LensPeriphery,
     functionName: "setProfileMetadataURIWithSig",
@@ -90,10 +84,9 @@ const ProfileEditor = () => {
   const { isLoading: signLoading, signTypedDataAsync } = useSignTypedData({
     onError,
   });
-  const {
-    broadcast,
-    loading: broadcastLoading,
-  } = useBroadcast({ onCompleted });
+  const { broadcast, loading: broadcastLoading } = useBroadcast({
+    onCompleted,
+  });
   const [createSetProfileMetadataTypedData, { loading: typedDataLoading }] =
     useCreateSetProfileMetadataTypedDataMutation({
       onCompleted: async ({ createSetProfileMetadataTypedData }) => {
@@ -140,7 +133,11 @@ const ProfileEditor = () => {
 
       // cover_picture: cover ? cover : null,
       attributes: [
-        ...currentProfile?.attributes,
+        ...currentProfile?.attributes.map(({ key, value }) => ({
+          traitType: "string",
+          key,
+          value,
+        })),
         { traitType: "string", key: "app_name", value: "wagmifund" },
         {
           traitType: "string",

@@ -34,7 +34,7 @@ import {
 } from "generated";
 import type { ChangeEvent, FC } from "react";
 import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
+import toast, { LoaderIcon } from "react-hot-toast";
 import { useAppStore } from "src/store/app";
 import { useContractWrite, useSignTypedData } from "wagmi";
 import { object, string, union } from "zod";
@@ -88,10 +88,9 @@ const Profile: FC<Props> = ({ profile }) => {
     onError,
   });
 
-  const {
-    broadcast,
-    loading: broadcastLoading,
-  } = useBroadcast({ onCompleted });
+  const { broadcast, loading: broadcastLoading } = useBroadcast({
+    onCompleted,
+  });
   const [createSetProfileMetadataTypedData, { loading: typedDataLoading }] =
     useCreateSetProfileMetadataTypedDataMutation({
       onCompleted: async ({ createSetProfileMetadataTypedData }) => {
@@ -205,7 +204,11 @@ const Profile: FC<Props> = ({ profile }) => {
       cover_picture:
         "https://1.bp.blogspot.com/-CbWLumSsnHA/X3NCN8Y97SI/AAAAAAAAbdM/6_nItNbt0jcQvkFzogyKeqUGJjMyM57rACLcBGAsYHQ/s16000/v3-290920-rocket-minimalist-desktop-wallpaper-hd.png",
       attributes: [
-        ...currentProfile?.attributes,
+        ...currentProfile?.attributes.map(({ key, value }) => ({
+          traitType: "string",
+          key,
+          value,
+        })),
         { traitType: "string", key: "location", value: location },
         { traitType: "string", key: "website", value: website },
         { traitType: "string", key: "twitter", value: twitter },
@@ -317,11 +320,9 @@ const Profile: FC<Props> = ({ profile }) => {
             className="ml-auto"
             type="submit"
             disabled={isLoading}
-            // icon={isLoading ? <Spinner size="xs" /> : <PencilIcon className="w-4 h-4" />}
           >
-            Save
+            Save {isLoading && <LoaderIcon className="ml-2 h-4 w-4" />}
           </Button>
-          {/* {txHash ? <IndexStatus txHash={txHash} /> : null} */}
         </div>
       </Form>
     </Card>
