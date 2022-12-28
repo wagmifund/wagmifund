@@ -35,7 +35,6 @@ import wantsGradient from "@utils/profileAttributes";
 import { useProfileTierStore } from "@store/profile-tiers";
 import { usePublicationStore } from "@store/publication";
 import { NotFoundPage } from "@modules/Error/NotFoundPage";
-import { v4 as uuid } from "uuid";
 
 const ProfilePage = () => {
   const setUISettings = useProfileUIStore((state) => state.setUISettings);
@@ -132,7 +131,6 @@ const ProfilePage = () => {
   const profileUIData = useProfileUIStore((state) => state.profileUIData);
   const showUISettings = useProfileUIStore((state) => state.showUISettings);
   const setProfileUIData = useProfileUIStore((state) => state.setProfileUIData);
-  const [isUploading, setIsUploading] = useState(false);
 
   useEffect(() => {
     console.log(corners);
@@ -194,80 +192,6 @@ const ProfilePage = () => {
     return <NotFoundPage />;
   }
 
-  const editProfile = async (profileUIData?: ProfileUIState) => {
-    if (!currentProfile) {
-      return toast.error(SIGN_WALLET);
-    }
-
-    setIsUploading(true);
-    const id = await uploadToArweave({
-      name: currentProfile?.name,
-      bio: currentProfile?.bio,
-      cover_picture:
-        "https://1.bp.blogspot.com/-CbWLumSsnHA/X3NCN8Y97SI/AAAAAAAAbdM/6_nItNbt0jcQvkFzogyKeqUGJjMyM57rACLcBGAsYHQ/s16000/v3-290920-rocket-minimalist-desktop-wallpaper-hd.png",
-
-      // cover_picture: cover ? cover : null,
-      attributes: [
-        ...currentProfile?.attributes,
-        { traitType: "string", key: "app_name", value: "wagmifund" },
-        {
-          traitType: "string",
-          key: "cardView",
-          value: profileUIData?.cardView,
-        },
-        {
-          traitType: "string",
-          key: "corners",
-          value: profileUIData?.corners,
-        },
-        {
-          traitType: "string",
-          key: "gradient",
-          value: profileUIData?.gradient?.toString(),
-        },
-        {
-          traitType: "string",
-          key: "theme",
-          value: JSON.stringify(profileUIData?.theme),
-        },
-      ],
-      version: "1.0.0",
-      metadata_id: uuid(),
-      createdOn: new Date(),
-      appId: "wagmifund",
-    }).finally(() => {
-      setIsUploading(false);
-    });
-
-    const request = {
-      profileId: currentProfile?.id,
-      metadata: `https://arweave.net/${id}`,
-    };
-    if (currentProfile?.dispatcher?.canUseRelay) {
-      createViaDispatcher(request);
-    } else {
-      createSetProfileMetadataTypedData({
-        variables: {
-          request,
-        },
-      });
-    }
-  };
-
-  const isLoading =
-    isUploading ||
-    typedDataLoading ||
-    dispatcherLoading ||
-    signLoading ||
-    writeLoading ||
-    broadcastLoading;
-  const txHash =
-    writeData?.hash ??
-    broadcastData?.broadcast?.txHash ??
-    (dispatcherData?.createSetProfileMetadataViaDispatcher.__typename ===
-      "RelayerResult" &&
-      dispatcherData?.createSetProfileMetadataViaDispatcher.txHash);
-
   return (
     <>
       <div
@@ -292,14 +216,6 @@ const ProfilePage = () => {
         <div className="text-center">
           <div className=" font-space-grotesek font-bold text-4xl mt-10">
             {profile.name}
-            {showUISettings && (
-              <Button
-                onClick={() => editProfile(profileUIData)}
-                className="ml-4"
-              >
-                Save
-              </Button>
-            )}
           </div>
           <div className=" font-space-grotesek font-semibold text-lg mt-2">
             {profile.handle}

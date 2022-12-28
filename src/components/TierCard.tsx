@@ -182,6 +182,30 @@ export const TierCards = ({
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteItemId, setDeleteItemId] = useState("");
+
+  const about = useProfileUIStore((state) => state.profileUIData.about);
+  const currentProfile = useAppStore((state) => state.currentProfile);
+  const {
+    push,
+    query: { username },
+  } = useRouter();
+  if (tiers.length === 0) {
+    return (
+      <Card className="flex flex-col items-center p-2 sm:p-8 w-full text-center h-fit text-white bg-gray-900/50 ring-1">
+        oops seems like there are no tiers created yet
+        {username === currentProfile?.handle && (
+          <Button
+            className="mt-4"
+            onClick={() => {
+              push("/onboard");
+            }}
+          >
+            Create Tiers
+          </Button>
+        )}
+      </Card>
+    );
+  }
   return (
     <>
       {tiers.map(
