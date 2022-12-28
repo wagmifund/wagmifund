@@ -1,19 +1,16 @@
 import {
-  ChartSquareBarIcon,
   ChevronRightIcon,
   CogIcon,
 } from "@heroicons/react/outline";
 import { v4 as uuid } from "uuid";
 import { LENS_PERIPHERY, RELAY_ON, SIGN_WALLET } from "@utils/constants";
-import { StackedTierCardIcon } from "@icons/tiers";
 import { ProfileUIState, useProfileUIStore } from "@store/profile";
 import { useState } from "react";
-import ReactDOM from "react-dom";
 import AppearAnimation from "./AnimatedAppear";
 import { useContractWrite, useSignTypedData } from "wagmi";
 import onError from "@utils/onError";
 import Button from "./Button";
-import ColorPicker, { convertToHSL } from "./ColorPicker";
+import ColorPicker from "./ColorPicker";
 import toast from "react-hot-toast";
 import { useAppStore } from "@store/app";
 import uploadToArweave from "@utils/uploadToArweave";
@@ -73,16 +70,14 @@ const ProfileEditor = () => {
   };
   const [
     createSetProfileMetadataViaDispatcher,
-    { data: dispatcherData, loading: dispatcherLoading },
+    { loading: dispatcherLoading },
   ] = useCreateSetProfileMetadataViaDispatcherMutation({
     onCompleted,
     onError,
   });
 
   const {
-    data: writeData,
     isLoading: writeLoading,
-    error: Errr,
     write,
   } = useContractWrite({
     address: LENS_PERIPHERY,
@@ -97,7 +92,6 @@ const ProfileEditor = () => {
   });
   const {
     broadcast,
-    data: broadcastData,
     loading: broadcastLoading,
   } = useBroadcast({ onCompleted });
   const [createSetProfileMetadataTypedData, { loading: typedDataLoading }] =

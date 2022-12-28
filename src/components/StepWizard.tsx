@@ -1,4 +1,3 @@
-import { FC } from "react";
 import AppearAnimation from "./AnimatedAppear";
 import { Card } from "./Card";
 

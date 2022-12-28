@@ -46,13 +46,12 @@ const getAllowancePayload = (currency: string) => {
 
 const AllowanceSettings: NextPage = () => {
   const currentProfile = useAppStore((state) => state.currentProfile);
-  const { data, loading, error, refetch } =
-    useApprovedModuleAllowanceAmountQuery({
-      variables: {
-        request: getAllowancePayload(DEFAULT_COLLECT_TOKEN),
-      },
-      skip: !currentProfile?.id,
-    });
+  const { loading, error } = useApprovedModuleAllowanceAmountQuery({
+    variables: {
+      request: getAllowancePayload(DEFAULT_COLLECT_TOKEN),
+    },
+    skip: !currentProfile?.id,
+  });
 
   if (error) {
     return <ServerError />;

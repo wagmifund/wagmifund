@@ -2,134 +2,29 @@ import AboutSection from "@components/AboutSection";
 import { Card } from "@components/Card";
 import CoverPicture from "@components/CoverPicture";
 import ProfilePicture from "@components/ProfilePicture";
-import { tier, TierCards } from "@components/TierCard";
+import { tier } from "@components/TierCard";
 import { clsx } from "clsx";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import ProfileEditor from "@components/ProfileEditor";
 import {
-  CreatePublicSetProfileMetadataUriRequest,
   Profile,
   PublicationTypes,
-  useCreateSetProfileMetadataTypedDataMutation,
-  useCreateSetProfileMetadataViaDispatcherMutation,
   useProfileFeedQuery,
   useProfileQuery,
 } from "generated";
 import { useRouter } from "next/router";
 import { useAppStore } from "@store/app";
 import TierCardData from "@components/TierCardData";
-import { ProfileUIState, useProfileUIStore } from "@store/profile";
+import { useProfileUIStore } from "@store/profile";
 import PageLoader from "@components/PageLoader";
-import Button from "@components/Button";
-import uploadToArweave from "@utils/uploadToArweave";
-import toast from "react-hot-toast";
-import { LENS_PERIPHERY, RELAY_ON, SIGN_WALLET } from "@utils/constants";
-import useBroadcast from "@utils/useBroadcast";
-import { useContractWrite, useSignTypedData } from "wagmi";
-import onError from "@utils/onError";
-import { LensPeriphery } from "@abis/LensPeriphery";
-import splitSignature from "@utils/splitSignature";
-import getSignature from "@utils/getSignature";
-import IndexStatus from "@components/Shared/IndexStatus";
-import wantsGradient from "@utils/profileAttributes";
-import { useProfileTierStore } from "@store/profile-tiers";
 import { usePublicationStore } from "@store/publication";
 import { NotFoundPage } from "@modules/Error/NotFoundPage";
 
 const ProfilePage = () => {
-  const setUISettings = useProfileUIStore((state) => state.setUISettings);
-
-  const onCompleted = () => {
-    toast.success("Profile updated successfully!");
-    setUISettings(false);
-  };
-  const {
-    broadcast,
-    data: broadcastData,
-    loading: broadcastLoading,
-  } = useBroadcast({ onCompleted });
-
-  const { isLoading: signLoading, signTypedDataAsync } = useSignTypedData({
-    onError,
-  });
-
-  const {
-    data: writeData,
-    isLoading: writeLoading,
-    error: Errr,
-    write,
-  } = useContractWrite({
-    address: LENS_PERIPHERY,
-    abi: LensPeriphery,
-    functionName: "setProfileMetadataURIWithSig",
-    mode: "recklesslyUnprepared",
-    onSuccess: onCompleted,
-    onError,
-  });
-
-  const [createSetProfileMetadataTypedData, { loading: typedDataLoading }] =
-    useCreateSetProfileMetadataTypedDataMutation({
-      onCompleted: async ({ createSetProfileMetadataTypedData }) => {
-        try {
-          const { id, typedData } = createSetProfileMetadataTypedData;
-          const { profileId, metadata, deadline } = typedData.value;
-          const signature = await signTypedDataAsync(getSignature(typedData));
-          const { v, r, s } = splitSignature(signature);
-          const sig = { v, r, s, deadline };
-          console.log("currentProfile", currentProfile);
-          const inputStruct = {
-            user: currentProfile?.ownedBy,
-            profileId,
-            metadata,
-            sig,
-          };
-          // setUserSigNonce(userSigNonce + 1);
-          if (!RELAY_ON) {
-            return write?.({ recklesslySetUnpreparedArgs: [inputStruct] });
-          }
-
-          const {
-            data: { broadcast: result },
-          } = await broadcast({ request: { id, signature } });
-
-          if ("reason" in result) {
-            write?.({ recklesslySetUnpreparedArgs: [inputStruct] });
-          }
-        } catch {}
-      },
-      onError,
-    });
-
-  const [
-    createSetProfileMetadataViaDispatcher,
-    { data: dispatcherData, loading: dispatcherLoading },
-  ] = useCreateSetProfileMetadataViaDispatcherMutation({
-    onCompleted,
-    onError,
-  });
-
-  const createViaDispatcher = async (
-    request: CreatePublicSetProfileMetadataUriRequest
-  ) => {
-    const { data } = await createSetProfileMetadataViaDispatcher({
-      variables: { request },
-    });
-    if (
-      data?.createSetProfileMetadataViaDispatcher?.__typename === "RelayError"
-    ) {
-      createSetProfileMetadataTypedData({
-        variables: {
-          // options: { overrideSigNonce: userSigNonce },
-          request,
-        },
-      });
-    }
-  };
   const { cardView, theme, corners, gradient } = useProfileUIStore(
     (state) => state.profileUIData
   );
   const profileUIData = useProfileUIStore((state) => state.profileUIData);
-  const showUISettings = useProfileUIStore((state) => state.showUISettings);
   const setProfileUIData = useProfileUIStore((state) => state.setProfileUIData);
 
   useEffect(() => {
@@ -146,7 +41,7 @@ const ProfilePage = () => {
   const currentProfile = useAppStore((state) => state.currentProfile);
 
   const {
-    query: { username, type },
+    query: { username },
   } = useRouter();
   const isEditable = currentProfile?.handle === username;
   const { data, loading, error } = useProfileQuery({
@@ -157,7 +52,7 @@ const ProfilePage = () => {
     skip: !username,
     onCompleted: ({ profile: userUIData }) => {
       console.log(Object.values(userUIData?.attributes), "acc");
-      Object.values(userUIData?.attributes).forEach(({ key, value }, idx) => {
+      Object.values(userUIData?.attributes).forEach(({ key, value }) => {
         if (key in profileUIData) {
           setProfileUIData({
             [key]: key === "theme" ? JSON.parse(value) : value,
@@ -170,18 +65,6 @@ const ProfilePage = () => {
 
   if (error) {
     return <div />;
-  }
-  // store the value
-  if (profile && profile?.attributes?.length) {
-    const test = Object.values(profile?.attributes).reduce(
-      (acc: Array<Object>, attribute, idx) => {
-        if (attribute.key in profileUIData) {
-          acc.push({ key: attribute.key, value: attribute.value });
-        }
-        return acc;
-      },
-      []
-    );
   }
 
   if (loading || !profile) {
@@ -268,9 +151,6 @@ const ProfilePageTierCard = ({
   layout: "stack" | "collection" | "default";
   profile: Profile;
 }) => {
-  const mediaFeedFilters = useProfileTierStore(
-    (state) => state.mediaTierFilters
-  );
 
   const type = "NEW_POST";
   const publicationTypes =

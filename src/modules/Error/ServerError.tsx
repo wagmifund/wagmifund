@@ -1,6 +1,3 @@
-import Button from "@components/Button";
-import Image from "next/image";
-
 export function ServerError() {
   return (
     <div className="flex h-[calc(100vh-80px)] items-center justify-center p-5 w-full">

@@ -1,4 +1,3 @@
-import IndexStatus from "@components/Shared/IndexStatus";
 import { Button } from "@components/Button";
 import { Card } from "@components/Card";
 import { Form, useZodForm } from "@components/Form";
@@ -6,7 +5,6 @@ import { Form, useZodForm } from "@components/Form";
 import { Spinner } from "@components/Spinner";
 // import { TextArea } from "@components/UI/TextArea";
 import useBroadcast from "@utils/useBroadcast";
-import { PencilIcon } from "@heroicons/react/outline";
 import getAttribute from "@utils/getAttribute";
 import getIPFSLink from "@utils/getIPFSLink";
 import getSignature from "@utils/getSignature";
@@ -63,8 +61,6 @@ interface Props {
 }
 
 const Profile: FC<Props> = ({ profile }) => {
-  const userSigNonce = useAppStore((state) => state.userSigNonce);
-  const setUserSigNonce = useAppStore((state) => state.setUserSigNonce);
   const currentProfile = useAppStore((state) => state.currentProfile);
   //   const [pride, setPride] = useState(hasPrideLogo(profile));
   const [cover, setCover] = useState("");
@@ -80,7 +76,6 @@ const Profile: FC<Props> = ({ profile }) => {
   });
 
   const {
-    data: writeData,
     isLoading: writeLoading,
     error,
     write,
@@ -95,7 +90,6 @@ const Profile: FC<Props> = ({ profile }) => {
 
   const {
     broadcast,
-    data: broadcastData,
     loading: broadcastLoading,
   } = useBroadcast({ onCompleted });
   const [createSetProfileMetadataTypedData, { loading: typedDataLoading }] =
@@ -135,7 +129,7 @@ const Profile: FC<Props> = ({ profile }) => {
 
   const [
     createSetProfileMetadataViaDispatcher,
-    { data: dispatcherData, loading: dispatcherLoading },
+    { loading: dispatcherLoading },
   ] = useCreateSetProfileMetadataViaDispatcherMutation({
     onCompleted,
     onError,
@@ -245,12 +239,6 @@ const Profile: FC<Props> = ({ profile }) => {
     signLoading ||
     writeLoading ||
     broadcastLoading;
-  const txHash =
-    writeData?.hash ??
-    broadcastData?.broadcast?.txHash ??
-    (dispatcherData?.createSetProfileMetadataViaDispatcher.__typename ===
-      "RelayerResult" &&
-      dispatcherData?.createSetProfileMetadataViaDispatcher.txHash);
 
   return (
     <Card className="p-5">

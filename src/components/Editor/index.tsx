@@ -7,11 +7,10 @@ import { AutoLinkNode, LinkNode } from "@lexical/link";
 import {
   $convertFromMarkdownString,
   $convertToMarkdownString,
-  UNORDERED_LIST,
+  TRANSFORMERS
 } from "@lexical/markdown";
 import { EmojiNode } from "./nodes/EmojiNode";
 import { ListItemNode, ListNode } from "@lexical/list";
-import { TRANSFORMERS } from "@lexical/markdown";
 import ToolbarPlugin from "./plugins/ToolbarPlugin";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
@@ -23,7 +22,6 @@ import EmojiPlugin from "./plugins/EmojiPlugin";
 import EmojiPickerPlugin from "./plugins/EmojiPickerPlugin";
 import { useProfileUIStore } from "@store/profile";
 import debounce from "@utils/debounce";
-import ListMaxIndentLevelPlugin from "./plugins/MaxListIndentPlugin";
 
 type EditorProps = {
   isEditable: boolean;
@@ -109,7 +107,7 @@ const Editor = (props: EditorProps) => {
         onChange={(editorState) => {
           editorState.read(() => {
             const markdown = $convertToMarkdownString(TRANSFORMERS);
-            setProfileUIData({ about: markdown });
+            debouncedUpdateAbout({ about: markdown });
           });
         }}
       />

@@ -3,7 +3,6 @@ import {
   useChallengeLazyQuery,
   useUserProfilesLazyQuery,
 } from "generated";
-import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useAccount, useSignMessage } from "wagmi";
@@ -11,12 +10,11 @@ import { useAccount, useSignMessage } from "wagmi";
 import WalletSelectorButton from "@components/Shared/Auth/WalletSelectorButton";
 import onError from "@utils/onError";
 import { useAppPersistStore, useAppStore } from "@store/app";
-import { ERROR_MESSAGE, IS_MAINNET } from "@utils/constants";
+import { ERROR_MESSAGE } from "@utils/constants";
 import Modal from "@components/Modal";
 
 const Login = () => {
   const setProfiles = useAppStore((state) => state.setProfiles);
-  const profiles = useAppStore((state) => state.profiles);
   const setCurrentProfile = useAppStore((state) => state.setCurrentProfile);
   const setProfileId = useAppPersistStore((state) => state.setProfileId);
   const [loading, setLoading] = useState(false);

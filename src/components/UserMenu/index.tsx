@@ -1,26 +1,20 @@
 import { Menu, Transition } from "@headlessui/react";
-import { CogIcon, LogoutIcon, UserIcon } from "@heroicons/react/outline";
+import { CogIcon } from "@heroicons/react/outline";
 
 import resetAuthData from "@utils/resetAuthData";
 import clsx from "clsx";
-import { APP_VERSION } from "@utils/constants";
 import { useRouter } from "next/router";
 import type { FC } from "react";
-import { Fragment } from "react";
+import React, { Fragment } from "react";
 import { useAppPersistStore, useAppStore } from "src/store/app";
 import { useDisconnect } from "wagmi";
 
 import { NextLink } from "@components/Navbar/Menuitems";
-import { Profile, PublicationTypes, useProfileFeedQuery } from "generated";
-import { usePublicationStore } from "@store/publication";
-import React from "react";
-import { useProfileTierStore } from "@store/profile-tiers";
-import { tier } from "@components/MockTierCard";
+import { Profile } from "generated";
 import getAvatar from "@utils/getAvatar";
 
 const UserMenu: FC = () => {
   const router = useRouter();
-  const profiles = useAppStore((state) => state.profiles);
   const currentProfile = useAppStore((state) => state.currentProfile);
   const setCurrentProfile = useAppStore((state) => state.setCurrentProfile);
   const setProfileId = useAppPersistStore((state) => state.setProfileId);

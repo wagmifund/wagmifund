@@ -1,7 +1,11 @@
 import getIsAuthTokensAvailable from "@utils/getIsAuthTokensAvailable";
 import resetAuthData from "@utils/resetAuthData";
-import { Profile, PublicationTypes, useProfileFeedQuery } from "generated";
-import { useUserProfilesQuery } from "generated";
+import {
+  Profile,
+  PublicationTypes,
+  useProfileFeedQuery,
+  useUserProfilesQuery,
+} from "generated";
 import Head from "next/head";
 import type { FC, ReactNode } from "react";
 import { Toaster } from "react-hot-toast";
@@ -38,7 +42,7 @@ const Layout: FC<Props> = ({ children }) => {
   };
 
   // Fetch current profiles and sig nonce owned by the wallet address
-  const { data, loading } = useUserProfilesQuery({
+  const { loading } = useUserProfilesQuery({
     variables: { ownedBy: address },
     skip: !profileId,
     onCompleted: (data) => {

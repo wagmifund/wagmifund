@@ -1,13 +1,11 @@
 import { Button } from "@components/Button";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import React from "react";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 import toast from "react-hot-toast";
 import { POLYGON_CHAIN_ID } from "@utils/constants";
 import { useAccount, useNetwork, useSwitchNetwork } from "wagmi";
 import { useAppPersistStore } from "@store/app";
-import UserMenu from "@components/UserMenu";
 
 type Props = {
   handleSign?: () => void;

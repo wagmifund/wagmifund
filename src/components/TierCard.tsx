@@ -13,7 +13,6 @@ import { useRouter } from "next/router";
 import Modal from "@components/Modal";
 import { SUPPORTED_CURRENCIES } from "@utils/constants";
 import { Loader } from "./Loader";
-import AppearAnimation from "./AnimatedAppear";
 import { useProfileUIStore } from "@store/profile";
 import { useAppStore } from "@store/app";
 interface TierProps {
@@ -41,7 +40,6 @@ export type tier = {
 export const StackedTierCard = ({
   activeTier = 0,
   tiers,
-  profile,
   handle,
   viewOnly = false,
   createCollect,
@@ -183,7 +181,6 @@ export const TierCards = ({
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteItemId, setDeleteItemId] = useState("");
 
-  const about = useProfileUIStore((state) => state.profileUIData.about);
   const currentProfile = useAppStore((state) => state.currentProfile);
   const {
     push,
@@ -310,7 +307,6 @@ export const TierCards = ({
 
 export const TierCardsCollection = ({
   tiers,
-  handle,
   isEditMode,
   onMetaClick,
   createCollect,

@@ -1,7 +1,5 @@
 import { Menu } from "@headlessui/react";
-import { ColorSwatchIcon } from "@heroicons/react/outline";
 import { clsx } from "clsx";
-import { useState } from "react";
 import { CustomPicker, ChromePicker } from "react-color";
 
 export const convertToHSL = ({
