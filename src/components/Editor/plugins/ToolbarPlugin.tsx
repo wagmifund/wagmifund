@@ -68,22 +68,13 @@ const ToolbarPlugin: FC = () => {
     setUISettings(false);
     setIsUploading(false);
   };
-  const {
-    broadcast,
-    data: broadcastData,
-    loading: broadcastLoading,
-  } = useBroadcast({ onCompleted });
+  const { broadcast } = useBroadcast({ onCompleted });
 
-  const { isLoading: signLoading, signTypedDataAsync } = useSignTypedData({
+  const { signTypedDataAsync } = useSignTypedData({
     onError,
   });
 
-  const {
-    data: writeData,
-    isLoading: writeLoading,
-    error: Errr,
-    write,
-  } = useContractWrite({
+  const { write } = useContractWrite({
     address: LENS_PERIPHERY,
     abi: LensPeriphery,
     functionName: "setProfileMetadataURIWithSig",
@@ -92,7 +83,7 @@ const ToolbarPlugin: FC = () => {
     onError,
   });
 
-  const [createSetProfileMetadataTypedData, { loading: typedDataLoading }] =
+  const [createSetProfileMetadataTypedData] =
     useCreateSetProfileMetadataTypedDataMutation({
       onCompleted: async ({ createSetProfileMetadataTypedData }) => {
         try {
@@ -127,13 +118,11 @@ const ToolbarPlugin: FC = () => {
       onError,
     });
 
-  const [
-    createSetProfileMetadataViaDispatcher,
-    { data: dispatcherData, loading: dispatcherLoading },
-  ] = useCreateSetProfileMetadataViaDispatcherMutation({
-    onCompleted,
-    onError,
-  });
+  const [createSetProfileMetadataViaDispatcher] =
+    useCreateSetProfileMetadataViaDispatcherMutation({
+      onCompleted,
+      onError,
+    });
   const createViaDispatcher = async (
     request: CreatePublicSetProfileMetadataUriRequest
   ) => {

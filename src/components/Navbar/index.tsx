@@ -7,9 +7,6 @@ import { useAppStore } from "../../store/app";
 
 const NavBar = () => {
   const publications = usePublicationStore((state) => state.publications);
-  const publicationIsFetched = usePublicationStore(
-    (state) => state.publicationIsFetched
-  );
   const currentProfile = useAppStore((state) => state.currentProfile);
   const {
     query: { username },

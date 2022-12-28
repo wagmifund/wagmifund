@@ -1,19 +1,14 @@
-// import UserProfile from "@components/Shared/UserProfile";
 import {
-  ChipIcon,
   ExclamationIcon,
   FingerPrintIcon,
   ShareIcon,
-  SparklesIcon,
   UserIcon,
 } from "@heroicons/react/outline";
 import { PencilIcon } from "@heroicons/react/solid";
 import clsx from "clsx";
-import type { Profile } from "generated";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import type { FC, ReactNode } from "react";
-import { useAppStore } from "src/store/app";
 
 interface MenuProps {
   children: ReactNode;
@@ -35,13 +30,9 @@ const Menu: FC<MenuProps> = ({ children, current, url }) => (
 
 const Sidebar: FC = () => {
   const { pathname } = useRouter();
-  const currentProfile = useAppStore((state) => state.currentProfile);
 
   return (
     <div className="px-3 mb-4 space-y-1.5 sm:px-0">
-      {/* <div className="pb-3">
-        <UserProfile profile={currentProfile as Profile} />
-      </div> */}
       <Menu current={pathname == "/settings"} url="/settings">
         <UserIcon className="w-4 h-4" />
         <div>Profile</div>

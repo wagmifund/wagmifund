@@ -4,7 +4,6 @@ import {
   GridItemFour,
   GridLayout,
 } from "@components/GridLayout";
-import { APP_NAME } from "@utils/constants";
 import { FC, useContext } from "react";
 import { ProfileContext, useAppStore } from "src/store/app";
 import Sidebar from "@modules/Settings/Sidebar";
@@ -12,12 +11,11 @@ import { useProfileSettingsQuery } from "generated";
 import TierCardData from "@components/TierCardData";
 import { usePublicationStore } from "@store/publication";
 import { useRouter } from "next/router";
-import { tier } from "@components/MockTierCard";
 import Button from "@components/Button";
 
 const EditTiers: FC = () => {
   const currentProfile = useAppStore((state) => state.currentProfile);
-  const { data, loading, error } = useProfileSettingsQuery({
+  const { data } = useProfileSettingsQuery({
     variables: { request: { profileId: currentProfile?.id } },
     skip: !currentProfile?.id,
   });

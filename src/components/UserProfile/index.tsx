@@ -1,18 +1,9 @@
-import { BadgeCheckIcon } from "@heroicons/react/solid";
 import getAttribute from "@utils/getAttribute";
 import getAvatar from "@utils/getAvatar";
-// import isVerified from "@lib/isVerified";
 import clsx from "clsx";
 import type { Profile } from "generated";
 import Link from "next/link";
 import type { FC } from "react";
-import { useState } from "react";
-
-// import Follow from "./Follow";
-// import Markup from "./Markup";
-// import Slug from "./Slug";
-// import SuperFollow from "./SuperFollow";
-// import UserPreview from "./UserPreview";
 
 interface Props {
   profile: Profile;
@@ -27,9 +18,6 @@ interface Props {
 const UserProfile: FC<Props> = ({
   profile,
   showBio = false,
-  showFollow = false,
-  followStatusLoading = false,
-  isFollowing = false,
   isBig = false,
   linkToProfile = true,
 }) => {

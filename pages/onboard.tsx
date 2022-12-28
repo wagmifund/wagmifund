@@ -1,10 +1,7 @@
 import PageLoader from "@components/PageLoader";
 import TierForm from "@components/TierForm";
-import { NotFoundPage } from "@modules/Error/NotFoundPage";
-import { ServerError } from "@modules/Error/ServerError";
 import { useAppStore } from "@store/app";
 import { usePublicationStore } from "@store/publication";
-import { useProfileSettingsQuery } from "generated";
 import { useRouter } from "next/router";
 
 const Onboard = () => {

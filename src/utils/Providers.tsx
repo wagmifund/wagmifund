@@ -5,13 +5,12 @@ import {
   RainbowKitProvider,
 } from "@rainbow-me/rainbowkit";
 import {
-  coinbaseWallet,
   injectedWallet,
   metaMaskWallet,
   rainbowWallet,
   walletConnectWallet,
 } from "@rainbow-me/rainbowkit/wallets";
-import { IS_MAINNET, RPC_URL, APP_NAME } from "@utils/constants";
+import { RPC_URL } from "@utils/constants";
 import { chain, configureChains, createClient, WagmiConfig } from "wagmi";
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 import client from "@utils/apollo";
@@ -37,7 +36,7 @@ const connectors = connectorsForWallets([
       injectedWallet({ chains, shimDisconnect: true }),
       metaMaskWallet({ chains, shimDisconnect: true }),
       rainbowWallet({ chains }),
-      coinbaseWallet({ appName: APP_NAME, chains }),
+      // coinbaseWallet({ appName: APP_NAME, chains }),
       walletConnectWallet({ chains }),
     ],
   },

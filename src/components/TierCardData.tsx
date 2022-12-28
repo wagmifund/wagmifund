@@ -5,14 +5,7 @@ import {
   TierCards,
   TierCardsCollection,
 } from "./TierCard";
-import {
-  Profile,
-  PublicationMainFocus,
-  PublicationTypes,
-  useCreateCollectTypedDataMutation,
-  useProfileFeedQuery,
-} from "generated";
-import { useProfileTierStore } from "@store/profile-tiers";
+import { Profile, useCreateCollectTypedDataMutation } from "generated";
 import toast from "react-hot-toast";
 import { RELAY_ON, SIGN_WALLET } from "@utils/constants";
 import { useAccount, useContractWrite, useSignTypedData } from "wagmi";
@@ -22,7 +15,6 @@ import splitSignature from "@utils/splitSignature";
 import { TESTNET_LENSHUB_PROXY } from "@utils/contracts";
 import { LensHubProxy } from "@abis/LensHubProxy";
 import useBroadcast from "@utils/useBroadcast";
-import { usePublicationStore } from "@store/publication";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { Card } from "./Card";
@@ -31,9 +23,8 @@ import clsx from "clsx";
 import { useProfileUIStore } from "@store/profile";
 const TierCardData = ({
   onMetaClick,
-  type = "NEW_POST",
   tiers,
-  layout = true,
+  layout = "stack",
   profile,
   isEditMode = false,
   loadingTiers,
@@ -238,6 +229,7 @@ const TierCardData = ({
         loading={loading}
         setIndex={setIndex}
         index={index}
+        handle={profile?.handle}
       />
     );
   } else {

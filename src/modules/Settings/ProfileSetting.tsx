@@ -5,12 +5,8 @@ import {
   GridLayout,
 } from "@components/GridLayout";
 import { PhotographIcon } from "@heroicons/react/outline";
-import clsx from "clsx";
-import { APP_NAME } from "@utils/constants";
 import { useProfileSettingsQuery } from "generated";
 import type { NextPage } from "next";
-import type { FC, ReactNode } from "react";
-import { useEffect, useState } from "react";
 import { useAppStore } from "src/store/app";
 
 import Sidebar from "@modules/Settings/Sidebar";
@@ -41,16 +37,6 @@ const ProfileSettings: NextPage = () => {
   }
 
   const profile = data?.profile;
-
-  interface TypeButtonProps {
-    name: string;
-    icon: ReactNode;
-    type: "NFT" | "AVATAR";
-  }
-
-  const TypeButton: FC<TypeButtonProps> = ({ name, icon }) => (
-    <button type="button"></button>
-  );
 
   return (
     <GridLayout>

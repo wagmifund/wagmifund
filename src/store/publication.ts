@@ -1,4 +1,3 @@
-import { boolean } from "zod";
 import create from "zustand";
 
 interface PublicationState {

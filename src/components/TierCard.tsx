@@ -13,7 +13,6 @@ import { useRouter } from "next/router";
 import Modal from "@components/Modal";
 import { SUPPORTED_CURRENCIES } from "@utils/constants";
 import { Loader } from "./Loader";
-import AppearAnimation from "./AnimatedAppear";
 import { useProfileUIStore } from "@store/profile";
 import { useAppStore } from "@store/app";
 interface TierProps {
@@ -41,7 +40,6 @@ export type tier = {
 export const StackedTierCard = ({
   activeTier = 0,
   tiers,
-  profile,
   handle,
   viewOnly = false,
   createCollect,
@@ -182,6 +180,29 @@ export const TierCards = ({
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteItemId, setDeleteItemId] = useState("");
+
+  const currentProfile = useAppStore((state) => state.currentProfile);
+  const {
+    push,
+    query: { username },
+  } = useRouter();
+  if (tiers.length === 0) {
+    return (
+      <Card className="flex flex-col items-center p-2 sm:p-8 w-full text-center h-fit text-white bg-gray-900/50 ring-1">
+        oops seems like there are no tiers created yet
+        {username === currentProfile?.handle && (
+          <Button
+            className="mt-4"
+            onClick={() => {
+              push("/onboard");
+            }}
+          >
+            Create Tiers
+          </Button>
+        )}
+      </Card>
+    );
+  }
   return (
     <>
       {tiers.map(
@@ -286,7 +307,6 @@ export const TierCards = ({
 
 export const TierCardsCollection = ({
   tiers,
-  handle,
   isEditMode,
   onMetaClick,
   createCollect,

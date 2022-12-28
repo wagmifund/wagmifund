@@ -2,7 +2,6 @@ import { useState } from "react";
 import Button from "@components/Button";
 import clsx from "clsx";
 import { XIcon } from "@heroicons/react/outline";
-import { SUPPORTED_CURRENCIES } from "@utils/constants";
 import { Card } from "./Card";
 
 export type tier = {
@@ -17,14 +16,12 @@ export type tier = {
 
 interface TierProps {
   tiers: Array<tier>;
-  handle: string;
   activeTier?: number;
   viewOnly?: boolean;
   currency: string;
 }
 
 const MockTierCard = ({
-  handle,
   activeTier = 0,
   tiers,
   viewOnly = true,

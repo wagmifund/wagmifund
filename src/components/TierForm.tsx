@@ -2,14 +2,12 @@ import AppearAnimation from "./AnimatedAppear";
 import { Menu } from "@headlessui/react";
 import { Form, useZodForm } from "./Form";
 import Select from "./Select";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { object, number, string, array, boolean } from "zod";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { object, number, string, boolean } from "zod";
 import StepWizard from "./StepWizard";
-import { Card } from "./Card";
 import { RELAY_ON, SIGN_WALLET, SUPPORTED_CURRENCIES } from "@utils/constants";
 import Input from "./Input";
 import Button from "./Button";
-import React from "react";
 import toast, { LoaderIcon } from "react-hot-toast";
 import { useAppStore } from "@store/app";
 import trimify from "@utils/trimify";
@@ -48,7 +46,6 @@ const Tier = ({
   onClick,
   field,
   activeTier,
-  index,
   isLoading = false,
   setTiersFields,
   fieldsData,
@@ -345,7 +342,6 @@ const TierForm = () => {
   };
 
   const {
-    error,
     isLoading: writeLoading,
     write,
   } = useContractWrite({

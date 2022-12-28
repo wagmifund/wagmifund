@@ -17,7 +17,7 @@ import { LensHubProxy } from "@abis/LensHubProxy";
 import { APP_NAME, LENSHUB_PROXY, SIGN_WALLET } from "@utils/constants";
 import { useCreateBurnProfileTypedDataMutation } from "generated";
 import type { FC } from "react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import { useAppPersistStore, useAppStore } from "src/store/app";
 import { useContractWrite, useDisconnect, useSignTypedData } from "wagmi";
