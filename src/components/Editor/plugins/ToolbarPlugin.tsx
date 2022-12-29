@@ -11,7 +11,7 @@ import {
 } from "lexical";
 import type { FC } from "react";
 import { useCallback, useEffect, useState } from "react";
-import Button from "@components/Button";
+import { Button } from "@components/Button";
 import { ProfileUIState, useProfileUIStore } from "@store/profile";
 import { useAppStore } from "@store/app";
 import toast from "react-hot-toast";
@@ -242,7 +242,11 @@ const ToolbarPlugin: FC = () => {
         onClick={() => editProfile(profileUIData)}
         disabled={isUploading}
       >
-        <span className="mr-1">{isUploading && <Loader size="sm" />}</span>
+        {isUploading && (
+          <span className="mr-1">
+            <Loader size="sm" />
+          </span>
+        )}
         save
       </Button>
     </div>

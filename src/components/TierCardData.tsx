@@ -18,7 +18,7 @@ import useBroadcast from "@utils/useBroadcast";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { Card } from "./Card";
-import Button from "./Button";
+import { Button } from "./Button";
 import clsx from "clsx";
 import { useProfileUIStore } from "@store/profile";
 const TierCardData = ({
@@ -129,12 +129,12 @@ const TierCardData = ({
     return layout === "stack" ? (
       <div
         className={clsx(
-          "m-2 w-full tier-card card shadow-lg shadow-slate-900/5  flex flex-col justify-center items-center border border-theme",
+          "m-2 w-full tier-card card shadow-lg shadow-slate-900/5 bg-slate-900  flex flex-col justify-center items-center border border-theme",
           about || username === currentProfile?.handle ? "lg:w-2/5" : "w-full"
         )}
       >
         <div className="card-body sm:p-8 w-full">
-          <h2 className="h-auto font-bold text-xl flex-grow-0 sm:text-2xl text-center bg-gray-800 animate-pulse">
+          <h2 className="h-auto font-bold text-xl flex-grow-0 sm:text-2xl text-center bg-gray-800 rounded-md animate-pulse">
             <p className="opacity-0"> loading</p>
           </h2>
           <p className="h-auto min-h-12 flex-grow-0"></p>

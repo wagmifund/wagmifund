@@ -19,6 +19,9 @@ import { useProfileUIStore } from "@store/profile";
 import PageLoader from "@components/PageLoader";
 import { usePublicationStore } from "@store/publication";
 import { NotFoundPage } from "@modules/Error/NotFoundPage";
+import { GlobeAltIcon } from "@heroicons/react/outline";
+import { TwitterIcon } from "@icons/socials";
+import getAttribute from "@utils/getAttribute";
 
 const ProfilePage = () => {
   const { cardView, theme, corners, gradient } = useProfileUIStore(
@@ -75,10 +78,13 @@ const ProfilePage = () => {
     return <NotFoundPage />;
   }
 
+  const twitterProfile = getAttribute(profile?.attributes, "twitter");
+  const websiteLink = getAttribute(profile?.attributes, "website");
+
   return (
     <>
       <div
-        className="w-full z-1 bg-[#0d1933] text-white flex flex-grow px-4 sm:px-8 flex-col mb-[80px] md:mb-[150px]"
+        className="w-full z-1 bg-black text-white flex flex-grow px-4 sm:px-8 flex-col mb-[80px] md:mb-[150px]"
         data-theme="user"
       >
         {isEditable && <ProfileEditor />}
@@ -95,6 +101,23 @@ const ProfilePage = () => {
           <div className="absolute -bottom-8 left-1/2 -translate-x-[71px] z-10">
             <ProfilePicture profile={profile} />
           </div>
+          {(twitterProfile || websiteLink) && (
+            <div className="absolute bottom-5 right-5 z-10 backdrop-blur-xl bg-[rgba(25,_28,_31,_0.2] rounded-lg flex items-center justify-center">
+              {websiteLink && (
+                <a
+                  className="flex justify-center items-center m-2 space-x-1"
+                  href={websiteLink}
+                >
+                  <GlobeAltIcon className="h-6 w-6 " /> <p className="hidden lg:block">strek.in</p>
+                </a>
+              )}
+              {twitterProfile && (
+                <a href={twitterProfile} className="m-2">
+                  <TwitterIcon className="h-6 w-6" />
+                </a>
+              )}
+            </div>
+          )}
         </div>
         <div className="text-center">
           <div className=" font-space-grotesek font-bold text-4xl mt-10">
