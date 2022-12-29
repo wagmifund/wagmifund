@@ -84,7 +84,7 @@ const ProfilePage = () => {
   return (
     <>
       <div
-        className="w-full z-1 bg-[#0d1933] text-white flex flex-grow px-4 sm:px-8 flex-col mb-[80px] md:mb-[150px]"
+        className="w-full z-1 bg-black text-white flex flex-grow px-4 sm:px-8 flex-col mb-[80px] md:mb-[150px]"
         data-theme="user"
       >
         {isEditable && <ProfileEditor />}
