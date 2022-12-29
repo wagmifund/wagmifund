@@ -106,9 +106,9 @@ export const StackedTierCard = ({
             ? tiers[currentTier]?.title
             : `Collect tier to support ${handle} in
          ${
-           SUPPORTED_CURRENCIES?.filter(
+           SUPPORTED_CURRENCIES()?.filter(
              ({ address }) => address === tiers[currentTier]?.currency
-           )?.[0].symbol
+           )?.[0]?.symbol
          }`}
         </h2>
       )}

@@ -2,7 +2,7 @@ import { ChevronRightIcon, CogIcon } from "@heroicons/react/outline";
 import { v4 as uuid } from "uuid";
 import { LENS_PERIPHERY, RELAY_ON, SIGN_WALLET } from "@utils/constants";
 import { ProfileUIState, useProfileUIStore } from "@store/profile";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AppearAnimation from "./AnimatedAppear";
 import { useContractWrite, useSignTypedData } from "wagmi";
 import onError from "@utils/onError";
@@ -25,7 +25,7 @@ import { Spinner } from "./Spinner";
 const ProfileEditor = () => {
   const setProfileUIData = useProfileUIStore((state) => state.setProfileUIData);
   const profileUIData = useProfileUIStore((state) => state.profileUIData);
-
+  const [cover, setCover] = useState("");
   const gradient = useProfileUIStore((state) => state.profileUIData.gradient);
   const customColor = useProfileUIStore(
     (state) => state.profileUIData.theme
@@ -123,15 +123,17 @@ const ProfileEditor = () => {
     if (!currentProfile) {
       return toast.error(SIGN_WALLET);
     }
+    useEffect(() => {
+      if (currentProfile?.coverPicture?.original?.url) {
+        setCover(currentProfile?.coverPicture?.original?.url);
+      }
+    }, []);
 
     setIsUploading(true);
     const id = await uploadToArweave({
       name: currentProfile?.name,
       bio: currentProfile?.bio,
-      cover_picture:
-        "https://1.bp.blogspot.com/-CbWLumSsnHA/X3NCN8Y97SI/AAAAAAAAbdM/6_nItNbt0jcQvkFzogyKeqUGJjMyM57rACLcBGAsYHQ/s16000/v3-290920-rocket-minimalist-desktop-wallpaper-hd.png",
-
-      // cover_picture: cover ? cover : null,
+      cover_picture: cover ? cover : null,
       attributes: [
         ...currentProfile?.attributes.map(({ key, value }) => ({
           traitType: "string",

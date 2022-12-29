@@ -1,6 +1,13 @@
-import { useState } from "react";
+import { FC, useState } from "react";
 import clsx from "clsx";
-const CoverPicture = () => {
+import imageProxy from "@utils/imageProxy";
+import getIPFSLink from "@utils/getIPFSLink";
+import placeholderCover from "@assets/placeholder_cover.png";
+
+interface Props {
+  cover: string;
+}
+const CoverPicture: FC<Props> = ({ cover }) => {
   const [loading, setLoading] = useState(true);
   return (
     <div className="h-full">
@@ -11,7 +18,11 @@ const CoverPicture = () => {
           loading ? "opacity-0 h-0" : "opacity-1"
         )}
         alt="cover picture"
-        src="https://rarible.mypinata.cloud/ipfs/QmahqDp3zAG4tcQyxyAnB9fVJav9rrwBiFJedWHb4txkmE"
+        src={
+          cover
+            ? imageProxy(getIPFSLink(cover), "cover")
+            : `${placeholderCover}`
+        }
         onLoad={() => setLoading(false)}
       />
       {loading && (

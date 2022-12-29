@@ -5,7 +5,12 @@ import Select from "./Select";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { object, number, string, boolean } from "zod";
 import StepWizard from "./StepWizard";
-import { RELAY_ON, SIGN_WALLET, SUPPORTED_CURRENCIES } from "@utils/constants";
+import {
+  IS_MAINNET,
+  RELAY_ON,
+  SIGN_WALLET,
+  SUPPORTED_CURRENCIES,
+} from "@utils/constants";
 import Input from "./Input";
 import Button from "./Button";
 import toast, { LoaderIcon } from "react-hot-toast";
@@ -13,7 +18,7 @@ import { useAppStore } from "@store/app";
 import trimify from "@utils/trimify";
 import uploadToArweave from "@utils/uploadToArweave";
 import { useContractWrite, useSignTypedData } from "wagmi";
-import { TESTNET_LENSHUB_PROXY } from "@utils/contracts";
+import { LENSHUB_PROXY } from "@utils/constants";
 import { LensHubProxy } from "@abis/LensHubProxy";
 import onError from "@utils/onError";
 import useBroadcast from "@utils/useBroadcast";
@@ -147,7 +152,7 @@ const Tier = ({
               <Select
                 isDisabled={isLoading}
                 className="text-white"
-                options={SUPPORTED_CURRENCIES.map(
+                options={SUPPORTED_CURRENCIES().map(
                   ({ name, address, symbol }) => ({
                     name,
                     symbol,
@@ -160,7 +165,7 @@ const Tier = ({
                 }}
                 selected
                 defaultValue={
-                  SUPPORTED_CURRENCIES.map(({ name, symbol, address }) => ({
+                  SUPPORTED_CURRENCIES().map(({ name, symbol, address }) => ({
                     name,
                     symbol,
                     currency: address,
@@ -243,7 +248,9 @@ const TierForm = () => {
       amount: 1,
       title: "",
       comment: "",
-      currency: "0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889",
+      currency: IS_MAINNET
+        ? "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270"
+        : "0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889",
       emoji: "💰",
       recommendedTier: false,
     },
@@ -251,7 +258,9 @@ const TierForm = () => {
       amount: 2,
       title: "",
       comment: "",
-      currency: "0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889",
+      currency: IS_MAINNET
+        ? "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270"
+        : "0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889",
       emoji: "💰",
       recommendedTier: false,
     },
@@ -259,7 +268,9 @@ const TierForm = () => {
       amount: 5,
       title: "",
       comment: "",
-      currency: "0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889",
+      currency: IS_MAINNET
+        ? "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270"
+        : "0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889",
       emoji: "💰",
       recommendedTier: false,
     },
@@ -267,7 +278,9 @@ const TierForm = () => {
       amount: 10,
       title: "",
       comment: "",
-      currency: "0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889",
+      currency: IS_MAINNET
+        ? "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270"
+        : "0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889",
       emoji: "💰",
       recommendedTier: false,
     },
@@ -275,7 +288,9 @@ const TierForm = () => {
       amount: 20,
       title: "",
       comment: "",
-      currency: "0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889",
+      currency: IS_MAINNET
+        ? "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270"
+        : "0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889",
       emoji: "💰",
       recommendedTier: false,
     },
@@ -286,7 +301,6 @@ const TierForm = () => {
 
   useEffect(() => {
     if (publications.length >= 5) {
-      debugger;
       router.push(`/u/${currentProfile?.handle}`);
     } else {
       setActiveTier(publications.length);
@@ -341,11 +355,8 @@ const TierForm = () => {
     };
   };
 
-  const {
-    isLoading: writeLoading,
-    write,
-  } = useContractWrite({
-    address: TESTNET_LENSHUB_PROXY,
+  const { isLoading: writeLoading, write } = useContractWrite({
+    address: LENSHUB_PROXY,
     abi: LensHubProxy,
     functionName: "postWithSig",
     mode: "recklesslyUnprepared",
@@ -439,7 +450,7 @@ const TierForm = () => {
     }
   };
   setPublicationContent(
-    `Collect tier to support ${currentProfile?.handle} in cryptster.xyz/u/${currentProfile?.handle}`
+    `Collect tier to support ${currentProfile?.handle} in wagmi.fund/u/${currentProfile?.handle}`
   );
 
   const createPost = async ({
@@ -500,7 +511,7 @@ const TierForm = () => {
       {
         traitType: "currency",
         displayType: "string",
-        value: SUPPORTED_CURRENCIES.filter(
+        value: SUPPORTED_CURRENCIES().filter(
           ({ address }) => address === currency
         )?.[0].symbol,
       },

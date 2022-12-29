@@ -12,7 +12,6 @@ import imageProxy from "@utils/imageProxy";
 import onError from "@utils/onError";
 import splitSignature from "@utils/splitSignature";
 import uploadToArweave from "@utils/uploadToArweave";
-// import uploadToIPFS from "@utils/uploadToIPFS";
 import { LensPeriphery } from "@abis/LensPeriphery";
 import { v4 as uuid } from "uuid";
 
@@ -40,6 +39,9 @@ import { useContractWrite, useSignTypedData } from "wagmi";
 import { object, string, union } from "zod";
 import { TextArea } from "@components/TextArea";
 import { Input } from "@components/Input";
+import uploadToIPFS from "@utils/uploadToIPFS";
+import { PencilIcon } from "@heroicons/react/outline";
+import { Loader } from "@components/Loader";
 
 const editProfileSchema = object({
   name: string().max(100, { message: "Name should not exceed 100 characters" }),
@@ -62,7 +64,6 @@ interface Props {
 
 const Profile: FC<Props> = ({ profile }) => {
   const currentProfile = useAppStore((state) => state.currentProfile);
-  //   const [pride, setPride] = useState(hasPrideLogo(profile));
   const [cover, setCover] = useState("");
   const [isUploading, setIsUploading] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -163,10 +164,10 @@ const Profile: FC<Props> = ({ profile }) => {
     evt.preventDefault();
     setUploading(true);
     try {
-      //   const attachment = await uploadToIPFS(evt.target.files);
-      //   if (attachment[0]?.item) {
-      //     setCover(attachment[0].item);
-      //   }
+      const attachment = await uploadToIPFS(evt.target.files);
+      if (attachment[0]?.item) {
+        setCover(attachment[0].item);
+      }
     } finally {
       setUploading(false);
     }
@@ -197,12 +198,17 @@ const Profile: FC<Props> = ({ profile }) => {
       return toast.error(SIGN_WALLET);
     }
 
+    // useEffect(() => {
+    //   if (currentProfile?.coverPicture?.original?.url) {
+    //     setCover(currentProfile?.coverPicture?.original?.url);
+    //   }
+    // }, []);
+
     setIsUploading(true);
     const id = await uploadToArweave({
       name,
       bio,
-      cover_picture:
-        "https://1.bp.blogspot.com/-CbWLumSsnHA/X3NCN8Y97SI/AAAAAAAAbdM/6_nItNbt0jcQvkFzogyKeqUGJjMyM57rACLcBGAsYHQ/s16000/v3-290920-rocket-minimalist-desktop-wallpaper-hd.png",
+      cover_picture: cover ? cover : null,
       attributes: [
         ...currentProfile?.attributes.map(({ key, value }) => ({
           traitType: "string",
@@ -310,7 +316,7 @@ const Profile: FC<Props> = ({ profile }) => {
                   handleUpload(evt)
                 }
               />
-              {uploading && <Spinner size="sm" />}
+              {uploading && <Loader size="sm" />}
             </div>
           </div>
         </div>
@@ -320,8 +326,15 @@ const Profile: FC<Props> = ({ profile }) => {
             className="ml-auto"
             type="submit"
             disabled={isLoading}
+            icon={
+              isLoading ? (
+                <Loader size="sm" className="mr-1" />
+              ) : (
+                <PencilIcon className="w-4 h-4 mr-1" />
+              )
+            }
           >
-            Save {isLoading && <LoaderIcon className="ml-2 h-4 w-4" />}
+            Save
           </Button>
         </div>
       </Form>

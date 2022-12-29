@@ -60,7 +60,7 @@ const ToolbarPlugin: FC = () => {
 
   const currentProfile = useAppStore((state) => state.currentProfile);
   const [isUploading, setIsUploading] = useState(false);
-
+  const [cover, setCover] = useState("");
   const setUISettings = useProfileUIStore((state) => state.setUISettings);
 
   const onCompleted = () => {
@@ -140,7 +140,11 @@ const ToolbarPlugin: FC = () => {
       });
     }
   };
-
+  useEffect(() => {
+    if (currentProfile?.coverPicture?.original?.url) {
+      setCover(currentProfile?.coverPicture?.original?.url);
+    }
+  }, []);
   const editProfile = async (profileUIData?: ProfileUIState) => {
     if (!currentProfile) {
       return toast.error(SIGN_WALLET);
@@ -150,10 +154,7 @@ const ToolbarPlugin: FC = () => {
     const id = await uploadToArweave({
       name: currentProfile?.name,
       bio: currentProfile?.bio,
-      cover_picture:
-        "https://1.bp.blogspot.com/-CbWLumSsnHA/X3NCN8Y97SI/AAAAAAAAbdM/6_nItNbt0jcQvkFzogyKeqUGJjMyM57rACLcBGAsYHQ/s16000/v3-290920-rocket-minimalist-desktop-wallpaper-hd.png",
-
-      // cover_picture: cover ? cover : null,
+      cover_picture: cover ? cover : null,
       attributes: [
         { traitType: "string", key: "app_name", value: "wagmifund" },
         {
