@@ -97,7 +97,7 @@ const ProfilePage = () => {
         )}
 
         <div className="relative sm:min-h-[300px]">
-          <CoverPicture />
+          <CoverPicture cover={profile?.coverPicture?.original?.url} />
           <div className="absolute -bottom-8 left-1/2 -translate-x-[71px] z-10">
             <ProfilePicture profile={profile} />
           </div>

@@ -1,6 +1,5 @@
-import IndexStatus from "@components/Shared/IndexStatus";
+// import IndexStatus from "@components/Shared/IndexStatus";
 import { Button } from "@components/Button";
-import { Spinner } from "@components/Spinner";
 import useBroadcast from "@utils/useBroadcast";
 import { PencilIcon } from "@heroicons/react/outline";
 import getIPFSLink from "@utils/getIPFSLink";
@@ -8,7 +7,7 @@ import getSignature from "@utils/getSignature";
 import imageProxy from "@utils/imageProxy";
 import onError from "@utils/onError";
 import splitSignature from "@utils/splitSignature";
-// import uploadToIPFS from "@utils/up";
+import uploadToIPFS from "@utils/uploadToIPFS";
 import { LensHubProxy } from "@abis/LensHubProxy";
 import { LENSHUB_PROXY, RELAY_ON, SIGN_WALLET } from "@utils/constants";
 import type {
@@ -26,6 +25,7 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useAppStore } from "src/store/app";
 import { useContractWrite, useSignTypedData } from "wagmi";
+import { Loader } from "@components/Loader";
 
 interface Props {
   profile: Profile & { picture: MediaSet & NftImage };
@@ -46,7 +46,6 @@ const Picture: FC<Props> = ({ profile }) => {
   };
 
   const {
-    data: writeData,
     isLoading: writeLoading,
     error,
     write,
@@ -66,11 +65,9 @@ const Picture: FC<Props> = ({ profile }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const {
-    broadcast,
-    data: broadcastData,
-    loading: broadcastLoading,
-  } = useBroadcast({ onCompleted });
+  const { broadcast, loading: broadcastLoading } = useBroadcast({
+    onCompleted,
+  });
   const [createSetProfileImageURITypedData, { loading: typedDataLoading }] =
     useCreateSetProfileImageUriTypedDataMutation({
       onCompleted: async ({ createSetProfileImageURITypedData }) => {
@@ -105,7 +102,7 @@ const Picture: FC<Props> = ({ profile }) => {
 
   const [
     createSetProfileImageURIViaDispatcher,
-    { data: dispatcherData, loading: dispatcherLoading },
+    { loading: dispatcherLoading },
   ] = useCreateSetProfileImageUriViaDispatcherMutation({
     onCompleted,
     onError,
@@ -131,10 +128,10 @@ const Picture: FC<Props> = ({ profile }) => {
     evt.preventDefault();
     setUploading(true);
     try {
-      //   const attachment = await uploadToIPFS(evt.target.files);
-      //   if (attachment[0]?.item) {
-      //     setAvatar(attachment[0].item);
-      //   }
+      const attachment = await uploadToIPFS(evt.target.files);
+      if (attachment[0]?.item) {
+        setAvatar(attachment[0].item);
+      }
     } finally {
       setUploading(false);
     }
@@ -172,12 +169,12 @@ const Picture: FC<Props> = ({ profile }) => {
     signLoading ||
     writeLoading ||
     broadcastLoading;
-  const txHash =
-    writeData?.hash ??
-    broadcastData?.broadcast?.txHash ??
-    (dispatcherData?.createSetProfileImageURIViaDispatcher.__typename ===
-      "RelayerResult" &&
-      dispatcherData?.createSetProfileImageURIViaDispatcher.txHash);
+  // const txHash =
+  //   writeData?.hash ??
+  //   broadcastData?.broadcast?.txHash ??
+  //   (dispatcherData?.createSetProfileImageURIViaDispatcher.__typename ===
+  //     "RelayerResult" &&
+  //     dispatcherData?.createSetProfileImageURIViaDispatcher.txHash);
 
   return (
     <>
@@ -204,7 +201,7 @@ const Picture: FC<Props> = ({ profile }) => {
                 handleUpload(evt);
               }}
             />
-            {uploading && <Spinner size="sm" />}
+            {uploading && <Loader size="sm" />}
           </div>
         </div>
       </div>
@@ -216,15 +213,15 @@ const Picture: FC<Props> = ({ profile }) => {
           onClick={() => editPicture(avatar)}
           icon={
             isLoading ? (
-              <Spinner size="xs" />
+              <Loader size="sm" className="mr-1" />
             ) : (
-              <PencilIcon className="w-4 h-4" />
+              <PencilIcon className="w-4 h-4 mr-1" />
             )
           }
         >
           Save
         </Button>
-        {txHash ? <IndexStatus txHash={txHash} /> : null}
+        {/* {txHash ? <IndexStatus txHash={txHash} /> : null} */}
       </div>
     </>
   );

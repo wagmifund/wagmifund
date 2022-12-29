@@ -7,12 +7,11 @@ import {
 } from "./TierCard";
 import { Profile, useCreateCollectTypedDataMutation } from "generated";
 import toast from "react-hot-toast";
-import { RELAY_ON, SIGN_WALLET } from "@utils/constants";
+import { RELAY_ON, SIGN_WALLET, LENSHUB_PROXY } from "@utils/constants";
 import { useAccount, useContractWrite, useSignTypedData } from "wagmi";
 import onError from "@utils/onError";
 import getSignature from "@utils/getSignature";
 import splitSignature from "@utils/splitSignature";
-import { TESTNET_LENSHUB_PROXY } from "@utils/contracts";
 import { LensHubProxy } from "@abis/LensHubProxy";
 import useBroadcast from "@utils/useBroadcast";
 import { useRouter } from "next/router";
@@ -56,7 +55,7 @@ const TierCardData = ({
   };
 
   const { write } = useContractWrite({
-    address: TESTNET_LENSHUB_PROXY,
+    address: LENSHUB_PROXY,
     abi: LensHubProxy,
     functionName: "collectWithSig",
     mode: "recklesslyUnprepared",
