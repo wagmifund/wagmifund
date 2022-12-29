@@ -1,5 +1,5 @@
 import IndexStatus from "@components/Shared/IndexStatus";
-import Button from "@components/Button";
+import { Button } from "@components/Button";
 import { Spinner } from "@components/Spinner";
 import useBroadcast from "@utils/useBroadcast";
 import { PencilIcon } from "@heroicons/react/outline";

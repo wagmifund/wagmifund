@@ -1,4 +1,4 @@
-import { Button } from "@components/Button";
+import { Button, GradientButton } from "@components/Button";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import React from "react";
 
@@ -28,10 +28,10 @@ const WalletSelectorButton = ({ handleSign, signing }: Props) => {
       profileId ? (
         <p>logged in</p>
       ) : (
-        <Button onClick={handleSign} disabled={signing}>
+        <GradientButton onClick={handleSign} disabled={signing}>
           Sign In
           <span className="hidden ml-1 md:inline-block">with Lens</span>
-        </Button>
+        </GradientButton>
       )
     ) : (
       <Button

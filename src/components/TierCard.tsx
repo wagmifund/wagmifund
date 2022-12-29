@@ -7,7 +7,7 @@ import {
   TrashIcon,
   XIcon,
 } from "@heroicons/react/outline";
-import Button from "@components/Button";
+import { Button } from "@components/Button";
 import { useHidePublicationMutation } from "generated";
 import { useRouter } from "next/router";
 import Modal from "@components/Modal";
@@ -45,6 +45,7 @@ export const StackedTierCard = ({
   createCollect,
   loading = false,
 }: TierProps) => {
+  console.log(tiers,'tiers')
   const [currentTier, setCurrentTier] = useState(activeTier);
 
   const about = useProfileUIStore((state) => state.profileUIData.about);

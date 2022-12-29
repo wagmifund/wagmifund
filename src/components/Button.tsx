@@ -14,25 +14,41 @@ interface ButtonProps
   icon?: JSX.Element;
 }
 
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Input(
-  props,
-  ref
-) {
-  const { variant, children, className, icon, ...rest } = props;
-  return (
-    <button
-      className={clsx(
-        "btn bg-primary text-white hover:bg-primary border-1",
-        variant && `btn-${variant}`,
-        className
-      )}
-      ref={ref}
-      {...rest}
-    >
-      {icon}
-      {children}
-    </button>
-  );
-});
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  function Button(props, ref) {
+    const { variant, children, className, icon, ...rest } = props;
+    return (
+      <button
+        className={clsx(
+          "btn bg-primary text-white hover:bg-primary border-1",
+          variant && `btn-${variant}`,
+          className
+        )}
+        ref={ref}
+        {...rest}
+      >
+        {icon}
+        {children}
+      </button>
+    );
+  }
+);
 
-export default Button;
+export const GradientButton = forwardRef<HTMLButtonElement, ButtonProps>(
+  function Button(props, ref) {
+    const { children, className, icon, ...rest } = props;
+    return (
+      <button
+        className={clsx(
+          "buttons buttons-glow buttons-gradient-border !rounded-md px-[1em] leading-[1em] py-3",
+          className
+        )}
+        ref={ref}
+        {...rest}
+      >
+        {icon}
+        {children}
+      </button>
+    );
+  }
+);
