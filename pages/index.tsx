@@ -1,15 +1,9 @@
-import { Hero } from "@modules/LandingPage/Hero";
 import { TwitterPicker } from "react-color";
 import { Footer } from "@modules/LandingPage/Footer";
-import TierCardData from "@components/TierCardData";
-import { StackedTierCard } from "@components/TierCard";
-import Search from "@components/Search";
-import Login from "@components/Shared/Auth/Login";
-import Button, { GradientButton } from "@components/Button";
 import { useRouter } from "next/router";
 import { WrenchIcon } from "@icons/index-page";
-import { CurrencyDollarIcon, SupportIcon } from "@heroicons/react/outline";
-import { convertToHSL } from "@components/ColorPicker";
+import { CurrencyDollarIcon } from "@heroicons/react/outline";
+import { GradientButton } from "@components/Button";
 
 export default function Home() {
   const router = useRouter();

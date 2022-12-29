@@ -20,7 +20,6 @@ import getSignature from "@utils/getSignature";
 import splitSignature from "@utils/splitSignature";
 import { LensPeriphery } from "@abis/LensPeriphery";
 import useBroadcast from "@utils/useBroadcast";
-import { Spinner } from "./Spinner";
 
 const ProfileEditor = () => {
   const setProfileUIData = useProfileUIStore((state) => state.setProfileUIData);
