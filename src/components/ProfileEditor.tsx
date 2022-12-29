@@ -118,15 +118,15 @@ const ProfileEditor = () => {
       },
       onError,
     });
+  useEffect(() => {
+    if (currentProfile?.coverPicture?.original?.url) {
+      setCover(currentProfile?.coverPicture?.original?.url);
+    }
+  }, []);
   const editProfile = async (profileUIData?: ProfileUIState) => {
     if (!currentProfile) {
       return toast.error(SIGN_WALLET);
     }
-    useEffect(() => {
-      if (currentProfile?.coverPicture?.original?.url) {
-        setCover(currentProfile?.coverPicture?.original?.url);
-      }
-    }, []);
 
     setIsUploading(true);
     const id = await uploadToArweave({
@@ -283,7 +283,10 @@ const ProfileEditor = () => {
               }}
             />
           </div>
-          <Button onClick={() => editProfile(profileUIData)} className="ml-4 btn-sm">
+          <Button
+            onClick={() => editProfile(profileUIData)}
+            className="ml-4 btn-sm"
+          >
             Save {isLoading && <LoaderIcon className="h-6 w-6 ml-2" />}
           </Button>
         </div>

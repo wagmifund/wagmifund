@@ -11,7 +11,7 @@ import {
   walletConnectWallet,
 } from "@rainbow-me/rainbowkit/wallets";
 import { IS_MAINNET, RPC_URL } from "@utils/constants";
-import { chain, configureChains, createClient, WagmiConfig } from "wagmi";
+import { configureChains, createClient, WagmiConfig } from "wagmi";
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 import client from "@utils/apollo";
 import { publicProvider } from "wagmi/providers/public";

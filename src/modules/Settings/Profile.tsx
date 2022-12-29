@@ -2,7 +2,6 @@ import { Button } from "@components/Button";
 import { Card } from "@components/Card";
 import { Form, useZodForm } from "@components/Form";
 // import { Input } from "@components/UI/Input";
-import { Spinner } from "@components/Spinner";
 // import { TextArea } from "@components/UI/TextArea";
 import useBroadcast from "@utils/useBroadcast";
 import getAttribute from "@utils/getAttribute";
@@ -33,7 +32,7 @@ import {
 } from "generated";
 import type { ChangeEvent, FC } from "react";
 import { useEffect, useState } from "react";
-import toast, { LoaderIcon } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { useAppStore } from "src/store/app";
 import { useContractWrite, useSignTypedData } from "wagmi";
 import { object, string, union } from "zod";

@@ -10,6 +10,7 @@ import {
   RELAY_ON,
   SIGN_WALLET,
   SUPPORTED_CURRENCIES,
+  LENSHUB_PROXY,
 } from "@utils/constants";
 import Input from "./Input";
 import { Button } from "./Button";
@@ -18,7 +19,6 @@ import { useAppStore } from "@store/app";
 import trimify from "@utils/trimify";
 import uploadToArweave from "@utils/uploadToArweave";
 import { useContractWrite, useSignTypedData } from "wagmi";
-import { LENSHUB_PROXY } from "@utils/constants";
 import { LensHubProxy } from "@abis/LensHubProxy";
 import onError from "@utils/onError";
 import useBroadcast from "@utils/useBroadcast";

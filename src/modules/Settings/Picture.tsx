@@ -1,6 +1,5 @@
-import IndexStatus from "@components/Shared/IndexStatus";
+// import IndexStatus from "@components/Shared/IndexStatus";
 import { Button } from "@components/Button";
-import { Spinner } from "@components/Spinner";
 import useBroadcast from "@utils/useBroadcast";
 import { PencilIcon } from "@heroicons/react/outline";
 import getIPFSLink from "@utils/getIPFSLink";
@@ -47,7 +46,6 @@ const Picture: FC<Props> = ({ profile }) => {
   };
 
   const {
-    data: writeData,
     isLoading: writeLoading,
     error,
     write,
@@ -67,11 +65,9 @@ const Picture: FC<Props> = ({ profile }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const {
-    broadcast,
-    data: broadcastData,
-    loading: broadcastLoading,
-  } = useBroadcast({ onCompleted });
+  const { broadcast, loading: broadcastLoading } = useBroadcast({
+    onCompleted,
+  });
   const [createSetProfileImageURITypedData, { loading: typedDataLoading }] =
     useCreateSetProfileImageUriTypedDataMutation({
       onCompleted: async ({ createSetProfileImageURITypedData }) => {
@@ -106,7 +102,7 @@ const Picture: FC<Props> = ({ profile }) => {
 
   const [
     createSetProfileImageURIViaDispatcher,
-    { data: dispatcherData, loading: dispatcherLoading },
+    { loading: dispatcherLoading },
   ] = useCreateSetProfileImageUriViaDispatcherMutation({
     onCompleted,
     onError,
@@ -173,12 +169,12 @@ const Picture: FC<Props> = ({ profile }) => {
     signLoading ||
     writeLoading ||
     broadcastLoading;
-  const txHash =
-    writeData?.hash ??
-    broadcastData?.broadcast?.txHash ??
-    (dispatcherData?.createSetProfileImageURIViaDispatcher.__typename ===
-      "RelayerResult" &&
-      dispatcherData?.createSetProfileImageURIViaDispatcher.txHash);
+  // const txHash =
+  //   writeData?.hash ??
+  //   broadcastData?.broadcast?.txHash ??
+  //   (dispatcherData?.createSetProfileImageURIViaDispatcher.__typename ===
+  //     "RelayerResult" &&
+  //     dispatcherData?.createSetProfileImageURIViaDispatcher.txHash);
 
   return (
     <>
