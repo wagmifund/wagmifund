@@ -11,7 +11,7 @@ import { useProfileSettingsQuery } from "generated";
 import TierCardData from "@components/TierCardData";
 import { usePublicationStore } from "@store/publication";
 import { useRouter } from "next/router";
-import Button from "@components/Button";
+import { Button } from "@components/Button";
 
 const EditTiers: FC = () => {
   const currentProfile = useAppStore((state) => state.currentProfile);

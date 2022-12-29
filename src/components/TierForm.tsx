@@ -7,7 +7,7 @@ import { object, number, string, boolean } from "zod";
 import StepWizard from "./StepWizard";
 import { RELAY_ON, SIGN_WALLET, SUPPORTED_CURRENCIES } from "@utils/constants";
 import Input from "./Input";
-import Button from "./Button";
+import { Button } from "./Button";
 import toast, { LoaderIcon } from "react-hot-toast";
 import { useAppStore } from "@store/app";
 import trimify from "@utils/trimify";
@@ -71,7 +71,7 @@ const Tier = ({
 }) => {
   const form = useZodForm({
     schema: object({
-      amount: number().lt(100),
+      amount: number().lt(100).gt(0),
       title: string(),
       comment: string(),
       currency: string(),
@@ -173,6 +173,7 @@ const Tier = ({
                 type="number"
                 label="Amount"
                 placeholder="5"
+                min="0"
                 step="0.1"
                 {...form.register(`amount`, {
                   valueAsNumber: true,
@@ -341,10 +342,7 @@ const TierForm = () => {
     };
   };
 
-  const {
-    isLoading: writeLoading,
-    write,
-  } = useContractWrite({
+  const { isLoading: writeLoading, write } = useContractWrite({
     address: TESTNET_LENSHUB_PROXY,
     abi: LensHubProxy,
     functionName: "postWithSig",

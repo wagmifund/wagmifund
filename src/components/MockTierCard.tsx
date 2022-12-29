@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Button from "@components/Button";
+import { Button } from "@components/Button";
 import clsx from "clsx";
 import { XIcon } from "@heroicons/react/outline";
 import { Card } from "./Card";

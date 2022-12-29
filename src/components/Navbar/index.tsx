@@ -12,7 +12,7 @@ const NavBar = () => {
     query: { username },
   } = useRouter();
   return (
-    <div className="navbar h-8 bg-slate-900 text-white flex justify-between">
+    <div className="navbar h-8 bg-[#111] border-b border-[#333] text-white flex justify-between">
       <div className="flex justify-evenly">
         <Link href="/" className="ml-10">
           wagmi fund

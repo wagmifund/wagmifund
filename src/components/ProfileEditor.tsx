@@ -6,9 +6,9 @@ import { useState } from "react";
 import AppearAnimation from "./AnimatedAppear";
 import { useContractWrite, useSignTypedData } from "wagmi";
 import onError from "@utils/onError";
-import Button from "./Button";
+import { Button } from "./Button";
 import ColorPicker from "./ColorPicker";
-import toast from "react-hot-toast";
+import toast, { LoaderIcon } from "react-hot-toast";
 import { useAppStore } from "@store/app";
 import uploadToArweave from "@utils/uploadToArweave";
 import {
@@ -192,7 +192,7 @@ const ProfileEditor = () => {
 
   return showUISettings ? (
     <div>
-      <AppearAnimation className="fixed right-0 top-1/4 w-[168px] p-2 z-10 bg-slate-900 ring-1 rounded-2xl text-white transition-150 mr-1">
+      <AppearAnimation className="fixed right-0 top-1/4 w-[168px] z-10 bg-slate-900 ring-1 rounded-2xl text-white transition-150 mr-1 p-4">
         <Button
           className="text-primary flex justify-evenly bg-transparent border-transparent lowercase hover:bg-transparent mx-auto"
           onClick={() => {
@@ -247,8 +247,9 @@ const ProfileEditor = () => {
             />
           </div>
           <p className="mt-2">Tiers view</p>
-          <div className="flex justify-between">
+          <div className="flex justify-between space-x-2">
             <Button
+              className="btn-sm"
               onClick={() =>
                 setProfileUIData({
                   cardView: "stack",
@@ -258,6 +259,7 @@ const ProfileEditor = () => {
               Stack
             </Button>
             <Button
+              className="btn-sm"
               onClick={() =>
                 setProfileUIData({
                   cardView: "card",
@@ -280,15 +282,15 @@ const ProfileEditor = () => {
               }}
             />
           </div>
-          <Button onClick={() => editProfile(profileUIData)} className="ml-4">
-            Save {isLoading && <Spinner />}
+          <Button onClick={() => editProfile(profileUIData)} className="ml-4 btn-sm">
+            Save {isLoading && <LoaderIcon className="h-6 w-6 ml-2" />}
           </Button>
         </div>
       </AppearAnimation>
     </div>
   ) : (
     <Button
-      className="fixed right-0 top-1/2 bg-slate-900 ring-1 h-12 w-12 p-2 rounded-l-2xl"
+      className="fixed right-0 top-1/2 bg-slate-900 ring-1 h-12 w-12 p-2 rounded-l-2xl z-[11]"
       onClick={() => setUISettings(true)}
     >
       <CogIcon />

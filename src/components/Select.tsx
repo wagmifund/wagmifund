@@ -8,7 +8,7 @@ const Dropdown = forwardRef((props) => {
         input: () => "!bg-slate-900 !text-white",
         menu: () => "bg-slate-900 !text-white",
         option: () =>
-          "!bg-slate-900 !text-white rounded-md border border-theme !text-white",
+          "!bg-slate-900 !text-white rounded-md border border-theme !text-white focus:!bg-white",
         dropdownIndicator: () => "!bg-slate-900 !text-white",
         menuList: () => "!bg-slate-900 !text-white rounded-md",
         menuPortal: () => "!bg-slate-900 !text-white rounded-md",

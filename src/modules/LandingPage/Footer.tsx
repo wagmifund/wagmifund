@@ -2,9 +2,9 @@ export function Footer() {
   return (
     <footer>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="py-16">
+        <div className="py-6">
           {/* <Logo className="mx-auto h-10 w-auto" /> */}
-          <nav className="mt-10 text-sm" aria-label="quick links">
+          <nav className=" text-sm" aria-label="quick links">
             <ul className="-my-1 flex justify-center space-x-6">
               <li>
                 <a
