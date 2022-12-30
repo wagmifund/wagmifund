@@ -95,7 +95,6 @@ const ProfileEditor = () => {
           const signature = await signTypedDataAsync(getSignature(typedData));
           const { v, r, s } = splitSignature(signature);
           const sig = { v, r, s, deadline };
-          console.log("currentProfile", currentProfile);
           const inputStruct = {
             user: currentProfile?.ownedBy,
             profileId,
@@ -193,7 +192,7 @@ const ProfileEditor = () => {
 
   return showUISettings ? (
     <div>
-      <AppearAnimation className="fixed right-0 top-1/4 w-[168px] z-10 bg-slate-900 ring-1 rounded-2xl text-white transition-150 mr-1 p-4">
+      <AppearAnimation className="fixed right-0 top-1/4 w-[168px] z-20 bg-slate-900 ring-1 rounded-2xl text-white transition-150 mr-1 p-4">
         <Button
           className="text-primary flex justify-evenly bg-transparent border-transparent lowercase hover:bg-transparent mx-auto"
           onClick={() => {

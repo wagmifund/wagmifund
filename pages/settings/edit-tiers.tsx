@@ -33,7 +33,7 @@ const EditTiers: FC = () => {
         <Sidebar />
       </GridItemFour>
       <GridItemEight>
-        <Card className="space-y-2 linkify p-5">
+        <Card className="bg-wagmi-black border-wagmi-gray space-y-2 linkify p-5">
           <div className="flex items-center space-x-2 justify-between">
             <div className="text-lg font-bold">Edit Tiers</div>
             {publications?.length < 5 && (

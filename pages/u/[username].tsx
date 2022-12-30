@@ -31,7 +31,6 @@ const ProfilePage = () => {
   const setProfileUIData = useProfileUIStore((state) => state.setProfileUIData);
 
   useEffect(() => {
-    console.log(corners);
     document
       .querySelector('[data-theme="user"]')
       ?.style.setProperty("--rounded-box", `${corners}rem`);
@@ -54,7 +53,6 @@ const ProfilePage = () => {
     },
     skip: !username,
     onCompleted: ({ profile: userUIData }) => {
-      console.log(Object.values(userUIData?.attributes), "acc");
       Object.values(userUIData?.attributes).forEach(({ key, value }) => {
         if (key in profileUIData) {
           setProfileUIData({
@@ -102,13 +100,15 @@ const ProfilePage = () => {
             <ProfilePicture profile={profile} />
           </div>
           {(twitterProfile || websiteLink) && (
-            <div className="absolute bottom-5 right-5 z-10 backdrop-blur-xl bg-[rgba(25,_28,_31,_0.2] rounded-lg flex items-center justify-center">
+            <div
+              className="absolute bottom-5 right-5 z-10 backdrop-blur-xl bg-[rgba(25,_28,_31,_0.2] rounded-lg flex items-center justify-center">
               {websiteLink && (
                 <a
                   className="flex justify-center items-center m-2 space-x-1"
                   href={websiteLink}
                 >
-                  <GlobeAltIcon className="h-6 w-6 " /> <p className="hidden lg:block">strek.in</p>
+                  <GlobeAltIcon className="h-6 w-6 " />{" "}
+                  <p className="hidden lg:block">strek.in</p>
                 </a>
               )}
               {twitterProfile && (

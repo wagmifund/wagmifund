@@ -249,7 +249,7 @@ const Profile: FC<Props> = ({ profile }) => {
     broadcastLoading;
 
   return (
-    <Card className="p-5">
+    <Card className="bg-wagmi-black border-wagmi-gray p-5">
       <Form
         form={form}
         className="space-y-4"

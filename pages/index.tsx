@@ -86,7 +86,7 @@ export default function Home() {
             />
             <div
               id="dummy-tier"
-              className="card mt-6 border-gray-200 border-opacity-800  m-2 w-full text-white bg-gray-900 flex flex-col items-center p-2 sm:p-8 h-fit border border-theme"
+              className="card xl:w-[60%] w-full mt-6 border-gray-200 border-opacity-800  m-2 text-white bg-gray-900 flex flex-col items-center p-2 sm:p-8 h-fit border border-theme"
             >
               <h2 className="h-auto font-bold text-xl flex-grow-0 sm:text-2xl text-center w-full overflow-hidden text-ellipsis">
                 Help wagmi.fund reach its goal

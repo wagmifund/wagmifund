@@ -9,6 +9,7 @@ module.exports = {
   theme: {
     extend: {
       backgroundColor: {
+        'wagmi-black': '#111',
         primary: "hsl(var(--p) / 0.9)",
         "primary-hover": "hsl(var(--p) / 0.9)",
         theme: "hsl(var(--p) / 0.1)",
@@ -18,6 +19,7 @@ module.exports = {
         theme: "hsl(var(--p) / 1)",
       },
       borderColor: {
+        'wagmi-gray': "#333",
         theme: "hsl(var(--p) / 1)",
       },
       fontFamily: {

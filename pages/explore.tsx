@@ -35,7 +35,7 @@ const Explore = () => {
       <div className=" max-w-[540px] relative m-auto pb-[50px] sm:p-10 sm:pb-[100px]">
         <Search onProfileSelected={onProfileSelected} />
       </div>
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
+      <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-10">
         {data?.exploreProfiles?.items.map(
           (profile: {
             id: Key | null | undefined;
@@ -55,13 +55,14 @@ const Explore = () => {
               key={profile.id}
               href={`/u/${profile.handle}`}
               passHref
-              className="shadow-[1px_1px_7px_1px_#3182ce,0px_3px_5px_0px_#b83280] border border-[#333] bg-black rounded-lg p-1.5 flex items-center"
+              className="border rounded-lg p-1.5 flex items-center bg-wagmi-black border-wagmi-gray"
             >
               <div className="card h-[200px] ">
                 <div className="card-header mx-4 -mt-6">
                   <img
                     src={getAvatar(profile)}
-                    className="rounded-md w-[75px] h-[75px] mr-2 object-cover bg-gray-50"
+                    className="rounded-md w-[75px] h-[75px] mr-2 object-cover border-white bg-white border-4"
+                    alt={profile.name ?? profile.handle}
                   />
                 </div>
                 <div className="card-body p-4">

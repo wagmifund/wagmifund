@@ -106,7 +106,6 @@ const TierCardData = ({
     onError,
   });
   const createCollect = (publicationId: number) => {
-    console.log("publicationId", publicationId);
     if (!currentProfile) {
       return toast.error(SIGN_WALLET);
     }

@@ -41,6 +41,7 @@ export type tier = {
   currency: string;
   emoji: string;
   title?: string;
+  buttonText: string;
   recommendedTier?: boolean;
   setClickedOnContinue?: any;
 };
@@ -66,6 +67,7 @@ const Tier = ({
         recommendedTier: boolean;
         currency: string;
         emoji: string;
+        buttonText: string;
       }[]
     >
   >;
@@ -81,13 +83,21 @@ const Tier = ({
       comment: string(),
       currency: string(),
       emoji: string(),
+      buttonText: string(),
       recommendedTier: boolean(),
     }),
     defaultValues: field,
   });
-  const [comment, amount, title, currency, emoji, recommendedTier] = form.watch(
-    ["comment", "amount", "title", "currency", "emoji", "recommendedTier"]
-  );
+  const [comment, amount, title, currency, emoji, recommendedTier, buttonText] =
+    form.watch([
+      "comment",
+      "amount",
+      "title",
+      "currency",
+      "emoji",
+      "recommendedTier",
+      "buttonText",
+    ]);
 
   const [fields, setFields] = useState(fieldsData);
   const currentProfile = useAppStore((state) => state.currentProfile);
@@ -97,13 +107,13 @@ const Tier = ({
       // Items before the insertion point:
       ...fieldsData.slice(0, activeTier),
       // New item:
-      { comment, amount, currency, emoji, recommendedTier, title },
+      { comment, amount, currency, emoji, recommendedTier, title, buttonText },
       // Items after the insertion point:
       ...fieldsData.slice(activeTier + 1),
     ];
     setFields(newTiersData);
     setTiersFields(newTiersData);
-  }, [comment, amount, currency, emoji, recommendedTier, title]);
+  }, [comment, amount, currency, emoji, recommendedTier, title, buttonText]);
 
   return (
     <AppearAnimation className="flex-grow rounded-2xl w-full">
@@ -123,28 +133,39 @@ const Tier = ({
                 placeholder="Silver sponsor"
                 {...form.register(`title`)}
               />
-              <Menu>
-                <Menu.Button className="w-fit">
-                  <div className="form-control w-full mx-auto">
-                    <label className="label">
-                      <span className="label-text text-white">Emoji</span>
-                    </label>
-                    <div className="flex relative text-2xl text-white w-12 h-12 justify-center bg-[#2A303C] rounded-md items-center">
-                      {form.getValues("emoji")}
+              <div className="flex">
+                <Menu>
+                  <Menu.Button className="w-fit">
+                    <div className="form-control w-full mx-auto">
+                      <label className="label">
+                        <span className="label-text text-white">Emoji</span>
+                      </label>
+                      <div className="flex relative text-2xl text-white w-12 h-12 justify-center bg-[#2A303C] rounded-md items-center">
+                        {form.getValues("emoji")}
+                      </div>
                     </div>
-                  </div>
-                </Menu.Button>
-                <Menu.Items>
-                  <div className="absolute z-50">
-                    <EmojiPicker
-                      theme="dark"
-                      onEmojiClick={({ emoji }) => {
-                        form.setValue("emoji", emoji);
-                      }}
-                    />
-                  </div>
-                </Menu.Items>
-              </Menu>
+                  </Menu.Button>
+                  <Menu.Items>
+                    <div className="absolute z-50">
+                      <EmojiPicker
+                        theme="dark"
+                        onEmojiClick={({ emoji }) => {
+                          form.setValue("emoji", emoji);
+                        }}
+                      />
+                    </div>
+                  </Menu.Items>
+                </Menu>
+                <div className="form-control w-full max-w-md mx-auto px-3">
+                  <Input
+                    disabled={isLoading}
+                    type="text"
+                    label="Button text"
+                    placeholder="Gift"
+                    {...form.register("buttonText")}
+                  />
+                </div>
+              </div>
 
               <label className="label">
                 <span className="label-text text-white">Currency</span>
@@ -194,7 +215,7 @@ const Tier = ({
                   required: true,
                 })}
               />
-              <div className="flex justify-center h-10 mt-4">
+              <div className="flex h-10 mt-4">
                 Recommended Tier
                 <input
                   disabled={isLoading}
@@ -458,6 +479,7 @@ const TierForm = () => {
     emoji,
     comment,
     title,
+    buttonText,
     currency,
     recommendedTier,
     amount,
@@ -504,6 +526,7 @@ const TierForm = () => {
         displayType: "string",
         value: comment,
       },
+      { traitType: "buttonText", displayType: "string", value: buttonText },
       {
         traitType: "amount",
         displayType: "string",

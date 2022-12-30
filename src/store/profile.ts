@@ -38,9 +38,5 @@ export const useProfileUIStore = create<ProfileState>((set, get) => ({
       ...currentState,
       profileUIData: { ...currentState.profileUIData, ...profileUIData },
     }));
-    console.log({
-      ...get(),
-      profileUIData: { ...get().profileUIData, ...profileUIData },
-    });
   },
 }));

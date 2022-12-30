@@ -45,7 +45,7 @@ const ProfileSettings: NextPage = () => {
       </GridItemFour>
       <GridItemEight className="space-y-5">
         <Profile profile={profile as any} />
-        <Card className="space-y-5 p-5">
+        <Card className="bg-wagmi-black border-wagmi-gray space-y-5 p-5">
           <div className="flex items-center space-x-2">
             {<PhotographIcon className="w-5 h-5" />}
             <div className="hidden sm:block">{"Upload avatar"}</div>

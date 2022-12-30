@@ -12,9 +12,9 @@ const StepWizard = ({
 }) => {
   return (
     <AppearAnimation {...props}>
-      <Card className="bg-gray-900 m-4 w-auto flex flex-col">
+      <Card className="bg-wagmi-black border-wagmi-gray m-4 w-auto flex flex-col">
         <div className="m-10 mb-0">
-          <div className="alert alert-primary border-theme border shadow-lg">
+          <div className="alert alert-primary bg-[#222] border-wagmi-gray border shadow-lg">
             <div>
               <svg
                 xmlns="http://www.w3.org/2000/svg"

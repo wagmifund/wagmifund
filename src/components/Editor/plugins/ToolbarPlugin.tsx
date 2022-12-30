@@ -92,7 +92,6 @@ const ToolbarPlugin: FC = () => {
           const signature = await signTypedDataAsync(getSignature(typedData));
           const { v, r, s } = splitSignature(signature);
           const sig = { v, r, s, deadline };
-          console.log("currentProfile", currentProfile);
           const inputStruct = {
             user: currentProfile?.ownedBy,
             profileId,

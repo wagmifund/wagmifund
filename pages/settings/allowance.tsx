@@ -71,7 +71,7 @@ const AllowanceSettings: NextPage = () => {
         <Sidebar />
       </GridItemFour>
       <GridItemEight>
-        <Card className="space-y-2 linkify p-5">
+        <Card className="bg-wagmi-black border-wagmi-gray space-y-2 linkify p-5">
           <Modules />
         </Card>
       </GridItemEight>
