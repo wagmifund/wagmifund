@@ -22,6 +22,8 @@ import { NotFoundPage } from "@modules/Error/NotFoundPage";
 import { GlobeAltIcon } from "@heroicons/react/outline";
 import { TwitterIcon } from "@icons/socials";
 import getAttribute from "@utils/getAttribute";
+import MetaTags from "@components/MetaTags";
+import formatHandle from "@utils/formatHandle";
 
 const ProfilePage = () => {
   const { cardView, theme, corners, gradient } = useProfileUIStore(
@@ -29,7 +31,6 @@ const ProfilePage = () => {
   );
   const profileUIData = useProfileUIStore((state) => state.profileUIData);
   const setProfileUIData = useProfileUIStore((state) => state.setProfileUIData);
-
   useEffect(() => {
     document
       .querySelector('[data-theme="user"]')
@@ -68,7 +69,7 @@ const ProfilePage = () => {
     return <div />;
   }
 
-  if (loading || !profile) {
+  if (loading || !data) {
     return <PageLoader />;
   }
 
@@ -81,6 +82,15 @@ const ProfilePage = () => {
 
   return (
     <>
+      {profile?.name ? (
+        <MetaTags
+          title={`${profile?.name} (@${formatHandle(
+            profile?.handle
+          )}) • Wagmi Fund`}
+        />
+      ) : (
+        <MetaTags title={`@${formatHandle(profile?.handle)} • Wagmi Fund`} />
+      )}
       <div
         className="w-full z-1 bg-black text-white flex flex-grow px-4 sm:px-8 flex-col mb-[80px] md:mb-[150px]"
         data-theme="user"
@@ -100,8 +110,7 @@ const ProfilePage = () => {
             <ProfilePicture profile={profile} />
           </div>
           {(twitterProfile || websiteLink) && (
-            <div
-              className="absolute bottom-5 right-5 z-10 backdrop-blur-xl bg-[rgba(25,_28,_31,_0.2] rounded-lg flex items-center justify-center">
+            <div className="absolute bottom-5 right-5 z-10 backdrop-blur-xl bg-[rgba(25,_28,_31,_0.2] rounded-lg flex items-center justify-center">
               {websiteLink && (
                 <a
                   className="flex justify-center items-center m-2 space-x-1"

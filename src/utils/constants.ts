@@ -23,6 +23,8 @@ export const RELAY_ON = "false";
 
 // Application
 export const APP_NAME = "wagmifund";
+export const DESCRIPTION =
+  "Decentralized crowd funding platform, built on Lens Protocol 🌿";
 export const APP_VERSION = packageJson.version;
 
 // Bundlr
@@ -36,12 +38,11 @@ export const WRONG_NETWORK = IS_MAINNET
   ? "Please change network to Polygon mainnet."
   : "Please change network to Polygon Mumbai testnet.";
 export const SIGN_ERROR = "Failed to sign data";
-
+export const LENSPROTOCOL_HANDLE = "lensprotocol";
+export const HANDLE_SUFFIX = IS_MAINNET ? ".lens" : ".test";
 export const SERVERLESS_URL = "http://localhost:3000/api";
 
 // URLs
-export const STATIC_ASSETS_URL = "https://assets.lenster.xyz";
-export const STATIC_IMAGES_URL = `${STATIC_ASSETS_URL}/images`;
 export const POLYGONSCAN_URL = IS_MAINNET
   ? "https://polygonscan.com"
   : "https://mumbai.polygonscan.com";

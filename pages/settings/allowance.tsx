@@ -19,6 +19,7 @@ import Modules from "@modules/Settings/Modules";
 import PageLoader from "@components/PageLoader";
 import { NotFoundPage } from "@modules/Error/NotFoundPage";
 import { ServerError } from "@modules/Error/ServerError";
+import MetaTags from "@components/MetaTags";
 
 const getAllowancePayload = (currency: string) => {
   const {
@@ -66,16 +67,19 @@ const AllowanceSettings: NextPage = () => {
   }
 
   return (
-    <GridLayout>
-      <GridItemFour>
-        <Sidebar />
-      </GridItemFour>
-      <GridItemEight>
-        <Card className="bg-wagmi-black border-wagmi-gray space-y-2 linkify p-5">
-          <Modules />
-        </Card>
-      </GridItemEight>
-    </GridLayout>
+    <>
+      <MetaTags title={`Allowance settings • Wagmi Fund`} />
+      <GridLayout>
+        <GridItemFour>
+          <Sidebar />
+        </GridItemFour>
+        <GridItemEight>
+          <Card className="bg-wagmi-black border-wagmi-gray space-y-2 linkify p-5">
+            <Modules />
+          </Card>
+        </GridItemEight>
+      </GridLayout>
+    </>
   );
 };
 

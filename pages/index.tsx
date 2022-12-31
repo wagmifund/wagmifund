@@ -4,11 +4,13 @@ import { useRouter } from "next/router";
 import { WrenchIcon } from "@icons/index-page";
 import { CurrencyDollarIcon } from "@heroicons/react/outline";
 import { GradientButton } from "@components/Button";
+import MetaTags from "@components/MetaTags";
 
 export default function Home() {
   const router = useRouter();
   return (
     <>
+      <MetaTags title={`Wagmi Fund`} />
       <section className="hero-section p-8 flex justify-center flex-col items-center h-[100vh]">
         <h1 className="text-white flex items-center justify-center font-extrabold sm:text-[80px] space-x-4 flex-wrap text-[50px]">
           <span> Create. </span>

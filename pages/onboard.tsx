@@ -1,3 +1,4 @@
+import MetaTags from "@components/MetaTags";
 import PageLoader from "@components/PageLoader";
 import TierForm from "@components/TierForm";
 import { useAppStore } from "@store/app";
@@ -19,11 +20,14 @@ const Onboard = () => {
     return <PageLoader />;
   }
   return (
-    <div className="flex flex-grow">
-      <div className="flex justify-center items-center flex-col flex-grow">
-        <TierForm />
+    <>
+      <MetaTags title={`Onboard • Wagmi Fund`} />
+      <div className="flex flex-grow">
+        <div className="flex justify-center items-center flex-col flex-grow">
+          <TierForm />
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

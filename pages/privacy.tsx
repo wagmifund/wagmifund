@@ -1,3 +1,4 @@
+import MetaTags from "@components/MetaTags";
 import { Footer } from "@modules/LandingPage/Footer";
 import { APP_NAME } from "@utils/constants";
 import type { FC } from "react";
@@ -5,6 +6,7 @@ import type { FC } from "react";
 const Privacy: FC = () => {
   return (
     <>
+      <MetaTags title={`Privacy • Wagmi Fund`} />
       <div className="flex justify-center items-center w-full h-48 bg-theme">
         <div className="relative text-center">
           <h1 className="text-3xl font-bold text-white md:text-4xl">
@@ -93,7 +95,10 @@ const Privacy: FC = () => {
               <p className="mb-3 linkify">
                 If you have any questions about our Privacy Policy, please do
                 not hesitate to contact us at{" "}
-                <a href="mailto:support@lenster.xyz">support@lenster.xyz</a>.
+                <a href="mailto:wagmifund.lens@gmail.com">
+                  wagmifund.lens@gmail.com
+                </a>
+                .
               </p>
             </div>
           </div>

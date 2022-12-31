@@ -15,7 +15,7 @@ const params = {
 };
 
 const getS3Client = async () => {
-  const token = await axios.get(`${SERVERLESS_URL}/sts/token`);
+  const token = await axios.get(`/api/sts/token`);
   const client = new S3({
     endpoint: EVER_API,
     credentials: {
