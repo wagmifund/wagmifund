@@ -1,6 +1,6 @@
 import { S3 } from "@aws-sdk/client-s3";
 import axios from "axios";
-import { EVER_API, SERVERLESS_URL } from "@utils/constants";
+import { EVER_API } from "@utils/constants";
 import { v4 as uuid } from "uuid";
 
 interface Attachment {

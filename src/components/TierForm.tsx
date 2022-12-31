@@ -173,7 +173,7 @@ const Tier = ({
               <Select
                 isDisabled={isLoading}
                 className="text-white"
-                options={SUPPORTED_CURRENCIES().map(
+                options={SUPPORTED_CURRENCIES.map(
                   ({ name, address, symbol }) => ({
                     name,
                     symbol,
@@ -186,7 +186,7 @@ const Tier = ({
                 }}
                 selected
                 defaultValue={
-                  SUPPORTED_CURRENCIES().map(({ name, symbol, address }) => ({
+                  SUPPORTED_CURRENCIES.map(({ name, symbol, address }) => ({
                     name,
                     symbol,
                     currency: address,
@@ -471,9 +471,6 @@ const TierForm = () => {
       });
     }
   };
-  setPublicationContent(
-    `Collect tier to support ${currentProfile?.handle} in wagmi.fund/u/${currentProfile?.handle}`
-  );
 
   const createPost = async ({
     emoji,
@@ -491,6 +488,9 @@ const TierForm = () => {
     recommendedTier: boolean;
     amount: number;
   }) => {
+    setPublicationContent(
+      `Be a part of my journey and support my work at https://wagmi.fund/u/${currentProfile?.handle}`
+    );
     const baseFeeData = {
       amount: {
         currency: currency,
@@ -503,10 +503,6 @@ const TierForm = () => {
 
     if (!currentProfile) {
       return toast.error(SIGN_WALLET);
-    }
-
-    if (publicationContent.length === 0) {
-      return toast.error("Tier should not be empty!");
     }
 
     setIsUploading(true);
@@ -535,7 +531,7 @@ const TierForm = () => {
       {
         traitType: "currency",
         displayType: "string",
-        value: SUPPORTED_CURRENCIES().filter(
+        value: SUPPORTED_CURRENCIES.filter(
           ({ address }) => address === currency
         )?.[0].symbol,
       },

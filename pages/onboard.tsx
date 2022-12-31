@@ -16,6 +16,9 @@ const Onboard = () => {
   if (publications.length === 5) {
     router.push(`/u/${currentProfile?.handle}`);
   }
+  if (!currentProfile) {
+    router.push("/");
+  }
   if (!publicationFetched) {
     return <PageLoader />;
   }
