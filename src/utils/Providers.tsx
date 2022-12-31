@@ -10,14 +10,15 @@ import {
   rainbowWallet,
   walletConnectWallet,
 } from "@rainbow-me/rainbowkit/wallets";
-import { RPC_URL } from "@utils/constants";
-import { chain, configureChains, createClient, WagmiConfig } from "wagmi";
+import { IS_MAINNET, RPC_URL } from "@utils/constants";
+import { configureChains, createClient, WagmiConfig } from "wagmi";
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 import client from "@utils/apollo";
 import { publicProvider } from "wagmi/providers/public";
+import { polygon, polygonMumbai } from "wagmi/chains";
 
 const { chains, provider } = configureChains(
-  [chain.polygonMumbai],
+  [IS_MAINNET ? polygon : polygonMumbai],
   [
     jsonRpcProvider({
       rpc: () => ({

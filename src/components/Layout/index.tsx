@@ -20,6 +20,8 @@ import PageLoader from "@components/PageLoader";
 import { useRouter } from "next/router";
 import { usePublicationStore } from "@store/publication";
 import { tier } from "@components/MockTierCard";
+import Confetti from "react-confetti";
+import useWindow from "@utils/hooks/useWindow";
 
 interface Props {
   children: ReactNode;
@@ -27,6 +29,8 @@ interface Props {
 
 const Layout: FC<Props> = ({ children }) => {
   const setProfiles = useAppStore((state) => state.setProfiles);
+  const setConfetti = useAppStore((state) => state.setConfetti);
+  const confetti = useAppStore((state) => state.confetti);
   const setUserSigNonce = useAppStore((state) => state.setUserSigNonce);
   const currentProfile = useAppStore((state) => state.currentProfile);
   const setCurrentProfile = useAppStore((state) => state.setCurrentProfile);
@@ -81,6 +85,8 @@ const Layout: FC<Props> = ({ children }) => {
   const setPublicationIsFetched = usePublicationStore(
     (state) => state.setPublicationIsFetched
   );
+
+  const { height, width } = useWindow();
 
   const request = {
     publicationTypes,
@@ -154,6 +160,18 @@ const Layout: FC<Props> = ({ children }) => {
         <meta name="theme-color" />
       </Head>
       <Toaster position="bottom-right" toastOptions={getToastOptions()} />
+      {confetti && (
+        <Confetti
+          numberOfPieces={300}
+          recycle={false}
+          onConfettiComplete={(confetti) => {
+            setConfetti(false);
+            confetti?.reset();
+          }}
+          width={width}
+          height={height}
+        />
+      )}
       <div className="flex flex-col min-h-screen">
         <ProfileContext.Provider value={{ refetch }}>
           <Navbar />

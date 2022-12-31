@@ -76,7 +76,7 @@ const Search: FC<Props> = ({
           placeholder={placeholder}
           search
           value={searchText}
-          iconLeft={<SearchIcon className="w-5 h-5 text-theme" />}
+          iconLeft={<SearchIcon className="w-5 h-5 text-white" />}
           iconRight={
             <XIcon
               className={clsx(

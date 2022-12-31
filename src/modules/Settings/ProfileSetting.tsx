@@ -15,6 +15,7 @@ import Profile from "@modules/Settings/Profile";
 import PageLoader from "@components/PageLoader";
 import { NotFoundPage } from "@modules/Error/NotFoundPage";
 import { ServerError } from "@modules/Error/ServerError";
+import MetaTags from "@components/MetaTags";
 
 const ProfileSettings: NextPage = () => {
   const currentProfile = useAppStore((state) => state.currentProfile);
@@ -39,21 +40,24 @@ const ProfileSettings: NextPage = () => {
   const profile = data?.profile;
 
   return (
-    <GridLayout>
-      <GridItemFour>
-        <Sidebar />
-      </GridItemFour>
-      <GridItemEight className="space-y-5">
-        <Profile profile={profile as any} />
-        <Card className="space-y-5 p-5">
-          <div className="flex items-center space-x-2">
-            {<PhotographIcon className="w-5 h-5" />}
-            <div className="hidden sm:block">{"Upload avatar"}</div>
-          </div>
-          <Picture profile={profile as any} />
-        </Card>
-      </GridItemEight>
-    </GridLayout>
+    <>
+      <MetaTags title={`Profile Settings • Wagmi Fund`} />
+      <GridLayout>
+        <GridItemFour>
+          <Sidebar />
+        </GridItemFour>
+        <GridItemEight className="space-y-5">
+          <Profile profile={profile as any} />
+          <Card className="bg-wagmi-black border-wagmi-gray space-y-5 p-5">
+            <div className="flex items-center space-x-2">
+              {<PhotographIcon className="w-5 h-5" />}
+              <div className="hidden sm:block">{"Upload avatar"}</div>
+            </div>
+            <Picture profile={profile as any} />
+          </Card>
+        </GridItemEight>
+      </GridLayout>
+    </>
   );
 };
 

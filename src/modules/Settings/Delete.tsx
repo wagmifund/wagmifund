@@ -96,7 +96,7 @@ const DeleteSettings: FC = () => {
         <Sidebar />
       </GridItemFour>
       <GridItemEight>
-        <Card className="space-y-5 p-5">
+        <Card className="bg-wagmi-black border-wagmi-gray space-y-5 p-5">
           <div className="text-lg font-bold text-red-500">
             This will deactivate your account
           </div>

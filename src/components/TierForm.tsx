@@ -5,7 +5,13 @@ import Select from "./Select";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { object, number, string, boolean } from "zod";
 import StepWizard from "./StepWizard";
-import { RELAY_ON, SIGN_WALLET, SUPPORTED_CURRENCIES } from "@utils/constants";
+import {
+  IS_MAINNET,
+  RELAY_ON,
+  SIGN_WALLET,
+  SUPPORTED_CURRENCIES,
+  LENSHUB_PROXY,
+} from "@utils/constants";
 import Input from "./Input";
 import { Button } from "./Button";
 import toast, { LoaderIcon } from "react-hot-toast";
@@ -13,7 +19,6 @@ import { useAppStore } from "@store/app";
 import trimify from "@utils/trimify";
 import uploadToArweave from "@utils/uploadToArweave";
 import { useContractWrite, useSignTypedData } from "wagmi";
-import { TESTNET_LENSHUB_PROXY } from "@utils/contracts";
 import { LensHubProxy } from "@abis/LensHubProxy";
 import onError from "@utils/onError";
 import useBroadcast from "@utils/useBroadcast";
@@ -36,6 +41,7 @@ export type tier = {
   currency: string;
   emoji: string;
   title?: string;
+  buttonText: string;
   recommendedTier?: boolean;
   setClickedOnContinue?: any;
 };
@@ -61,6 +67,7 @@ const Tier = ({
         recommendedTier: boolean;
         currency: string;
         emoji: string;
+        buttonText: string;
       }[]
     >
   >;
@@ -76,13 +83,21 @@ const Tier = ({
       comment: string(),
       currency: string(),
       emoji: string(),
+      buttonText: string(),
       recommendedTier: boolean(),
     }),
     defaultValues: field,
   });
-  const [comment, amount, title, currency, emoji, recommendedTier] = form.watch(
-    ["comment", "amount", "title", "currency", "emoji", "recommendedTier"]
-  );
+  const [comment, amount, title, currency, emoji, recommendedTier, buttonText] =
+    form.watch([
+      "comment",
+      "amount",
+      "title",
+      "currency",
+      "emoji",
+      "recommendedTier",
+      "buttonText",
+    ]);
 
   const [fields, setFields] = useState(fieldsData);
   const currentProfile = useAppStore((state) => state.currentProfile);
@@ -92,13 +107,13 @@ const Tier = ({
       // Items before the insertion point:
       ...fieldsData.slice(0, activeTier),
       // New item:
-      { comment, amount, currency, emoji, recommendedTier, title },
+      { comment, amount, currency, emoji, recommendedTier, title, buttonText },
       // Items after the insertion point:
       ...fieldsData.slice(activeTier + 1),
     ];
     setFields(newTiersData);
     setTiersFields(newTiersData);
-  }, [comment, amount, currency, emoji, recommendedTier, title]);
+  }, [comment, amount, currency, emoji, recommendedTier, title, buttonText]);
 
   return (
     <AppearAnimation className="flex-grow rounded-2xl w-full">
@@ -118,28 +133,39 @@ const Tier = ({
                 placeholder="Silver sponsor"
                 {...form.register(`title`)}
               />
-              <Menu>
-                <Menu.Button className="w-fit">
-                  <div className="form-control w-full mx-auto">
-                    <label className="label">
-                      <span className="label-text text-white">Emoji</span>
-                    </label>
-                    <div className="flex relative text-2xl text-white w-12 h-12 justify-center bg-[#2A303C] rounded-md items-center">
-                      {form.getValues("emoji")}
+              <div className="flex">
+                <Menu>
+                  <Menu.Button className="w-fit">
+                    <div className="form-control w-full mx-auto">
+                      <label className="label">
+                        <span className="label-text text-white">Emoji</span>
+                      </label>
+                      <div className="flex relative text-2xl text-white w-12 h-12 justify-center bg-[#2A303C] rounded-md items-center">
+                        {form.getValues("emoji")}
+                      </div>
                     </div>
-                  </div>
-                </Menu.Button>
-                <Menu.Items>
-                  <div className="absolute z-50">
-                    <EmojiPicker
-                      theme="dark"
-                      onEmojiClick={({ emoji }) => {
-                        form.setValue("emoji", emoji);
-                      }}
-                    />
-                  </div>
-                </Menu.Items>
-              </Menu>
+                  </Menu.Button>
+                  <Menu.Items>
+                    <div className="absolute z-50">
+                      <EmojiPicker
+                        theme="dark"
+                        onEmojiClick={({ emoji }) => {
+                          form.setValue("emoji", emoji);
+                        }}
+                      />
+                    </div>
+                  </Menu.Items>
+                </Menu>
+                <div className="form-control w-full max-w-md mx-auto px-3">
+                  <Input
+                    disabled={isLoading}
+                    type="text"
+                    label="Button text"
+                    placeholder="Gift"
+                    {...form.register("buttonText")}
+                  />
+                </div>
+              </div>
 
               <label className="label">
                 <span className="label-text text-white">Currency</span>
@@ -189,7 +215,7 @@ const Tier = ({
                   required: true,
                 })}
               />
-              <div className="flex justify-center h-10 mt-4">
+              <div className="flex h-10 mt-4">
                 Recommended Tier
                 <input
                   disabled={isLoading}
@@ -244,7 +270,9 @@ const TierForm = () => {
       amount: 1,
       title: "",
       comment: "",
-      currency: "0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889",
+      currency: IS_MAINNET
+        ? "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270"
+        : "0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889",
       emoji: "💰",
       recommendedTier: false,
     },
@@ -252,7 +280,9 @@ const TierForm = () => {
       amount: 2,
       title: "",
       comment: "",
-      currency: "0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889",
+      currency: IS_MAINNET
+        ? "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270"
+        : "0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889",
       emoji: "💰",
       recommendedTier: false,
     },
@@ -260,7 +290,9 @@ const TierForm = () => {
       amount: 5,
       title: "",
       comment: "",
-      currency: "0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889",
+      currency: IS_MAINNET
+        ? "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270"
+        : "0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889",
       emoji: "💰",
       recommendedTier: false,
     },
@@ -268,7 +300,9 @@ const TierForm = () => {
       amount: 10,
       title: "",
       comment: "",
-      currency: "0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889",
+      currency: IS_MAINNET
+        ? "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270"
+        : "0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889",
       emoji: "💰",
       recommendedTier: false,
     },
@@ -276,7 +310,9 @@ const TierForm = () => {
       amount: 20,
       title: "",
       comment: "",
-      currency: "0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889",
+      currency: IS_MAINNET
+        ? "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270"
+        : "0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889",
       emoji: "💰",
       recommendedTier: false,
     },
@@ -287,7 +323,6 @@ const TierForm = () => {
 
   useEffect(() => {
     if (publications.length >= 5) {
-      debugger;
       router.push(`/u/${currentProfile?.handle}`);
     } else {
       setActiveTier(publications.length);
@@ -343,7 +378,7 @@ const TierForm = () => {
   };
 
   const { isLoading: writeLoading, write } = useContractWrite({
-    address: TESTNET_LENSHUB_PROXY,
+    address: LENSHUB_PROXY,
     abi: LensHubProxy,
     functionName: "postWithSig",
     mode: "recklesslyUnprepared",
@@ -436,14 +471,12 @@ const TierForm = () => {
       });
     }
   };
-  setPublicationContent(
-    `Collect tier to support ${currentProfile?.handle} in cryptster.xyz/u/${currentProfile?.handle}`
-  );
 
   const createPost = async ({
     emoji,
     comment,
     title,
+    buttonText,
     currency,
     recommendedTier,
     amount,
@@ -455,6 +488,9 @@ const TierForm = () => {
     recommendedTier: boolean;
     amount: number;
   }) => {
+    setPublicationContent(
+      `Be a part of my journey and support my work at https://wagmi.fund/u/${currentProfile?.handle}`
+    );
     const baseFeeData = {
       amount: {
         currency: currency,
@@ -467,10 +503,6 @@ const TierForm = () => {
 
     if (!currentProfile) {
       return toast.error(SIGN_WALLET);
-    }
-
-    if (publicationContent.length === 0) {
-      return toast.error("Tier should not be empty!");
     }
 
     setIsUploading(true);
@@ -490,6 +522,7 @@ const TierForm = () => {
         displayType: "string",
         value: comment,
       },
+      { traitType: "buttonText", displayType: "string", value: buttonText },
       {
         traitType: "amount",
         displayType: "string",

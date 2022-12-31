@@ -2,7 +2,7 @@ import { ChevronRightIcon, CogIcon } from "@heroicons/react/outline";
 import { v4 as uuid } from "uuid";
 import { LENS_PERIPHERY, RELAY_ON, SIGN_WALLET } from "@utils/constants";
 import { ProfileUIState, useProfileUIStore } from "@store/profile";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AppearAnimation from "./AnimatedAppear";
 import { useContractWrite, useSignTypedData } from "wagmi";
 import onError from "@utils/onError";
@@ -24,7 +24,7 @@ import useBroadcast from "@utils/useBroadcast";
 const ProfileEditor = () => {
   const setProfileUIData = useProfileUIStore((state) => state.setProfileUIData);
   const profileUIData = useProfileUIStore((state) => state.profileUIData);
-
+  const [cover, setCover] = useState("");
   const gradient = useProfileUIStore((state) => state.profileUIData.gradient);
   const customColor = useProfileUIStore(
     (state) => state.profileUIData.theme
@@ -95,7 +95,6 @@ const ProfileEditor = () => {
           const signature = await signTypedDataAsync(getSignature(typedData));
           const { v, r, s } = splitSignature(signature);
           const sig = { v, r, s, deadline };
-          console.log("currentProfile", currentProfile);
           const inputStruct = {
             user: currentProfile?.ownedBy,
             profileId,
@@ -118,6 +117,11 @@ const ProfileEditor = () => {
       },
       onError,
     });
+  useEffect(() => {
+    if (currentProfile?.coverPicture?.original?.url) {
+      setCover(currentProfile?.coverPicture?.original?.url);
+    }
+  }, []);
   const editProfile = async (profileUIData?: ProfileUIState) => {
     if (!currentProfile) {
       return toast.error(SIGN_WALLET);
@@ -127,10 +131,7 @@ const ProfileEditor = () => {
     const id = await uploadToArweave({
       name: currentProfile?.name,
       bio: currentProfile?.bio,
-      cover_picture:
-        "https://1.bp.blogspot.com/-CbWLumSsnHA/X3NCN8Y97SI/AAAAAAAAbdM/6_nItNbt0jcQvkFzogyKeqUGJjMyM57rACLcBGAsYHQ/s16000/v3-290920-rocket-minimalist-desktop-wallpaper-hd.png",
-
-      // cover_picture: cover ? cover : null,
+      cover_picture: cover ? cover : null,
       attributes: [
         ...currentProfile?.attributes.map(({ key, value }) => ({
           traitType: "string",
@@ -191,7 +192,7 @@ const ProfileEditor = () => {
 
   return showUISettings ? (
     <div>
-      <AppearAnimation className="fixed right-0 top-1/4 w-[168px] z-10 bg-slate-900 ring-1 rounded-2xl text-white transition-150 mr-1 p-4">
+      <AppearAnimation className="fixed right-0 top-1/4 w-[168px] z-20 bg-slate-900 ring-1 rounded-2xl text-white transition-150 mr-1 p-4">
         <Button
           className="text-primary flex justify-evenly bg-transparent border-transparent lowercase hover:bg-transparent mx-auto"
           onClick={() => {
@@ -281,7 +282,10 @@ const ProfileEditor = () => {
               }}
             />
           </div>
-          <Button onClick={() => editProfile(profileUIData)} className="ml-4 btn-sm">
+          <Button
+            onClick={() => editProfile(profileUIData)}
+            className="ml-4 btn-sm"
+          >
             Save {isLoading && <LoaderIcon className="h-6 w-6 ml-2" />}
           </Button>
         </div>

@@ -32,6 +32,7 @@ export type tier = {
   title: string;
   currency: string;
   emoji: string;
+  buttonText: string;
   recommendedTier: string;
   id: string;
   setClickedOnContinue?: any;
@@ -45,7 +46,6 @@ export const StackedTierCard = ({
   createCollect,
   loading = false,
 }: TierProps) => {
-  console.log(tiers,'tiers')
   const [currentTier, setCurrentTier] = useState(activeTier);
 
   const about = useProfileUIStore((state) => state.profileUIData.about);
@@ -98,19 +98,13 @@ export const StackedTierCard = ({
         <h2 className="h-auto font-bold text-xl flex-grow-0 sm:text-2xl text-center w-full overflow-hidden text-ellipsis">
           {tiers[currentTier]?.title?.length
             ? tiers[currentTier]?.title
-            : `Collect tier to support ${handle} in
-        ${tiers[currentTier]?.currency}`}
+            : `Collect tier to support ${handle}`}
         </h2>
       ) : (
         <h2 className="h-auto font-bold text-xl flex-grow-0 sm:text-2xl text-center w-full overflow-hidden text-ellipsis">
           {tiers[currentTier]?.title?.length
             ? tiers[currentTier]?.title
-            : `Collect tier to support ${handle} in
-         ${
-           SUPPORTED_CURRENCIES?.filter(
-             ({ address }) => address === tiers[currentTier]?.currency
-           )?.[0].symbol
-         }`}
+            : `Collect tier to support ${handle}`}
         </h2>
       )}
 
@@ -152,7 +146,15 @@ export const StackedTierCard = ({
         onClick={() => createCollect(tiers[currentTier]?.id)}
       >
         <span className="mr-1">{loading && <Loader size="sm" />}</span>
-        Gift {tiers[currentTier]?.amount}
+        {tiers[currentTier]?.buttonText
+          ? tiers[currentTier]?.buttonText
+          : "Gift"}{" "}
+        {tiers[currentTier]?.amount}{" "}
+        {!viewOnly
+          ? tiers[currentTier]?.currency
+          : SUPPORTED_CURRENCIES?.filter(
+              ({ address }) => address === tiers[currentTier]?.currency
+            )?.[0].symbol}
       </Button>
     </Card>
   );

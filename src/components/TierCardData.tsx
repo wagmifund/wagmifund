@@ -7,12 +7,11 @@ import {
 } from "./TierCard";
 import { Profile, useCreateCollectTypedDataMutation } from "generated";
 import toast from "react-hot-toast";
-import { RELAY_ON, SIGN_WALLET } from "@utils/constants";
+import { RELAY_ON, SIGN_WALLET, LENSHUB_PROXY } from "@utils/constants";
 import { useAccount, useContractWrite, useSignTypedData } from "wagmi";
 import onError from "@utils/onError";
 import getSignature from "@utils/getSignature";
 import splitSignature from "@utils/splitSignature";
-import { TESTNET_LENSHUB_PROXY } from "@utils/contracts";
 import { LensHubProxy } from "@abis/LensHubProxy";
 import useBroadcast from "@utils/useBroadcast";
 import { useRouter } from "next/router";
@@ -45,18 +44,20 @@ const TierCardData = ({
   const [loading, setLoading] = useState(false);
   const [index, setIndex] = useState(null);
   const about = useProfileUIStore((state) => state.profileUIData.about);
+  const setConfetti = useAppStore((state) => state.setConfetti);
 
   const { signTypedDataAsync } = useSignTypedData({
     onError,
   });
   const onCompleted = () => {
-    toast.success("Transaction submitted successfully!");
+    setConfetti(true);
+    toast.success("Thanks for supporting 💜");
     setLoading(false);
     setIndex(null);
   };
 
   const { write } = useContractWrite({
-    address: TESTNET_LENSHUB_PROXY,
+    address: LENSHUB_PROXY,
     abi: LensHubProxy,
     functionName: "collectWithSig",
     mode: "recklesslyUnprepared",
@@ -107,7 +108,6 @@ const TierCardData = ({
     onError,
   });
   const createCollect = (publicationId: number) => {
-    console.log("publicationId", publicationId);
     if (!currentProfile) {
       return toast.error(SIGN_WALLET);
     }

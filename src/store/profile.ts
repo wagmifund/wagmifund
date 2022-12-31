@@ -19,7 +19,7 @@ interface ProfileState {
   setUISettings: (showUISettings: boolean) => void;
 }
 
-export const useProfileUIStore = create<ProfileState>((set, get) => ({
+export const useProfileUIStore = create<ProfileState>((set) => ({
   profileUIData: {
     cardView: "card",
     theme: {
@@ -38,9 +38,5 @@ export const useProfileUIStore = create<ProfileState>((set, get) => ({
       ...currentState,
       profileUIData: { ...currentState.profileUIData, ...profileUIData },
     }));
-    console.log({
-      ...get(),
-      profileUIData: { ...get().profileUIData, ...profileUIData },
-    });
   },
 }));

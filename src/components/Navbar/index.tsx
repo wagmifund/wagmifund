@@ -12,10 +12,15 @@ const NavBar = () => {
     query: { username },
   } = useRouter();
   return (
-    <div className="navbar h-8 bg-[#111] border-b border-[#333] text-white flex justify-between">
+    <div className="navbar h-8 bg-[#111] border-b border-[#333] text-white flex justify-between sm:px-8">
       <div className="flex justify-evenly">
-        <Link href="/" className="ml-10">
-          wagmi fund
+        <Link href="/" className="flex items-center justify-center space-x-2">
+          <img src="/logo.svg" alt="logo of wagmi" className="h-8 w-8" />
+          <p className=" hidden sm:block">
+            wagmi fund
+          </p>
+          <span className="badge badge-xs">testnet</span>
+
         </Link>
       </div>
       <div>

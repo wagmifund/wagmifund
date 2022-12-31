@@ -22,6 +22,8 @@ import { NotFoundPage } from "@modules/Error/NotFoundPage";
 import { GlobeAltIcon } from "@heroicons/react/outline";
 import { TwitterIcon } from "@icons/socials";
 import getAttribute from "@utils/getAttribute";
+import MetaTags from "@components/MetaTags";
+import formatHandle from "@utils/formatHandle";
 
 const ProfilePage = () => {
   const { cardView, theme, corners, gradient } = useProfileUIStore(
@@ -29,9 +31,7 @@ const ProfilePage = () => {
   );
   const profileUIData = useProfileUIStore((state) => state.profileUIData);
   const setProfileUIData = useProfileUIStore((state) => state.setProfileUIData);
-
   useEffect(() => {
-    console.log(corners);
     document
       .querySelector('[data-theme="user"]')
       ?.style.setProperty("--rounded-box", `${corners}rem`);
@@ -54,7 +54,6 @@ const ProfilePage = () => {
     },
     skip: !username,
     onCompleted: ({ profile: userUIData }) => {
-      console.log(Object.values(userUIData?.attributes), "acc");
       Object.values(userUIData?.attributes).forEach(({ key, value }) => {
         if (key in profileUIData) {
           setProfileUIData({
@@ -70,7 +69,7 @@ const ProfilePage = () => {
     return <div />;
   }
 
-  if (loading || !profile) {
+  if (loading || !data) {
     return <PageLoader />;
   }
 
@@ -83,6 +82,15 @@ const ProfilePage = () => {
 
   return (
     <>
+      {profile?.name ? (
+        <MetaTags
+          title={`${profile?.name} (@${formatHandle(
+            profile?.handle
+          )}) • Wagmi Fund`}
+        />
+      ) : (
+        <MetaTags title={`@${formatHandle(profile?.handle)} • Wagmi Fund`} />
+      )}
       <div
         className="w-full z-1 bg-black text-white flex flex-grow px-4 sm:px-8 flex-col mb-[80px] md:mb-[150px]"
         data-theme="user"
@@ -97,7 +105,7 @@ const ProfilePage = () => {
         )}
 
         <div className="relative sm:min-h-[300px]">
-          <CoverPicture />
+          <CoverPicture cover={profile?.coverPicture?.original?.url} />
           <div className="absolute -bottom-8 left-1/2 -translate-x-[71px] z-10">
             <ProfilePicture profile={profile} />
           </div>
@@ -108,7 +116,8 @@ const ProfilePage = () => {
                   className="flex justify-center items-center m-2 space-x-1"
                   href={websiteLink}
                 >
-                  <GlobeAltIcon className="h-6 w-6 " /> <p className="hidden lg:block">strek.in</p>
+                  <GlobeAltIcon className="h-6 w-6 " />{" "}
+                  <p className="hidden lg:block">strek.in</p>
                 </a>
               )}
               {twitterProfile && (

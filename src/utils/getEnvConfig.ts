@@ -1,9 +1,4 @@
-import {
-  LENS_NETWORK,
-  MAINNET_API_URL,
-  STAGING_API_URL,
-  TESTNET_API_URL,
-} from "./constants";
+import { LENS_NETWORK, MAINNET_API_URL, TESTNET_API_URL } from "./constants";
 import {
   MAINNET_DEFAULT_TOKEN,
   MAINNET_LENS_PERIPHERY,
@@ -39,16 +34,7 @@ const getEnvConfig = () => {
         UpdateOwnableFeeCollectModuleAddress:
           TESTNET_UPDATE_OWNABLE_FEE_COLLECT_MODULE_ADDRESS,
       };
-    case "staging":
-      return {
-        apiEndpoint: STAGING_API_URL,
-        lensHubProxyAddress: TESTNET_LENSHUB_PROXY,
-        lensPeripheryAddress: TESTNET_LENS_PERIPHERY,
-        freeCollectModuleAddress: TESTNET_FREE_COLLECT_MODULE,
-        defaultCollectToken: TESTNET_DEFAULT_TOKEN,
-        UpdateOwnableFeeCollectModuleAddress:
-          TESTNET_UPDATE_OWNABLE_FEE_COLLECT_MODULE_ADDRESS,
-      };
+
     default:
       return {
         apiEndpoint: MAINNET_API_URL,
