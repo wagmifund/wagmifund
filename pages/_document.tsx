@@ -1,9 +1,11 @@
 import { Html, Head, Main, NextScript } from "next/document";
 import { Analytics } from "@vercel/analytics/react";
+import MetaTags from "@components/MetaTags";
 
 export default function Document() {
   return (
     <Html>
+      <MetaTags title={`Wagmi Fund`} />
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" />
       <link
