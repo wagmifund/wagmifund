@@ -1,4 +1,5 @@
 import { Button } from "@components/Button";
+import router from "next/router";
 
 export function NotFoundPage() {
   return (
@@ -15,7 +16,7 @@ export function NotFoundPage() {
           Sorry about that! Please visit our hompage to get where you need to
           go.
         </p>
-        <Button>Take me there!</Button>
+        <Button onClick={() => router.push("/")}>Take me there!</Button>
       </div>
     </div>
   );

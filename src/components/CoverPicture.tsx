@@ -2,7 +2,6 @@ import { FC, useState } from "react";
 import clsx from "clsx";
 import imageProxy from "@utils/imageProxy";
 import getIPFSLink from "@utils/getIPFSLink";
-import placeholderCover from "@assets/placeholder_cover.png";
 
 interface Props {
   cover: string;
@@ -14,14 +13,14 @@ const CoverPicture: FC<Props> = ({ cover }) => {
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         className={clsx(
-          " h-full object-cover w-full rounded-2xl max-h-[300px]",
+          " h-full object-cover w-full rounded-2xl max-h-[200px] sm:max-h-[300px] bg-theme-darker bg-opacity-100",
           loading ? "opacity-0 h-0" : "opacity-1"
         )}
         alt="cover picture"
         src={
           cover
             ? imageProxy(getIPFSLink(cover), "cover")
-            : `${placeholderCover}`
+            : `https://media.lenster.xyz/tr:n-cover,tr:di-placeholder.webp/https://assets.lenster.xyz/images/patterns/2.svg`
         }
         onLoad={() => setLoading(false)}
       />

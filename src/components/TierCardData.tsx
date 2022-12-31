@@ -44,12 +44,14 @@ const TierCardData = ({
   const [loading, setLoading] = useState(false);
   const [index, setIndex] = useState(null);
   const about = useProfileUIStore((state) => state.profileUIData.about);
+  const setConfetti = useAppStore((state) => state.setConfetti);
 
   const { signTypedDataAsync } = useSignTypedData({
     onError,
   });
   const onCompleted = () => {
-    toast.success("Transaction submitted successfully!");
+    setConfetti(true);
+    toast.success("Thanks for supporting 💜");
     setLoading(false);
     setIndex(null);
   };

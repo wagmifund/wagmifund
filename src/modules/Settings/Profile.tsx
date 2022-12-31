@@ -267,26 +267,26 @@ const Profile: FC<Props> = ({ profile }) => {
         <Input
           label="Name"
           type="text"
-          placeholder="Gavin"
+          placeholder="Wagmi"
           {...form.register("name")}
         />
         <Input
           label="Location"
           type="text"
-          placeholder="Miami"
+          placeholder="India"
           {...form.register("location")}
         />
         <Input
           label="Website"
           type="text"
-          placeholder="https://hooli.com"
+          placeholder="https://wagmi.fund/"
           {...form.register("website")}
         />
         <Input
           label="Twitter"
           type="text"
           prefix="https://twitter.com"
-          placeholder="gavin"
+          placeholder="wagmidotfund"
           {...form.register("twitter")}
         />
         <TextArea
