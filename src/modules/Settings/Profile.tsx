@@ -41,6 +41,7 @@ import { Input } from "@components/Input";
 import uploadToIPFS from "@utils/uploadToIPFS";
 import { PencilIcon } from "@heroicons/react/outline";
 import { Loader } from "@components/Loader";
+import Analytics from "@utils/analytics";
 
 const editProfileSchema = object({
   name: string().max(100, { message: "Name should not exceed 100 characters" }),
@@ -153,6 +154,7 @@ const Profile: FC<Props> = ({ profile }) => {
   };
 
   useEffect(() => {
+    Analytics.track('profile settings loaded')
     if (profile?.coverPicture?.original?.url) {
       setCover(profile?.coverPicture?.original?.url);
     }

@@ -20,6 +20,8 @@ import PageLoader from "@components/PageLoader";
 import { NotFoundPage } from "@modules/Error/NotFoundPage";
 import { ServerError } from "@modules/Error/ServerError";
 import MetaTags from "@components/MetaTags";
+import { useEffect } from "react";
+import Analytics from "@utils/analytics";
 
 const getAllowancePayload = (currency: string) => {
   const {
@@ -53,6 +55,10 @@ const AllowanceSettings: NextPage = () => {
     },
     skip: !currentProfile?.id,
   });
+
+  useEffect(() => {
+    Analytics.track("allowance loaded");
+  }, []);
 
   if (error) {
     return <ServerError />;
