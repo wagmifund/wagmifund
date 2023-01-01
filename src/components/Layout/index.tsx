@@ -6,6 +6,7 @@ import {
   useProfileFeedQuery,
   useUserProfilesQuery,
 } from "generated";
+import mixpanel from "mixpanel-browser";
 import Head from "next/head";
 import type { FC, ReactNode } from "react";
 import { Toaster } from "react-hot-toast";
@@ -22,6 +23,7 @@ import { usePublicationStore } from "@store/publication";
 import { tier } from "@components/MockTierCard";
 import Confetti from "react-confetti";
 import useWindow from "@utils/hooks/useWindow";
+import Analytics from "@utils/analytics";
 
 interface Props {
   children: ReactNode;
@@ -44,6 +46,9 @@ const Layout: FC<Props> = ({ children }) => {
     setProfileId(null);
     setCurrentProfile(null);
   };
+  useEffect(() => {
+    Analytics.trackerInit();
+  }, []);
 
   // Fetch current profiles and sig nonce owned by the wallet address
   const { loading } = useUserProfilesQuery({

@@ -20,6 +20,7 @@ import getSignature from "@utils/getSignature";
 import splitSignature from "@utils/splitSignature";
 import { LensPeriphery } from "@abis/LensPeriphery";
 import useBroadcast from "@utils/useBroadcast";
+import Analytics from "@utils/analytics";
 
 const ProfileEditor = () => {
   const setProfileUIData = useProfileUIStore((state) => state.setProfileUIData);
@@ -283,8 +284,12 @@ const ProfileEditor = () => {
             />
           </div>
           <Button
-            onClick={() => editProfile(profileUIData)}
+            onClick={() => {
+              Analytics.track("save profile ui settings");
+              editProfile(profileUIData);
+            }}
             className="ml-4 btn-sm"
+            disabled={isLoading}
           >
             Save {isLoading && <LoaderIcon className="h-6 w-6 ml-2" />}
           </Button>

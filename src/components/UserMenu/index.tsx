@@ -12,6 +12,7 @@ import { useDisconnect } from "wagmi";
 import { NextLink } from "@components/Navbar/Menuitems";
 import { Profile } from "generated";
 import getAvatar from "@utils/getAvatar";
+import Analytics from "@utils/analytics";
 
 const UserMenu: FC = () => {
   const router = useRouter();
@@ -25,6 +26,7 @@ const UserMenu: FC = () => {
   const { disconnect } = useDisconnect();
 
   const logout = () => {
+    Analytics.track('logout')
     setCurrentProfile(null);
     setProfileId(null);
     resetAuthData();

@@ -4,7 +4,7 @@ import {
   GridItemFour,
   GridLayout,
 } from "@components/GridLayout";
-import { FC, useContext } from "react";
+import { FC, useContext, useEffect } from "react";
 import { ProfileContext, useAppStore } from "src/store/app";
 import Sidebar from "@modules/Settings/Sidebar";
 import { useProfileSettingsQuery } from "generated";
@@ -13,6 +13,7 @@ import { usePublicationStore } from "@store/publication";
 import { useRouter } from "next/router";
 import { Button } from "@components/Button";
 import MetaTags from "@components/MetaTags";
+import Analytics from "@utils/analytics";
 
 const EditTiers: FC = () => {
   const currentProfile = useAppStore((state) => state.currentProfile);
@@ -27,6 +28,9 @@ const EditTiers: FC = () => {
 
   const { refetch } = useContext(ProfileContext);
   const router = useRouter();
+  useEffect(() => {
+    Analytics.track("edit tiers loaded");
+  }, []);
 
   return (
     <>

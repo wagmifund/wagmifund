@@ -5,16 +5,19 @@ import {
   GridLayout,
 } from "@components/GridLayout";
 import { APP_NAME } from "@utils/constants";
-import type { FC } from "react";
+import { FC, useEffect } from "react";
 import { useAppStore } from "src/store/app";
 import Sidebar from "@modules/Settings/Sidebar";
 import ToggleDispatcher from "@modules/Settings/ToggleDispatcher";
 import { NotFoundPage } from "@modules/Error/NotFoundPage";
 import MetaTags from "@components/MetaTags";
+import Analytics from "@utils/analytics";
 
 const DispatcherSettings: FC = () => {
   const currentProfile = useAppStore((state) => state.currentProfile);
-
+  useEffect(() =>  {
+    Analytics.track('Dispatcher loaded')
+  },[])
   if (!currentProfile) {
     return <NotFoundPage />;
   }

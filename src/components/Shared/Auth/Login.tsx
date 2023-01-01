@@ -12,6 +12,7 @@ import onError from "@utils/onError";
 import { useAppPersistStore, useAppStore } from "@store/app";
 import { ERROR_MESSAGE } from "@utils/constants";
 import Modal from "@components/Modal";
+import Analytics from "@utils/analytics";
 
 const Login = () => {
   const setProfiles = useAppStore((state) => state.setProfiles);
@@ -94,6 +95,7 @@ const Login = () => {
       console.error(error);
       toast.error("Sign in failed");
     } finally {
+      Analytics.track("sign in");
       setLoading(false);
     }
   };
