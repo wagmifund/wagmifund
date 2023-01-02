@@ -4,28 +4,28 @@ import { Analytics } from "@vercel/analytics/react";
 export default function Document() {
   return (
     <Html>
-      <title>wagmifund</title>
-      <meta name="title" content="wagmifund" />
+      <title>WAGMI Fund</title>
+      <meta name="title" content="WAGMI Fund" />
       <meta
         name="description"
-        content="Decentralized crowd funding platform, built on Lens Protocol 🌿"
+        content="Fueling the decentralized future with web3 funding 💰"
       />
 
       <meta property="og:type" content="website" />
       <meta property="og:url" content="https://testnet.wagmi.fund/" />
-      <meta property="og:title" content="wagmifund" />
+      <meta property="og:title" content="WAGMI Fund" />
       <meta
         property="og:description"
-        content="Decentralized crowd funding platform, built on Lens Protocol 🌿"
+        content="Fueling the decentralized future with web3 funding 💰"
       />
       <meta property="og:image" content="/og.jpeg" />
 
       <meta property="twitter:card" content="summary_large_image" />
       <meta property="twitter:url" content="https://testnet.wagmi.fund/" />
-      <meta property="twitter:title" content="wagmifund" />
+      <meta property="twitter:title" content="WAGMI Fund" />
       <meta
         property="twitter:description"
-        content="Decentralized crowd funding platform, built on Lens Protocol 🌿"
+        content="Fueling the decentralized future with web3 funding 💰"
       />
       <meta property="twitter:image" content="/og.jpeg" />
       <link rel="preconnect" href="https://fonts.googleapis.com" />
