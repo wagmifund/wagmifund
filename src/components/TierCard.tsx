@@ -15,6 +15,7 @@ import { SUPPORTED_CURRENCIES } from "@utils/constants";
 import { Loader } from "./Loader";
 import { useProfileUIStore } from "@store/profile";
 import { useAppStore } from "@store/app";
+import Analytics from "@utils/analytics";
 interface TierProps {
   tiers: Array<tier>;
   handle: string;
@@ -248,6 +249,7 @@ export const TierCards = ({
                 <div className="flex justify-center mt-2">
                   <Button
                     onClick={() => {
+                      Analytics.track("Delete Tier");
                       hidePost({
                         variables: {
                           request: { publicationId: deleteItemId },

@@ -5,9 +5,14 @@ import { WrenchIcon } from "@icons/index-page";
 import { CurrencyDollarIcon } from "@heroicons/react/outline";
 import { GradientButton } from "@components/Button";
 import MetaTags from "@components/MetaTags";
+import Analytics from "@utils/analytics";
+import { useEffect } from "react";
 
 export default function Home() {
   const router = useRouter();
+  useEffect(() => {
+    Analytics.track("homepage landing");
+  }, []);
   return (
     <>
       <MetaTags title={`Wagmi Fund`} />
@@ -21,7 +26,12 @@ export default function Home() {
           Fueling the decentralized future with web3 funding.
         </h2>
         <div className="mt-6 flex space-x-2">
-          <GradientButton onClick={() => router.push("/explore")}>
+          <GradientButton
+            onClick={() => {
+              Analytics.track("explore more");
+              router.push("/explore");
+            }}
+          >
             Explore more
           </GradientButton>
         </div>

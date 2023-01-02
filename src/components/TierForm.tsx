@@ -47,6 +47,7 @@ export type tier = {
 };
 import { StackedTierCard } from "./TierCard";
 import EmojiPicker from "emoji-picker-react";
+import Analytics from "@utils/analytics";
 
 const Tier = ({
   onClick,
@@ -122,6 +123,7 @@ const Tier = ({
           <Form
             form={form}
             onSubmit={(formData) => {
+              Analytics.track("Tier created");
               onClick(formData);
             }}
           >

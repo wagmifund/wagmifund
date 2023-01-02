@@ -29,6 +29,7 @@ import { LensPeriphery } from "@abis/LensPeriphery";
 import { splitSignature } from "ethers/lib/utils.js";
 import getSignature from "@utils/getSignature";
 import { Loader } from "@components/Loader";
+import Analytics from "@utils/analytics";
 
 const ToolbarPlugin: FC = () => {
   const [editor] = useLexicalComposerContext();
@@ -238,7 +239,10 @@ const ToolbarPlugin: FC = () => {
       </div>
       <Button
         className="btn-sm !text-white"
-        onClick={() => editProfile(profileUIData)}
+        onClick={() => {
+          Analytics.track("save profile about section");
+          editProfile(profileUIData);
+        }}
         disabled={isUploading}
       >
         {isUploading && (
