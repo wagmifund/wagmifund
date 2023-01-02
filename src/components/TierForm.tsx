@@ -17,7 +17,6 @@ import Input from "./Input";
 import { Button } from "./Button";
 import toast, { LoaderIcon } from "react-hot-toast";
 import { useAppStore } from "@store/app";
-import trimify from "@utils/trimify";
 import uploadToArweave from "@utils/uploadToArweave";
 import { useContractWrite, useSignTypedData } from "wagmi";
 import { LensHubProxy } from "@abis/LensHubProxy";
