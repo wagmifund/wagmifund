@@ -5,6 +5,7 @@ export default function Document() {
   return (
     <Html>
       <title>WAGMI Fund</title>
+      <link rel="icon" href="/favicon.ico" />
       <meta name="title" content="WAGMI Fund" />
       <meta
         name="description"
