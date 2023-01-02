@@ -24,6 +24,7 @@
     "@lexical/react": "^0.7.1",
     "@lexical/rich-text": "^0.7.1",
     "@rainbow-me/rainbowkit": "^0.8.0",
+    "@types/uuid": "^9.0.0",
     "@typescript-eslint/eslint-plugin": "^5.47.1",
     "@vercel/analytics": "^0.1.6",
     "axios": "^1.1.3",

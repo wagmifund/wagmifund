@@ -5,6 +5,7 @@ import Select from "./Select";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { object, number, string, boolean } from "zod";
 import StepWizard from "./StepWizard";
+import { v4 as uuid } from "uuid";
 import {
   IS_MAINNET,
   RELAY_ON,
@@ -371,7 +372,7 @@ const TierForm = () => {
   }) => {
     return {
       // move it to uuid()
-      id: Math.random(),
+      id: uuid(),
       type: "NEW_POST",
       txHash,
       txId,
@@ -490,9 +491,6 @@ const TierForm = () => {
     recommendedTier: boolean;
     amount: number;
   }) => {
-    setPublicationContent(
-      `Be a part of my journey and support my work at https://wagmi.fund/u/${currentProfile?.handle}`
-    );
     const baseFeeData = {
       amount: {
         currency: currency,
@@ -549,11 +547,15 @@ const TierForm = () => {
       },
     ];
 
+    const content = `Be a part of my journey and support my work at https://${
+      IS_MAINNET ? "wagmi" : "testnet.wagmi"
+    }.fund/u/${currentProfile?.handle}`;
+
     const id = await uploadToArweave({
       version: "2.0.0",
-      metadata_id: Math.random(),
-      description: trimify(publicationContent),
-      content: trimify(publicationContent),
+      metadata_id: uuid(),
+      description: content,
+      content: content,
       external_url: `https://wagmi.fund/u/${currentProfile?.handle}`,
       image: null,
       imageMimeType: null,
