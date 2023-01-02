@@ -1,6 +1,5 @@
 import { Html, Head, Main, NextScript } from "next/document";
 import { Analytics } from "@vercel/analytics/react";
-import { APP_NAME, DESCRIPTION } from "@utils/constants";
 
 export default function Document() {
   return (
