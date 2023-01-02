@@ -6,7 +6,6 @@ import {
   useProfileFeedQuery,
   useUserProfilesQuery,
 } from "generated";
-import mixpanel from "mixpanel-browser";
 import Head from "next/head";
 import type { FC, ReactNode } from "react";
 import { Toaster } from "react-hot-toast";
