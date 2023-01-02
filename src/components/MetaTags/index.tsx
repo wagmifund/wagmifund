@@ -9,7 +9,7 @@ interface Props {
 }
 
 const MetaTags: FC<Props> = ({
-  title = "Wagmi Fund",
+  title = "WAGMI Fund",
   description = DESCRIPTION,
 }) => {
   return (
@@ -39,7 +39,7 @@ const MetaTags: FC<Props> = ({
       <meta property="twitter:image:src" content="/og.jpeg" />
       <meta property="twitter:image:width" content="400" />
       <meta property="twitter:image:height" content="400" />
-      <meta property="twitter:creator" content="wagmifund" />
+      <meta property="twitter:creator" content="WAGMI Fund" />
     </Head>
   );
 };
