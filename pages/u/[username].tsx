@@ -121,7 +121,7 @@ const ProfilePage = () => {
                 </a>
               )}
               {twitterProfile && (
-                <a href={twitterProfile} className="m-2">
+                <a href={`https://twitter.com/${twitterProfile}`} className="m-2">
                   <TwitterIcon className="h-6 w-6" />
                 </a>
               )}
