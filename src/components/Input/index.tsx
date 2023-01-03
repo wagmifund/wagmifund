@@ -41,7 +41,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
       >
         <input
           placeholder={placeholder}
-          className="input w-full focus:outline-none"
+          className="input w-full focus:outline-none  bg-[#2A303C]"
           ref={ref}
           autoFocus={false}
           {...rest}
