@@ -37,7 +37,7 @@ export default function Document() {
       />
       <Analytics />
       <Head />
-      <body>
+      <body style={{ "--b1": "0 0% 0%" }}>
         <Main />
         <NextScript />
       </body>
