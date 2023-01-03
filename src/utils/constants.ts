@@ -24,7 +24,7 @@ export const RELAY_ON = "false";
 // Application
 export const APP_NAME = "wagmifund";
 export const DESCRIPTION =
-  "Decentralized crowd funding platform, built on Lens Protocol 🌿";
+  "Fueling the decentralized future with web3 funding 💰";
 export const APP_VERSION = packageJson.version;
 
 // Bundlr

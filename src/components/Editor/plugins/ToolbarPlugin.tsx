@@ -2,6 +2,7 @@ import BoldIcon from "@icons/type-bold";
 import ItalicIcon from "@icons/type-italic";
 import { CodeIcon } from "@heroicons/react/outline";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
+import { v4 as uuid } from "uuid";
 import {
   $getSelection,
   $isRangeSelection,
@@ -184,7 +185,7 @@ const ToolbarPlugin: FC = () => {
         },
       ],
       version: "1.0.0",
-      metadata_id: Math.random(),
+      metadata_id: uuid(),
       createdOn: new Date(),
       appId: "wagmifund",
     });
