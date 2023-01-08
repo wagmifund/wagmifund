@@ -151,7 +151,7 @@ const ProfilePage = () => {
             cardView === "card"
           )}
         >
-          {profileUIData?.about ? (
+          {getAttribute(profile.attributes, "about") ? (
             <Card
               className={clsx(
                 "w-full min-h-[390px] h-full",
