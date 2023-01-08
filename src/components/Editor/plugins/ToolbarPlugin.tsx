@@ -157,7 +157,15 @@ const ToolbarPlugin: FC = () => {
       bio: currentProfile?.bio,
       cover_picture: cover ? cover : null,
       attributes: [
-        { traitType: "string", key: "app_name", value: "wagmifund" },
+        ...(currentProfile?.attributes
+          ?.filter(
+            (attr) =>
+              !["cardView", "corners", "gradient", "theme", "about"].includes(
+                attr.key
+              )
+          )
+          .map(({ traitType, key, value }) => ({ traitType, key, value })) ??
+          []),
         {
           traitType: "string",
           key: "cardView",
