@@ -1,6 +1,7 @@
 import MenuItems from "@components/Navbar/Menuitems";
 import { InformationCircleIcon } from "@heroicons/react/outline";
 import { usePublicationStore } from "@store/publication";
+import { IS_MAINNET } from "@utils/constants";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useAppStore } from "../../store/app";
@@ -16,11 +17,8 @@ const NavBar = () => {
       <div className="flex justify-evenly">
         <Link href="/" className="flex items-center justify-center space-x-2">
           <img src="/logo.svg" alt="logo of wagmi" className="h-8 w-8" />
-          <p className=" hidden sm:block">
-            wagmi fund
-          </p>
-          <span className="badge badge-xs">testnet</span>
-
+          <p className=" hidden sm:block">wagmi fund</p>
+          {!IS_MAINNET && <span className="badge badge-xs">testnet</span>}
         </Link>
       </div>
       <div>

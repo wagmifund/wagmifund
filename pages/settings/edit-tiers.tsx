@@ -29,8 +29,8 @@ const EditTiers: FC = () => {
   const { refetch } = useContext(ProfileContext);
   const router = useRouter();
   useEffect(() => {
-    Analytics.track("edit tiers loaded");
-  }, []);
+    Analytics.track("edit tiers loaded", { handle: profile?.handle });
+  }, [profile?.handle]);
 
   return (
     <>

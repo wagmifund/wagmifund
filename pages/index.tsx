@@ -7,12 +7,15 @@ import { GradientButton } from "@components/Button";
 import MetaTags from "@components/MetaTags";
 import Analytics from "@utils/analytics";
 import { useEffect } from "react";
+import Link from "next/link";
 
 export default function Home() {
   const router = useRouter();
   useEffect(() => {
     Analytics.track("homepage landing");
   }, []);
+
+  const { push } = useRouter();
   return (
     <>
       <MetaTags title={`Wagmi Fund`} />
@@ -35,19 +38,47 @@ export default function Home() {
             Explore more
           </GradientButton>
         </div>
-        <div className="avatar-group -space-x-6 mt-20">
+        <div className="avatar-group -space-x-6 p-20">
           {[
-            "https://media.lenster.xyz/tr:n-avatar,tr:di-placeholder.webp/https://lens.infura-ipfs.io/ipfs/bafybeiewog3iscltj6uvus6iut5kerbbkyxovjhvnikrc4luy5sap6w3zu",
-            "https://media.lenster.xyz/tr:n-avatar,tr:di-placeholder.webp/https://lens.infura-ipfs.io/ipfs/bafybeibh7jl2zrd4hrsbcfqxqj6heuon7dzfj4ckqhu6evm3xyohemnebq",
-            "https://media.lenster.xyz/tr:n-avatar,tr:di-placeholder.webp/https://lens.infura-ipfs.io/ipfs/QmXobso8qsdDhgZt652EsovW4ZtW5DX9xR57hWpBxEuRTS",
-            "https://lens.infura-ipfs.io/ipfs/bafybeiea7ump2inw3hfu5g3uaphb7h3jpgjjp5ruikzxq65vbjkcmv3wka",
-            "https://media.lenster.xyz/tr:n-avatar,tr:di-placeholder.webp/https://lens.infura-ipfs.io/ipfs/QmVBfhfgfhGsRVxTNURVUgceqyzjdVe11ic5rCghmePuKX",
-          ].map((src) => (
-            <div className="avatar border-6 border-white" key={src}>
+            {
+              handle: "stani",
+              avatar:
+                "https://media.lenster.xyz/tr:n-avatar,tr:di-placeholder.webp/https://lens.infura-ipfs.io/ipfs/bafybeiewog3iscltj6uvus6iut5kerbbkyxovjhvnikrc4luy5sap6w3zu",
+            },
+            {
+              handle: "abhishek",
+              avatar:
+                "https://media.lenster.xyz/tr:n-avatar,tr:di-placeholder.webp/https://lens.infura-ipfs.io/ipfs/QmXobso8qsdDhgZt652EsovW4ZtW5DX9xR57hWpBxEuRTS",
+            },
+            {
+              handle: "strek",
+              avatar:
+                "https://media.lenster.xyz/tr:n-avatar,tr:di-placeholder.webp/https://lens.infura-ipfs.io/ipfs/bafybeifvdqe7mrfr2vdyyj7caqmwh5bkitbsbgnwq4rpmzbnyhjdlpsnaq",
+            },
+            {
+              handle: "nader",
+              avatar:
+                "https://media.lenster.xyz/tr:n-avatar,tr:di-placeholder.webp/https://lens.infura-ipfs.io/ipfs/QmVBfhfgfhGsRVxTNURVUgceqyzjdVe11ic5rCghmePuKX",
+            },
+            {
+              handle: "yoginth",
+              avatar:
+                "https://media.lenster.xyz/tr:n-avatar,tr:di-placeholder.webp/https://lens.infura-ipfs.io/ipfs/bafybeihxnutte2ajd4em3kdc72icb23xydymxldxwttc2v3usb7xsqkjbq",
+            },
+          ].map(({ handle, avatar }) => (
+            <Link
+              href={`u/${handle}.lens`}
+              key={avatar}
+              className="avatar border-6 border-white focus:border-6 focus:border-violet-500 focus:outline-none"
+            >
               <div className="w-16 sm:w-20  rounded-full">
-                <img src={src} className="rounded-full" />
+                <img
+                  src={avatar}
+                  className="rounded-full"
+                  alt={`avatar of ${handle}`}
+                />
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </section>
@@ -139,8 +170,11 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-              <button className="btn bg-primary text-white hover:bg-primary border-1 capitalize w-full !text-white button-primary border-theme">
-                <span className="mr-1"></span>Gift 0.1 MATIC
+              <button
+                className="btn bg-primary text-white hover:bg-primary border-1 capitalize w-full !text-white button-primary border-theme"
+                onClick={() => push("/u/wagmifund.lens")}
+              >
+                <span className="mr-1"></span>Sponsor 10 MATIC
               </button>
             </div>
           </div>

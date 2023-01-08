@@ -286,7 +286,9 @@ const ProfileEditor = () => {
           </div>
           <Button
             onClick={() => {
-              Analytics.track("save profile ui settings");
+              Analytics.track("save profile ui settings", {
+                handle: currentProfile?.handle,
+              });
               editProfile(profileUIData);
             }}
             className="ml-4 btn-sm"

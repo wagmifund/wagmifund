@@ -123,7 +123,9 @@ const Tier = ({
           <Form
             form={form}
             onSubmit={(formData) => {
-              Analytics.track("Tier created");
+              Analytics.track("Tier created by", {
+                handle: currentProfile?.handle,
+              });
               onClick(formData);
             }}
           >
