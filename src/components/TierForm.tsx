@@ -235,18 +235,18 @@ const Tier = ({
                   disabled={isLoading}
                   type="submit"
                   variant="primary"
-                  className="mx-auto mt-3 max-w-xs"
+                  className="mx-auto mt-3 max-w-xs normal-case"
                 >
-                  {isLoading && <LoaderIcon className="mr-2 h-4 w-4" />} add
+                  {isLoading && <LoaderIcon className="mr-2 h-4 w-4" />} Add
                   more new tiers
                 </Button>
 
                 {activeTier >= 3 ? (
                   <a
                     href={`/u/${currentProfile?.handle}`}
-                    className="px-6 flex items-center h-[48px] mt-3 text-blue-100 no-underline bg-secondary rounded"
+                    className="px-6 flex items-center h-[48px] mt-3 text-blue-100 no-underline bg-secondary rounded font-semibold text-sm"
                   >
-                    continue to profile
+                    Continue to profile
                   </a>
                 ) : (
                   <React.Fragment />
