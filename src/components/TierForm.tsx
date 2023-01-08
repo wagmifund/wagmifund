@@ -591,12 +591,14 @@ const TierForm = () => {
     }
   };
   const isLoading =
-    isUploading ||
-    typedDataLoading ||
-    dispatcherLoading ||
-    signLoading ||
-    writeLoading ||
-    broadcastLoading;
+    activeTier === 5
+      ? false
+      : isUploading ||
+        typedDataLoading ||
+        dispatcherLoading ||
+        signLoading ||
+        writeLoading ||
+        broadcastLoading;
 
   return (
     <StepWizard
