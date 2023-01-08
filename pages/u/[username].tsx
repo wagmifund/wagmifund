@@ -110,7 +110,7 @@ const ProfilePage = () => {
             <ProfilePicture profile={profile} />
           </div>
           {(twitterProfile || websiteLink) && (
-            <div className="absolute bottom-5 right-5 z-10 backdrop-blur-xl bg-[rgba(25,_28,_31,_0.2] rounded-lg flex items-center justify-center">
+            <div className="absolute ring-1 ring-gray-100 bg-gray-200/10 bottom-5 right-5 z-10 backdrop-blur-xl bg-[rgba(25,_28,_31,_0.2] rounded-lg flex items-center justify-center">
               {websiteLink && (
                 <a
                   className="flex justify-center items-center m-2 space-x-1"
