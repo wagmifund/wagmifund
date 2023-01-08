@@ -154,7 +154,7 @@ const Profile: FC<Props> = ({ profile }) => {
   };
 
   useEffect(() => {
-    Analytics.track('profile settings loaded')
+    Analytics.track("profile settings loaded");
     if (profile?.coverPicture?.original?.url) {
       setCover(profile?.coverPicture?.original?.url);
     }
@@ -211,11 +211,12 @@ const Profile: FC<Props> = ({ profile }) => {
       bio,
       cover_picture: cover ? cover : null,
       attributes: [
-        ...currentProfile?.attributes.map(({ key, value }) => ({
-          traitType: "string",
-          key,
-          value,
-        })),
+        ...(currentProfile?.attributes
+          ?.filter(
+            (attr) => !["location", "website", "twitter"].includes(attr.key)
+          )
+          .map(({ traitType, key, value }) => ({ traitType, key, value })) ??
+          []),
         { traitType: "string", key: "location", value: location },
         { traitType: "string", key: "website", value: website },
         { traitType: "string", key: "twitter", value: twitter },

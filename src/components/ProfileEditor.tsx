@@ -134,12 +134,13 @@ const ProfileEditor = () => {
       bio: currentProfile?.bio,
       cover_picture: cover ? cover : null,
       attributes: [
-        ...currentProfile?.attributes.map(({ key, value }) => ({
-          traitType: "string",
-          key,
-          value,
-        })),
-        { traitType: "string", key: "app_name", value: "wagmifund" },
+        ...(currentProfile?.attributes
+          ?.filter(
+            (attr) =>
+              !["cardView", "corners", "gradient", "theme"].includes(attr.key)
+          )
+          .map(({ traitType, key, value }) => ({ traitType, key, value })) ??
+          []),
         {
           traitType: "string",
           key: "cardView",
