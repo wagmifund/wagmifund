@@ -4271,7 +4271,7 @@ export type ProfileSettingsQueryVariables = Exact<{
 }>;
 
 
-export type ProfileSettingsQuery = { __typename?: 'Query', profile?: { __typename?: 'Profile', id: any, name?: string | null, bio?: string | null, attributes?: Array<{ __typename?: 'Attribute', traitType?: string | null, key: string, value: string }> | null, coverPicture?: { __typename?: 'MediaSet', original: { __typename?: 'Media', url: any } } | { __typename?: 'NftImage' } | null, picture?: { __typename?: 'MediaSet', original: { __typename?: 'Media', url: any } } | { __typename?: 'NftImage', uri: any, tokenId: string, contractAddress: any } | null } | null };
+export type ProfileSettingsQuery = { __typename?: 'Query', profile?: { __typename?: 'Profile', bio?: string | null, handle: any, id: any, name?: string | null, attributes?: Array<{ __typename?: 'Attribute', traitType?: string | null, key: string, value: string }> | null, coverPicture?: { __typename?: 'MediaSet', original: { __typename?: 'Media', url: any } } | { __typename?: 'NftImage' } | null, picture?: { __typename?: 'MediaSet', original: { __typename?: 'Media', url: any } } | { __typename?: 'NftImage', uri: any, tokenId: string, contractAddress: any } | null } | null };
 
 export type ProfilesQueryVariables = Exact<{
   request: ProfileQueryRequest;
@@ -7198,9 +7198,10 @@ export type ProfileFeedQueryResult = Apollo.QueryResult<ProfileFeedQuery, Profil
 export const ProfileSettingsDocument = gql`
     query ProfileSettings($request: SingleProfileQueryRequest!) {
   profile(request: $request) {
+    bio
+    handle
     id
     name
-    bio
     attributes {
       traitType
       key

@@ -14,15 +14,16 @@ import {
   ReactPortal,
 } from "react";
 import MetaTags from "@components/MetaTags";
+import AppearAnimation from "@components/AnimatedAppear";
 
 const Explore = () => {
-  const { data } = useQuery(ExploreProfiles, {
+  const { data, loading } = useQuery(ExploreProfiles, {
     variables: {
       request: { sortCriteria: "MOST_FOLLOWERS" },
     },
   });
 
-  if (!data || !data?.exploreProfiles?.items?.length) {
+  if (loading) {
     <PageLoader />;
   }
   const onProfileSelected = (profile: Profile) => {
@@ -31,11 +32,11 @@ const Explore = () => {
   return (
     <>
       <MetaTags title={`Explore • Wagmi Fund`} />
-      <div className="max-w-[1200px] m-auto p-[40px] sm:p-[70px]">
+      <div className="max-w-[1200px] w-full p-8 mx-auto sm:p-10 sm:p-[70px]">
         <div className="text-white text-[32px] md:text-[50px] mb-[40px] w-full m-auto text-center">
           <span className="span__underline-short pale">Explore</span>
         </div>
-        <div className=" max-w-[540px] relative m-auto pb-[50px] sm:p-10 sm:pb-[100px]">
+        <div className="w-full max-w-md relative m-auto pb-[50px] sm:p-10 sm:pb-[100px]">
           <Search onProfileSelected={onProfileSelected} />
         </div>
         <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-10">
@@ -60,7 +61,7 @@ const Explore = () => {
                 passHref
                 className="border rounded-lg p-1.5 flex items-center bg-wagmi-black border-wagmi-gray"
               >
-                <div className="card h-[200px] ">
+                <AppearAnimation className="card h-[200px] ">
                   <div className="card-header mx-4 -mt-6">
                     <img
                       src={getAvatar(profile)}
@@ -76,7 +77,7 @@ const Explore = () => {
                       {profile.bio}
                     </p>
                   </div>
-                </div>
+                </AppearAnimation>
               </Link>
             )
           )}

@@ -110,7 +110,7 @@ const ProfilePage = () => {
             <ProfilePicture profile={profile} />
           </div>
           {(twitterProfile || websiteLink) && (
-            <div className="absolute bottom-5 right-5 z-10 backdrop-blur-xl bg-[rgba(25,_28,_31,_0.2] rounded-lg flex items-center justify-center">
+            <div className="absolute ring-1 ring-gray-100 bg-gray-200/10 bottom-5 right-5 z-10 backdrop-blur-xl bg-[rgba(25,_28,_31,_0.2] rounded-lg flex items-center justify-center">
               {websiteLink && (
                 <a
                   className="flex justify-center items-center m-2 space-x-1"
@@ -200,7 +200,8 @@ const ProfilePageTierCard = ({
     publicationTypes,
     metadata,
     profileId: profile?.id,
-    limit: 10,
+    sources: ["wagmifund"],
+    limit: 5,
   };
   const reactionRequest = profile ? { profileId: profile?.id } : null;
   const profileId = profile?.id ?? null;
@@ -217,20 +218,14 @@ const ProfilePageTierCard = ({
     onCompleted: (data) => {
       if (profile?.handle !== username) {
         const Tierattributes = data?.publications.items;
-        const filterTierItems = Tierattributes?.filter(
-          (tier) => tier.appId === "wagmifund"
-        );
-        setPublications(filterTierItems);
+        setPublications(Tierattributes);
       }
     },
   });
 
   const Tierattributes = data?.publications.items;
-  const filterTierItems = Tierattributes?.filter(
-    (tier) => tier.appId === "wagmifund"
-  );
 
-  const tiers = filterTierItems?.map((tier) => ({
+  const tiers = Tierattributes?.map((tier) => ({
     ...tier.metadata.attributes.reduce(
       (acc, { traitType, value }) => ({
         ...acc,

@@ -249,7 +249,9 @@ export const TierCards = ({
                 <div className="flex justify-center mt-2">
                   <Button
                     onClick={() => {
-                      Analytics.track("Delete Tier");
+                      Analytics.track("Delete Tier", {
+                        handle: currentProfile?.handle,
+                      });
                       hidePost({
                         variables: {
                           request: { publicationId: deleteItemId },

@@ -249,7 +249,9 @@ const ToolbarPlugin: FC = () => {
       <Button
         className="btn-sm !text-white"
         onClick={() => {
-          Analytics.track("save profile about section");
+          Analytics.track("save profile about section", {
+            handle: currentProfile?.handle,
+          });
           editProfile(profileUIData);
         }}
         disabled={isUploading}

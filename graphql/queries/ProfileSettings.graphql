@@ -1,6 +1,7 @@
 query ProfileSettings($request: SingleProfileQueryRequest!) {
   profile(request: $request) {
     id
+    handle
     name
     bio
     attributes {
