@@ -200,7 +200,8 @@ const ProfilePageTierCard = ({
     publicationTypes,
     metadata,
     profileId: profile?.id,
-    limit: 10,
+    sources: ["wagmifund"],
+    limit: 5,
   };
   const reactionRequest = profile ? { profileId: profile?.id } : null;
   const profileId = profile?.id ?? null;
@@ -217,20 +218,14 @@ const ProfilePageTierCard = ({
     onCompleted: (data) => {
       if (profile?.handle !== username) {
         const Tierattributes = data?.publications.items;
-        const filterTierItems = Tierattributes?.filter(
-          (tier) => tier.appId === "wagmifund"
-        );
-        setPublications(filterTierItems);
+        setPublications(Tierattributes);
       }
     },
   });
 
   const Tierattributes = data?.publications.items;
-  const filterTierItems = Tierattributes?.filter(
-    (tier) => tier.appId === "wagmifund"
-  );
 
-  const tiers = filterTierItems?.map((tier) => ({
+  const tiers = Tierattributes?.map((tier) => ({
     ...tier.metadata.attributes.reduce(
       (acc, { traitType, value }) => ({
         ...acc,

@@ -96,7 +96,8 @@ const Layout: FC<Props> = ({ children }) => {
     publicationTypes,
     metadata,
     profileId: currentProfile?.id,
-    limit: 10,
+    sources: ["wagmifund"],
+    limit: 5,
   };
   const reactionRequest = currentProfile
     ? { profileId: currentProfile?.id }
@@ -109,10 +110,7 @@ const Layout: FC<Props> = ({ children }) => {
     skip: !profileId || username === currentProfile?.handle,
     onCompleted: (data) => {
       const Tierattributes = data?.publications.items;
-      const filterTierItems = Tierattributes?.filter(
-        (tier) => tier.appId === "wagmifund"
-      );
-      const tiers = filterTierItems?.map((tier) => ({
+      const tiers = Tierattributes?.map((tier) => ({
         ...tier.metadata.attributes.reduce(
           (acc, { traitType, value }) => ({
             ...acc,
