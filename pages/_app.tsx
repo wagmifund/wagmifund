@@ -10,11 +10,6 @@ export default function App({ Component, pageProps }: AppProps) {
     <Suspense>
       <Providers>
         <Layout>
-          <script
-            defer
-            data-domain="wagmi.fund,lensverse.web"
-            src="https://plausible.io/js/script.js"
-          />
           <Component {...pageProps} />
         </Layout>
       </Providers>

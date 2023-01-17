@@ -35,6 +35,11 @@ export default function Document() {
         href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
         rel="stylesheet"
       />
+      <script
+        defer
+        data-domain="wagmi.fund,lensverse.web"
+        src="https://plausible.io/js/script.js"
+      />
       <Analytics />
       <Head />
       <body style={{ "--b1": "0 0% 0%" }}>
