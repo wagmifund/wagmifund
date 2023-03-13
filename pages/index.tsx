@@ -43,27 +43,27 @@ export default function Home() {
             {
               handle: "stani",
               avatar:
-                "https://media.lenster.xyz/tr:n-avatar,tr:di-placeholder.webp/https://lens.infura-ipfs.io/ipfs/bafybeiewog3iscltj6uvus6iut5kerbbkyxovjhvnikrc4luy5sap6w3zu",
+                "https://ik.imagekit.io/wagmifund/tr:n-avatar,tr:di-placeholder.webp/https://lens.infura-ipfs.io/ipfs/bafybeiewog3iscltj6uvus6iut5kerbbkyxovjhvnikrc4luy5sap6w3zu",
             },
             {
               handle: "abhishek",
               avatar:
-                "https://media.lenster.xyz/tr:n-avatar,tr:di-placeholder.webp/https://lens.infura-ipfs.io/ipfs/QmXobso8qsdDhgZt652EsovW4ZtW5DX9xR57hWpBxEuRTS",
+                "https://ik.imagekit.io/wagmifund/tr:n-avatar,tr:di-placeholder.webp/https://lens.infura-ipfs.io/ipfs/QmXobso8qsdDhgZt652EsovW4ZtW5DX9xR57hWpBxEuRTS",
             },
             {
               handle: "strek",
               avatar:
-                "https://media.lenster.xyz/tr:n-avatar,tr:di-placeholder.webp/https://lens.infura-ipfs.io/ipfs/bafybeifvdqe7mrfr2vdyyj7caqmwh5bkitbsbgnwq4rpmzbnyhjdlpsnaq",
+                "https://ik.imagekit.io/wagmifund/tr:n-avatar,tr:di-placeholder.webp/https://lens.infura-ipfs.io/ipfs/bafybeifvdqe7mrfr2vdyyj7caqmwh5bkitbsbgnwq4rpmzbnyhjdlpsnaq",
             },
             {
               handle: "nader",
               avatar:
-                "https://media.lenster.xyz/tr:n-avatar,tr:di-placeholder.webp/https://lens.infura-ipfs.io/ipfs/QmVBfhfgfhGsRVxTNURVUgceqyzjdVe11ic5rCghmePuKX",
+                "https://ik.imagekit.io/wagmifund/tr:n-avatar,tr:di-placeholder.webp/https://lens.infura-ipfs.io/ipfs/QmVBfhfgfhGsRVxTNURVUgceqyzjdVe11ic5rCghmePuKX",
             },
             {
               handle: "yoginth",
               avatar:
-                "https://media.lenster.xyz/tr:n-avatar,tr:di-placeholder.webp/https://lens.infura-ipfs.io/ipfs/bafybeihxnutte2ajd4em3kdc72icb23xydymxldxwttc2v3usb7xsqkjbq",
+                "https://ik.imagekit.io/wagmifund/tr:n-avatar,tr:di-placeholder.webp/https://lens.infura-ipfs.io/ipfs/bafybeihxnutte2ajd4em3kdc72icb23xydymxldxwttc2v3usb7xsqkjbq",
             },
           ].map(({ handle, avatar }) => (
             <Link

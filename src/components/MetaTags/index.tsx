@@ -21,8 +21,8 @@ const MetaTags: FC<Props> = ({
         content="width=device-width, initial-scale=1, maximum-scale=5"
       />
 
-      <link rel="preconnect" href="https://media.lenster.xyz" />
-      <link rel="dns-prefetch" href="https://media.lenster.xyz" />
+      <link rel="preconnect" href="https://ik.imagekit.io/wagmifund" />
+      <link rel="dns-prefetch" href="https://ik.imagekit.io/wagmifund" />
 
       <meta property="og:url" content="https://testnet.wagmi.fund" />
       <meta property="og:site_name" content={title} />
