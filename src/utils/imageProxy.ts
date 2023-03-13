@@ -8,7 +8,7 @@ import { IMGPROXY_URL } from "@utils/constants";
  */
 const imageProxy = (url: string, name?: string): string => {
   return name
-    ? `${IMGPROXY_URL}/tr:n-${name},tr:di-placeholder.webp/${url}`
+    ? `${IMGPROXY_URL}/tr:n-${name},tr:di-placeholder.webp,tr:h-500,tr:w-500/${url}`
     : `${IMGPROXY_URL}/tr:di-placeholder.webp/${url}`;
 };
 

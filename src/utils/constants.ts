@@ -58,7 +58,7 @@ export const ERRORS = {
     "A previous transaction may not been mined yet or you have passed in a invalid nonce. You must wait for that to be mined before doing another action, please try again in a few moments. Nonce out of sync.",
 };
 
-export const IMGPROXY_URL = "https://media.lenster.xyz";
+export const IMGPROXY_URL = "https://ik.imagekit.io/wagmifund";
 
 // Regex
 export const URL_REGEX =
