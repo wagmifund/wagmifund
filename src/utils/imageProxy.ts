@@ -1,5 +1,4 @@
 import { IMGPROXY_URL } from "@utils/constants";
-import { log } from "console";
 
 /**
  *
