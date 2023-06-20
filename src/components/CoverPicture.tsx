@@ -20,7 +20,7 @@ const CoverPicture: FC<Props> = ({ cover }) => {
         src={
           cover
             ? imageProxy(getIPFSLink(cover), "cover")
-            : `https://ik.imagekit.io/wagmifund/tr:n-cover,tr:di-placeholder.webp/https://static-assets.lenster.xyz/images/patterns/2.svg`
+            : `https://ik.imagekit.io/wagmifund/https://static-assets.lenster.xyz/images/patterns/2.svg?tr:n-cover,tr:di-placeholder.webp`
         }
         onLoad={() => setLoading(false)}
       />
