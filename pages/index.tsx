@@ -43,27 +43,27 @@ export default function Home() {
             {
               handle: "stani",
               avatar:
-                "https://ik.imagekit.io/wagmifund/tr:n-avatar,tr:di-placeholder.webp/https://lens.infura-ipfs.io/ipfs/bafybeiewog3iscltj6uvus6iut5kerbbkyxovjhvnikrc4luy5sap6w3zu",
+                "https://ik.imagekit.io/wagmifund/https://lens.infura-ipfs.io/ipfs/bafybeiewog3iscltj6uvus6iut5kerbbkyxovjhvnikrc4luy5sap6w3zu?tr:n-avatar,tr:di-placeholder.webp",
             },
             {
               handle: "abhishek",
               avatar:
-                "https://ik.imagekit.io/wagmifund/tr:n-avatar,tr:di-placeholder.webp/https://lens.infura-ipfs.io/ipfs/QmXobso8qsdDhgZt652EsovW4ZtW5DX9xR57hWpBxEuRTS",
+                "https://ik.imagekit.io/wagmifund/https://lens.infura-ipfs.io/ipfs/QmXobso8qsdDhgZt652EsovW4ZtW5DX9xR57hWpBxEuRTS?tr:n-avatar,tr:di-placeholder.webp",
             },
             {
               handle: "strek",
               avatar:
-                "https://ik.imagekit.io/wagmifund/tr:n-avatar,tr:di-placeholder.webp/https://lens.infura-ipfs.io/ipfs/bafybeifvdqe7mrfr2vdyyj7caqmwh5bkitbsbgnwq4rpmzbnyhjdlpsnaq",
+                "https://ik.imagekit.io/wagmifund/https://lens.infura-ipfs.io/ipfs/bafybeifvdqe7mrfr2vdyyj7caqmwh5bkitbsbgnwq4rpmzbnyhjdlpsnaq?tr:n-avatar,tr:di-placeholder.webp",
             },
             {
               handle: "nader",
               avatar:
-                "https://ik.imagekit.io/wagmifund/tr:n-avatar,tr:di-placeholder.webp/https://lens.infura-ipfs.io/ipfs/QmVBfhfgfhGsRVxTNURVUgceqyzjdVe11ic5rCghmePuKX",
+                "https://ik.imagekit.io/wagmifund/https://lens.infura-ipfs.io/ipfs/QmVBfhfgfhGsRVxTNURVUgceqyzjdVe11ic5rCghmePuKX?tr:n-avatar,tr:di-placeholder.webp",
             },
             {
               handle: "yoginth",
               avatar:
-                "https://ik.imagekit.io/wagmifund/tr:n-avatar,tr:di-placeholder.webp/https://lens.infura-ipfs.io/ipfs/bafybeihxnutte2ajd4em3kdc72icb23xydymxldxwttc2v3usb7xsqkjbq",
+                "https://ik.imagekit.io/wagmifund/https://lens.infura-ipfs.io/ipfs/bafybeihxnutte2ajd4em3kdc72icb23xydymxldxwttc2v3usb7xsqkjbq?tr:n-avatar,tr:di-placeholder.webp",
             },
           ].map(({ handle, avatar }) => (
             <Link

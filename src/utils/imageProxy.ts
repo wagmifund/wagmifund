@@ -1,4 +1,5 @@
 import { IMGPROXY_URL } from "@utils/constants";
+import { log } from "console";
 
 /**
  *
@@ -8,8 +9,8 @@ import { IMGPROXY_URL } from "@utils/constants";
  */
 const imageProxy = (url: string, name?: string): string => {
   return name
-    ? `${IMGPROXY_URL}/tr:n-${name},tr:di-placeholder.webp,tr:h-500,tr:w-500/${url}`
-    : `${IMGPROXY_URL}/tr:di-placeholder.webp/${url}`;
+    ? `${IMGPROXY_URL}/${url}?tr:h-250,tr:w-250`
+    : `${IMGPROXY_URL}/${url}?tr:di-placeholder.webp`;
 };
 
 export default imageProxy;
