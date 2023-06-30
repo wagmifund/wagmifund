@@ -4,10 +4,10 @@ import type { AppProps } from "next/app";
 import React, { lazy, Suspense } from "react";
 const Providers = lazy(() => import("@utils/Providers"));
 const Layout = lazy(() => import("@components/Layout"));
-interface BigInt {
-  /** Convert to BigInt to string form in JSON.stringify */
-  toJSON: () => string;
-}
+// interface BigInt {
+//   /** Convert to BigInt to string form in JSON.stringify */
+//   toJSON: () => string;
+// }
 
 // The main reason is for Redux to serialize args.
 BigInt.prototype.toJSON = function () {

@@ -68,7 +68,9 @@ export const HANDLE_REGEX = /^[\da-z]+$/;
 export const ALL_HANDLES_REGEX = /([\s+])@(\S+)/g;
 export const HANDLE_SANITIZE_REGEX = /[^\d .A-Za-z]/g;
 
-export const RPC_URL = "https://rpc.ankr.com/polygon_mumbai";
+export const RPC_URL = IS_MAINNET
+  ? "https://rpc.ankr.com/polygon"
+  : "https://rpc.ankr.com/polygon_mumbai";
 
 // Utils
 export const ALLOWED_IMAGE_TYPES = [

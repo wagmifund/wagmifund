@@ -25,7 +25,6 @@ import getAttribute from "@utils/getAttribute";
 import MetaTags from "@components/MetaTags";
 import formatHandle from "@utils/formatHandle";
 import { SuperfluidSubscribe } from "@components/SuperfluidSubscribe";
-import getAvatar from "@utils/getAvatar";
 
 const ProfilePage = () => {
   const { cardView, theme, corners, gradient } = useProfileUIStore(
