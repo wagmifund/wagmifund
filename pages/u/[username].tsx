@@ -24,6 +24,8 @@ import { TwitterIcon } from "@icons/socials";
 import getAttribute from "@utils/getAttribute";
 import MetaTags from "@components/MetaTags";
 import formatHandle from "@utils/formatHandle";
+import { SuperfluidSubscribe } from "@components/SuperfluidSubscribe";
+import getAvatar from "@utils/getAvatar";
 
 const ProfilePage = () => {
   const { cardView, theme, corners, gradient } = useProfileUIStore(
@@ -135,6 +137,13 @@ const ProfilePage = () => {
           <div className=" font-space-grotesek font-bold text-4xl mt-10">
             {profile.name}
           </div>
+          <SuperfluidSubscribe
+            profile={profile}
+            // name={profile?.handle}
+            // description={profile?.bio}
+            // imageURI={getAvatar(profile as Profile)}
+            // successURL=""
+          />
           <div className=" font-space-grotesek font-semibold text-lg mt-2">
             {profile.handle}
           </div>
@@ -230,7 +239,7 @@ const ProfilePageTierCard = ({
       (acc, { traitType, value }) => ({
         ...acc,
         [traitType as string]: value,
-        id: tier.id,
+        id: tier?.id,
       }),
       {}
     ),

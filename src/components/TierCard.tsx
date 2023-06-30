@@ -288,7 +288,7 @@ export const TierCards = ({
             <h2 className="h-auto font-bold text-xl flex-grow-0 sm:text-2xl text-center w-full overflow-hidden text-ellipsis">
               {title}
             </h2>
-            <p className="h-auto py-2 flex-grow-0">{comment}</p>
+            <p className="h-auto py-2 flex-grow-0 text-center">{comment}</p>
             <div className="my-4 text-lg font-semibold">
               {amount} {currency}
             </div>
