@@ -16,8 +16,6 @@ import { LensHubProxy } from "@abis/LensHubProxy";
 import useBroadcast from "@utils/useBroadcast";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { Card } from "./Card";
-import { Button } from "./Button";
 import clsx from "clsx";
 import { useProfileUIStore } from "@store/profile";
 const TierCardData = ({
