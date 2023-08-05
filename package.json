@@ -31,6 +31,7 @@
     "@types/uuid": "^9.0.0",
     "@typescript-eslint/eslint-plugin": "^5.47.1",
     "@vercel/analytics": "^0.1.6",
+    "@vercel/og": "^0.5.10",
     "axios": "^1.1.3",
     "clsx": "^1.2.1",
     "daisyui": "^2.41.0",
@@ -68,10 +69,10 @@
     "@types/react": "18.0.25",
     "@types/react-dom": "18.0.9",
     "autoprefixer": "^10.4.13",
+    "husky": "^8.0.0",
     "lens": "*",
     "postcss": "^8.4.19",
     "tailwindcss": "^3.2.4",
-    "typescript": "4.9.3",
-    "husky": "^8.0.0"
+    "typescript": "4.9.3"
   }
 }
