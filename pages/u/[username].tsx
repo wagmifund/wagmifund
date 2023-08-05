@@ -25,6 +25,7 @@ import getAttribute from "@utils/getAttribute";
 import MetaTags from "@components/MetaTags";
 import formatHandle from "@utils/formatHandle";
 import { SuperfluidSubscribe } from "@components/SuperfluidSubscribe";
+import SuperFluidFeed from "@components/SuperFluidFeed";
 
 const ProfilePage = () => {
   const { cardView, theme, corners, gradient } = useProfileUIStore(
@@ -146,7 +147,7 @@ const ProfilePage = () => {
           <div className=" font-space-grotesek font-semibold text-lg mt-2">
             {profile.handle}
           </div>
-          <div className="font-space-grotesek font-medium mt-3">
+          <div className="font-space-grotesek font-medium pt-3 max-w-[500px] m-auto">
             {profile.bio}
           </div>
         </div>
@@ -182,6 +183,7 @@ const ProfilePage = () => {
             <ProfilePageTierCard profile={profile} layout="stack" />
           )}
         </div>
+        <SuperFluidFeed profile={profile} />
       </div>
     </>
   );

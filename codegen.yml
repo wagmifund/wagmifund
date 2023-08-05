@@ -1,4 +1,8 @@
-schema: https://api-mumbai.lens.dev
+schema:
+  [
+    "https://api-mumbai.lens.dev",
+    "https://api.thegraph.com/subgraphs/name/superfluid-finance/protocol-v1-matic",
+  ]
 documents:
   [
     "./graphql/queries/*.graphql",

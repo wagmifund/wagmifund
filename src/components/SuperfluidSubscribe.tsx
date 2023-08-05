@@ -23,13 +23,6 @@ export const SuperfluidSubscribe = ({ profile }: any) => {
     }
   );
 
-  // const profileDetails = {
-  //   name: profile?.handle,
-  //   description: profile?.bio,
-  //   imageURI: getAvatar(profile as Profile),
-  //   successURL: "",
-  // };
-
   return (
     <>
       <SuperfluidWidget
@@ -92,7 +85,7 @@ export const SuperfluidSubscribe = ({ profile }: any) => {
         {({ openModal }) => (
           <div
             onClick={() => openModal()}
-            className="font-space-grotesek font-semibold pulseButton pulseEffect ml-2 mt-1 cursor-pointer"
+            className="font-space-grotesek font-semibold pulseButton pulseEffect ml-2 mt-1 cursor-pointer !bg-theme"
           >
             Subscribe
           </div>

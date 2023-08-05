@@ -334,17 +334,20 @@ export const TierCardsCollection = ({
 
   return (
     <>
-      <div className="mt-10 w-full md:w-[80%] flex sm:justify-between mx-auto flex-wrap">
-        <TierCards
-          onMetaClick={onMetaClick}
-          tiers={!showMore ? tiers.slice(0, 3) : tiers}
-          isEditMode={isEditMode}
-          createCollect={createCollect}
-          loading={loading}
-          setIndex={setIndex}
-          index={index}
-        />
-      </div>
+      {tiers?.length ? (
+        <div className="mt-10 w-full md:w-[80%] flex sm:justify-between mx-auto flex-wrap">
+          <TierCards
+            onMetaClick={onMetaClick}
+            tiers={!showMore ? tiers.slice(0, 3) : tiers}
+            isEditMode={isEditMode}
+            createCollect={createCollect}
+            loading={loading}
+            setIndex={setIndex}
+            index={index}
+          />
+        </div>
+      ) : null}
+
       {!showMore && tiers.length > 3 && (
         <div className="flex justify-center flex-grow">
           <Button

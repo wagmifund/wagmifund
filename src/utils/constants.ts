@@ -164,40 +164,5 @@ export const SUPPORTED_CURRENCIES = IS_MAINNET
       },
     ];
 
-// export const SUPPORTED_CURRENCIES = [
-//   {
-//     name: "Wrapped Matic",
-//     symbol: "WMATIC",
-//     decimals: 18,
-//     address: "0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889",
-//     typename: "Erc20",
-//   },
-//   {
-//     name: "Wrapped Ether",
-//     symbol: "WETH",
-//     decimals: 18,
-//     address: "0x3C68CE8504087f89c640D02d133646d98e64ddd9",
-//     typename: "Erc20",
-//   },
-//   {
-//     name: "USD Coin (PoS)",
-//     symbol: "USDC",
-//     decimals: 6,
-//     address: "0x2058A9D7613eEE744279e3856Ef0eAda5FCbaA7e",
-//     typename: "Erc20",
-//   },
-//   {
-//     name: "(PoS) Dai Stablecoin",
-//     symbol: "DAI",
-//     decimals: 18,
-//     address: "0x001B3B4d0F3714Ca98ba10F6042DaEbF0B1B7b6F",
-//     typename: "Erc20",
-//   },
-//   {
-//     name: "Toucan Protocol: Nature Carbon Tonne",
-//     symbol: "NCT",
-//     decimals: 18,
-//     address: "0x7beCBA11618Ca63Ead5605DE235f6dD3b25c530E",
-//     __typename: "Erc20",
-//   },
-// ];
+export const SUPERFLUID_SUBGRAPH =
+  "https://api.thegraph.com/subgraphs/name/superfluid-finance/protocol-v1-matic";
