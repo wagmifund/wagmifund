@@ -87,12 +87,12 @@ const ProfilePage = () => {
           title={`${profile?.name} (@${formatHandle(
             profile?.handle
           )}) • Wagmi Fund`}
-          ogImage={`https://sendacoin.to/api/og?handle=${profile?.handle}`}
+          ogImage={`https://www.wagmi.fund/api/og?handle=${profile?.handle}`}
         />
       ) : (
         <MetaTags
           title={`@${formatHandle(profile?.handle)} • Wagmi Fund`}
-          ogImage={`https://sendacoin.to/api/og?handle=${profile?.handle}`}
+          ogImage={`https://www.wagmi.fund/api/og?handle=${profile?.handle}`}
         />
       )}
       <div
