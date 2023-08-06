@@ -64,8 +64,7 @@ export default async function handler(req: NextRequest) {
 
   const userDetails = await fetchUserDetails(providedHandle);
 
-  const { handle, bio, name, picture, description, stats } =
-    userDetails.data.profile;
+  const { handle, bio, name, picture } = userDetails.data.profile;
 
   const image = formatImageUrl(picture.original.url);
 
