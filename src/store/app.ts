@@ -31,13 +31,10 @@ interface AppPersistState {
 }
 
 export const useAppPersistStore = create(
-  persist<AppPersistState>(
-    (set) => ({
-      profileId: null,
-      setProfileId: (profileId) => set(() => ({ profileId })),
-    }),
-    { name: "profileData" }
-  )
+  persist<AppPersistState>((set) => ({
+    profileId: null,
+    setProfileId: (profileId) => set(() => ({ profileId })),
+  }))
 );
 
 export const ProfileContext = createContext({});
