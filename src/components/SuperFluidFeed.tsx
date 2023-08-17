@@ -99,45 +99,43 @@ const SuperFluidFeed: FC<SubscribersFeedProps> = ({ profile }) => {
     return <Fragment />;
   }
 
+  const filteredArray = superfluidInflowsData?.account.inflows
+    .filter((inflow) => parseFloat(inflow.currentFlowRate) > 0)
+    .sort((a, b) => {
+      return parseFloat(b.currentFlowRate) - parseFloat(a.currentFlowRate);
+    });
   return (
     <div className="mt-10 w-[90%] md:w-[80%] flex flex-col sm:justify-between mx-auto flex-wrap">
       <div className="font-space-grotesek font-bold text-xl lg:text-4xl my-4 lg:my-10">
-        Montly Subscriptions :
+        {filteredArray?.length ? "Montly Subscriptions :" : null}
       </div>
       {superfluidInflowsData?.account.inflows ? (
         <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-10">
-          {superfluidInflowsData?.account.inflows
-            .filter((inflow) => parseFloat(inflow.currentFlowRate) > 0)
-            .sort((a, b) => {
-              return (
-                parseFloat(b.currentFlowRate) - parseFloat(a.currentFlowRate)
-              );
-            })
-            .map((inflow) => {
-              const imageURL = `https://nft.superfluid.finance/cfa/v1/getsvg?chain_id=137&sender=${inflow.sender.id}&token_address=${inflow.token.id}&token_symbol=${inflow.token.symbol}&start_date=${inflow.createdAtTimestamp}&receiver=${currentAddress}&flowRate=${inflow.currentFlowRate}&token_decimals=${inflow.token.decimals}`;
+          {filteredArray?.map((inflow) => {
+            const imageURL = `https://nft.superfluid.finance/cfa/v1/getsvg?chain_id=137&sender=${inflow.sender.id}&token_address=${inflow.token.id}&token_symbol=${inflow.token.symbol}&start_date=${inflow.createdAtTimestamp}&receiver=${currentAddress}&flowRate=${inflow.currentFlowRate}&token_decimals=${inflow.token.decimals}`;
 
-              return (
-                <Card
-                  className="divide-y-[1px] p-4 dark:divide-gray-700"
-                  key={"profile-subscribers-card-" + inflow.id}
+            return (
+              <Card
+                className="divide-y-[1px] p-4 dark:divide-gray-700"
+                key={"profile-subscribers-card-" + inflow.id}
+              >
+                <a
+                  href={`https://polygonscan.com/address/${inflow.sender.id}`}
+                  target="_blank"
+                  className="cursor-pointer underline"
+                  rel="noopener noreferrer"
                 >
-                  <a
-                    href={`https://polygonscan.com/address/${inflow.sender.id}`}
-                    target="_blank"
-                    className="cursor-pointer underline"
-                    rel="noopener noreferrer"
-                  >
-                    <img
-                      src={imageURL}
-                      loading="lazy"
-                      className={clsx("min-h-[250px] min-w-[250px]", {
-                        "h-0 opacity-0 animate-pulse": !imageURL,
-                      })}
-                    />
-                  </a>
-                </Card>
-              );
-            })}
+                  <img
+                    src={imageURL}
+                    loading="lazy"
+                    className={clsx("min-h-[250px] min-w-[250px]", {
+                      "h-0 opacity-0 animate-pulse": !imageURL,
+                    })}
+                  />
+                </a>
+              </Card>
+            );
+          })}
         </div>
       ) : null}
     </div>
