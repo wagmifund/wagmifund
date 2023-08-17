@@ -16,8 +16,6 @@ import { LensHubProxy } from "@abis/LensHubProxy";
 import useBroadcast from "@utils/useBroadcast";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { Card } from "./Card";
-import { Button } from "./Button";
 import clsx from "clsx";
 import { useProfileUIStore } from "@store/profile";
 const TierCardData = ({
@@ -180,7 +178,7 @@ const TierCardData = ({
       </div>
     ) : (
       <>
-        <div className="mt-10 w-full md:w-[80%] flex sm:justify-between mx-auto flex-wrap">
+        {/* <div className="mt-10 w-full md:w-[80%] flex sm:justify-between mx-auto flex-wrap">
           {[1, 2, 4].map((i) => (
             <Card
               className="border p-4 border-primary w-full sm:w-[45%] lg:w-[30%] flex flex-col items-center relative"
@@ -205,6 +203,9 @@ const TierCardData = ({
           <Button className="flex mt-2 animate-pulse">
             <p className="opacity-0"> Show More</p>
           </Button>
+        </div> */}
+        <div className="flex w-full justify-center mt-10">
+          <div className=" text-primary inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"></div>
         </div>
       </>
     );
