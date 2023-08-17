@@ -288,7 +288,7 @@ export const TierCards = ({
             <h2 className="h-auto font-bold text-xl flex-grow-0 sm:text-2xl text-center w-full overflow-hidden text-ellipsis">
               {title}
             </h2>
-            <p className="h-auto py-2 flex-grow-0 text-center">{comment}</p>
+            <p className="h-auto py-2 flex-grow-0">{comment}</p>
             <div className="my-4 text-lg font-semibold">
               {amount} {currency}
             </div>
@@ -334,20 +334,17 @@ export const TierCardsCollection = ({
 
   return (
     <>
-      {tiers?.length ? (
-        <div className="mt-10 w-full md:w-[80%] flex sm:justify-between mx-auto flex-wrap">
-          <TierCards
-            onMetaClick={onMetaClick}
-            tiers={!showMore ? tiers.slice(0, 3) : tiers}
-            isEditMode={isEditMode}
-            createCollect={createCollect}
-            loading={loading}
-            setIndex={setIndex}
-            index={index}
-          />
-        </div>
-      ) : null}
-
+      <div className="mt-10 w-full md:w-[80%] flex sm:justify-between mx-auto flex-wrap">
+        <TierCards
+          onMetaClick={onMetaClick}
+          tiers={!showMore ? tiers.slice(0, 3) : tiers}
+          isEditMode={isEditMode}
+          createCollect={createCollect}
+          loading={loading}
+          setIndex={setIndex}
+          index={index}
+        />
+      </div>
       {!showMore && tiers.length > 3 && (
         <div className="flex justify-center flex-grow">
           <Button
