@@ -89,9 +89,13 @@ const ProfilePage = () => {
           title={`${profile?.name} (@${formatHandle(
             profile?.handle
           )}) • Wagmi Fund`}
+          ogImage={`https://www.wagmi.fund/api/og?handle=${profile?.handle}`}
         />
       ) : (
-        <MetaTags title={`@${formatHandle(profile?.handle)} • Wagmi Fund`} />
+        <MetaTags
+          title={`@${formatHandle(profile?.handle)} • Wagmi Fund`}
+          ogImage={`https://www.wagmi.fund/api/og?handle=${profile?.handle}`}
+        />
       )}
       <div
         className="w-full z-1 bg-black text-white flex flex-grow px-4 sm:px-8 flex-col mb-[80px] md:mb-[150px]"
