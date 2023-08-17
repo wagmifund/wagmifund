@@ -24,8 +24,6 @@ import { TwitterIcon } from "@icons/socials";
 import getAttribute from "@utils/getAttribute";
 import MetaTags from "@components/MetaTags";
 import formatHandle from "@utils/formatHandle";
-import { SuperfluidSubscribe } from "@components/SuperfluidSubscribe";
-import SuperFluidFeed from "@components/SuperFluidFeed";
 
 const ProfilePage = () => {
   const { cardView, theme, corners, gradient } = useProfileUIStore(
@@ -89,9 +87,13 @@ const ProfilePage = () => {
           title={`${profile?.name} (@${formatHandle(
             profile?.handle
           )}) • Wagmi Fund`}
+          ogImage={`https://www.wagmi.fund/api/og?handle=${profile?.handle}`}
         />
       ) : (
-        <MetaTags title={`@${formatHandle(profile?.handle)} • Wagmi Fund`} />
+        <MetaTags
+          title={`@${formatHandle(profile?.handle)} • Wagmi Fund`}
+          ogImage={`https://www.wagmi.fund/api/og?handle=${profile?.handle}`}
+        />
       )}
       <div
         className="w-full z-1 bg-black text-white flex flex-grow px-4 sm:px-8 flex-col mb-[80px] md:mb-[150px]"
@@ -137,17 +139,10 @@ const ProfilePage = () => {
           <div className=" font-space-grotesek font-bold text-4xl mt-10">
             {profile.name}
           </div>
-          <SuperfluidSubscribe
-            profile={profile}
-            // name={profile?.handle}
-            // description={profile?.bio}
-            // imageURI={getAvatar(profile as Profile)}
-            // successURL=""
-          />
           <div className=" font-space-grotesek font-semibold text-lg mt-2">
             {profile.handle}
           </div>
-          <div className="font-space-grotesek font-medium pt-3 max-w-[500px] m-auto">
+          <div className="font-space-grotesek font-medium mt-3">
             {profile.bio}
           </div>
         </div>
@@ -183,7 +178,6 @@ const ProfilePage = () => {
             <ProfilePageTierCard profile={profile} layout="stack" />
           )}
         </div>
-        <SuperFluidFeed profile={profile} />
       </div>
     </>
   );
@@ -240,7 +234,7 @@ const ProfilePageTierCard = ({
       (acc, { traitType, value }) => ({
         ...acc,
         [traitType as string]: value,
-        id: tier?.id,
+        id: tier.id,
       }),
       {}
     ),
