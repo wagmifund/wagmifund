@@ -26,6 +26,8 @@ import MetaTags from "@components/MetaTags";
 import formatHandle from "@utils/formatHandle";
 import { SuperfluidSubscribe } from "@components/SuperfluidSubscribe";
 import SuperFluidFeed from "@components/SuperFluidFeed";
+import { NotificationBell } from "@modules/PushProtocol/components/NotificationBell";
+import { ENV } from "@pushprotocol/uiweb";
 
 const ProfilePage = () => {
   const { cardView, theme, corners, gradient } = useProfileUIStore(
@@ -141,6 +143,15 @@ const ProfilePage = () => {
           <div className=" font-space-grotesek font-bold text-4xl mt-10">
             {profile.name}
           </div>
+          {currentProfile?.ownedBy ? (
+            <div className="mx-auto">
+              <NotificationBell
+                env={ENV.PROD}
+                accountAddress={currentProfile?.ownedBy}
+              />
+            </div>
+          ) : null}
+
           <SuperfluidSubscribe
             profile={profile}
             // name={profile?.handle}
