@@ -36,7 +36,7 @@ export function NotificationBell(props: NotificationBellProps) {
     <Popover>
       <PopoverTrigger asChild>
         <button
-          className="bg-white rounded-md p-1 pl-2"
+          className="bg-transparent rounded-md p-1 pl-2"
           onClick={() => setRead(true)}
         >
           <img
