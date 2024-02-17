@@ -43,7 +43,12 @@ export default function Home() {
             {
               handle: "stani",
               avatar:
-                "https://ik.imagekit.io/wagmifund/https://lens.infura-ipfs.io/ipfs/bafybeiewog3iscltj6uvus6iut5kerbbkyxovjhvnikrc4luy5sap6w3zu?tr:n-avatar,tr:di-placeholder.webp",
+                "https://ik.imagekit.io/wagmifund/https://ik.imagekit.io/lens/media-snapshot/e3adfb7046a549480a92c63de2d431f1ced8e516ea285970267c4dc24f941856.png?tr:h-250,tr:w-250",
+            },
+            {
+              handle: "strek",
+              avatar:
+                "https://ik.imagekit.io/wagmifund/https://ik.imagekit.io/lens/media-snapshot/8785cda39815578df6a4d8d61c4e9943ade87ded82861b62d42233568cbad482.png?tr:h-250,tr:w-250",
             },
             {
               handle: "abhishek",
@@ -51,19 +56,14 @@ export default function Home() {
                 "https://ik.imagekit.io/wagmifund/https://lens.infura-ipfs.io/ipfs/QmXobso8qsdDhgZt652EsovW4ZtW5DX9xR57hWpBxEuRTS?tr:n-avatar,tr:di-placeholder.webp",
             },
             {
-              handle: "strek",
+              handle: "yoginth",
               avatar:
-                "https://ik.imagekit.io/wagmifund/https://lens.infura-ipfs.io/ipfs/bafybeifvdqe7mrfr2vdyyj7caqmwh5bkitbsbgnwq4rpmzbnyhjdlpsnaq?tr:n-avatar,tr:di-placeholder.webp",
+                "https://ik.imagekit.io/wagmifund/https://lens.infura-ipfs.io/ipfs/bafybeihxnutte2ajd4em3kdc72icb23xydymxldxwttc2v3usb7xsqkjbq?tr:n-avatar,tr:di-placeholder.webp",
             },
             {
               handle: "nader",
               avatar:
-                "https://ik.imagekit.io/wagmifund/https://lens.infura-ipfs.io/ipfs/QmVBfhfgfhGsRVxTNURVUgceqyzjdVe11ic5rCghmePuKX?tr:n-avatar,tr:di-placeholder.webp",
-            },
-            {
-              handle: "yoginth",
-              avatar:
-                "https://ik.imagekit.io/wagmifund/https://lens.infura-ipfs.io/ipfs/bafybeihxnutte2ajd4em3kdc72icb23xydymxldxwttc2v3usb7xsqkjbq?tr:n-avatar,tr:di-placeholder.webp",
+                "https://ik.imagekit.io/wagmifund/https://ik.imagekit.io/lens/media-snapshot/61c410bf19ef7e0a1445df3772dd87e876ce29dfdbd122d49b2cff8204b4db14.png?tr:h-250,tr:w-250",
             },
           ].map(({ handle, avatar }) => (
             <Link
