@@ -20,13 +20,13 @@ export default function Home() {
     <>
       <MetaTags title={`Wagmi Fund`} />
       <a
-        href="https://explorer.gitcoin.co/#/round/10/0x8de918f0163b2021839a8d84954dd7e8e151326d/0x8de918f0163b2021839a8d84954dd7e8e151326d-144"
+        href="https://explorer.gitcoin.co/#/round/42161/25/143"
         target="_blank"
         rel="noopener noreferrer"
         className="flex justify-center bg-gradient-to-r from-yellow-600 to-red-600 p-2 md:p-3  shadow-md text-center hover:opacity-90 transition-opacity duration-300"
       >
         <h1 className="text-[14px] md:text-[16px] lg:text-[20px] text-white font-bold tracking-wide">
-          Support wagmi fund on Gitcoin Grants Round 18
+          Support wagmi fund on Gitcoin Grants Round 20
         </h1>
         <svg
           enable-background="new 0 0 141.732 141.732"
