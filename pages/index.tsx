@@ -53,12 +53,12 @@ export default function Home() {
             {
               handle: "abhishek",
               avatar:
-                "https://ik.imagekit.io/wagmifund/https://lens.infura-ipfs.io/ipfs/QmXobso8qsdDhgZt652EsovW4ZtW5DX9xR57hWpBxEuRTS?tr:n-avatar,tr:di-placeholder.webp",
+                "https://ik.imagekit.io/wagmifund/https://ik.imagekit.io/lensterimg/fallback/tr:w-350,h-350,q-80/https://gw.ipfs-lens.dev/ipfs/bafkreibftdca3tfyul52vlfpirtlw4x6swo4v2ovmdyesb45dqrwf32bxm",
             },
             {
               handle: "yoginth",
               avatar:
-                "https://ik.imagekit.io/wagmifund/https://lens.infura-ipfs.io/ipfs/bafybeihxnutte2ajd4em3kdc72icb23xydymxldxwttc2v3usb7xsqkjbq?tr:n-avatar,tr:di-placeholder.webp",
+                "https://ik.imagekit.io/wagmifund/https://ik.imagekit.io/lens/media-snapshot/tr:w-350,h-350,q-80/29e4fa02ae65d97c0ff04a023de02a3a4e4cccd7200b5ea3be0503296ebce0ce.png?tr:h-250,tr:w-250",
             },
             {
               handle: "nader",
